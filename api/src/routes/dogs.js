@@ -73,20 +73,12 @@ const createDog = async (req, res, next) => {
         name: temperament,
       },
     });
-  dogCreated.addTemperament(dogTemperament);
-  //
- /*  for (let i = 0; i < temperament.length; i++) {
-    let a = await Temperament.findOne({ where:{ name: temperament[i]}})
-    console.log(a)
-    newDog.addTemperament(a)      
-}
-res.send(newDog) */  
- //
- console.log(dogCreated)
-  res.status(201).send(`dog ${dogCreated.name} added to db`);
-} catch (err) {
-  next(err);
-}
+    dogCreated.addTemperament(dogTemperament);
+    console.log(dogCreated)
+    res.status(201).send(`dog ${dogCreated.name} added to db`);
+  } catch (err) {
+    next(err);
+  }
 };
 
 //GET /temperaments:
@@ -96,10 +88,10 @@ const delateDog = async (req, res, next) => {
   try {
     //res.send("<h1>Dog Deleted</h1>");
     const { id } = req.params;
-        Dog.destroy({
-            where: { id:id }
-        });
-        res.status(200).send(`Dog of id: ${id} has been deleted`);
+    Dog.destroy({
+      where: { id: id }
+    });
+    res.status(200).send(`Dog of id: ${id} has been deleted`);
   } catch (err) {
     next(err);
   }
