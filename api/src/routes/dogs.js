@@ -57,6 +57,10 @@ const createDog = async (req, res, next) => {
       maxLifeExp,
       createdInDb,
     } = req.body;
+
+    if (!name || !temperament || !minWeight) {
+      return res.status(400).send("missing parameters");
+    }
     const dogCreated = await Dog.create({
       name,
       img,
@@ -67,14 +71,16 @@ const createDog = async (req, res, next) => {
       minLifeExp,
       maxLifeExp,
       createdInDb,
+      temperament
     });
-    const dogTemperament = await Temperament.findOne({
-      where: {
-        name: temperament,
-      },
-    });
+     const dogTemperament = await Temperament.findAll({
+     where: {
+       name: temperament,
+     },
+   });
+   
     dogCreated.addTemperament(dogTemperament);
-    console.log(dogCreated)
+    // console.log(dogCreated)
     res.status(201).send(`dog ${dogCreated.name} added to db`);
   } catch (err) {
     next(err);

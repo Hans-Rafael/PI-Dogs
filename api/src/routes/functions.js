@@ -31,9 +31,9 @@ const getDBDogs = async () => {
             name: e.name,
             img: e.img,
             temperament: e.temperaments.map(e=>e.name).join(', '),
-            weight: `{e.minWeight} - {e.maxWeight}`,
-            height: `{e.minHeight} - {e.maxHeight}`,
-            lifeExp: `{e.minLifeExp} - {e.maxLifeExp}`,
+            weight: `${e.minWeight} - ${e.maxWeight}`,
+            height: `${e.minHeight} - ${e.maxHeight}`,
+            lifeExp: `${e.minLifeExp} - ${e.maxLifeExp}`,
             createdInDB: true
         }
     })

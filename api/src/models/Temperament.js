@@ -10,7 +10,6 @@ module.exports = (sequelize) => {
       validate: {
         notEmpty: { msg: 'The temperament are required!' },
         //isNumeric: false,
-        len: [1, 30],
       }
     }
   }, {
