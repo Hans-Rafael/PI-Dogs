@@ -1,0 +1,11 @@
+.num {
+   /* transition: .2s;*/
+    border-radius: 50%;
+    width: auto;
+    height: 25px;
+    text-align: center;
+    font-weight: bolder;
+    color: white;
+    margin: 0 3px;
+    background-color:lightskyblue;
+}

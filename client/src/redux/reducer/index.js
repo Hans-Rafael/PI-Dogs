@@ -1,8 +1,9 @@
 
-import { GET_DOGS } from './../actions/index';
+//import { GET_DOGS } from './../actions/index';
+import { GET_DOGS, CLEAR_PAGE, SEARCH_BREEDS } from "../actions/actionsTypes";
 const initialState = {
     dogs: [],
-    filterDogs: []
+    searchDogs: []
 }
 
 export default function reducer(state = initialState, action) {
@@ -12,8 +13,18 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogs: action.payload
             }
-            default:
-                return state;
+        case CLEAR_PAGE:
+            return {
+                ...state,
+                dogDetail: {} //estodo inicial de dogDetail
+            }
+        case SEARCH_BREEDS:
+            return {
+                ...state,
+                searchDogs: action.payload
+            }
+        default:
+            return state;
 
     }
 }
