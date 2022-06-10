@@ -1,5 +1,7 @@
 import axios from "axios";
-import { GET_DOGS, CLEAR_PAGE, SEARCH_BREEDS } from './actionsTypes';
+import { GET_DOGS, CLEAR_PAGE, SEARCH_BREEDS, GET_TEMPERAMENT,FILTER_BY_TEMPER, FILTER_BY_CREATED,
+  ORDER_ALPHABETICAL, } from './actionsTypes';
+export const TEMPER = "TEMPER";
 
 export const getDogs = () => {
   /* return (dispatch) => {
@@ -19,7 +21,7 @@ export const getDogs = () => {
           type: GET_DOGS,
           payload: response.data
         })
-      }) //despachar un componete de error si hubo un error por unos 5 seg,luego
+      }) 
       .catch(error => {
         throw error;
       });
@@ -35,7 +37,7 @@ export const clearPage = () => {
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http:localhost:3001/dogs?name=${name}`);
+      const response = await axios.get(`http://localhost:3001/dogs?name=${name}`);
       return dispatch({
         type: SEARCH_BREEDS,
         payload: response.data
@@ -46,3 +48,42 @@ export function getByName(name) {
     }
   }
 }
+//
+export function getTemperament() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`http://localhost:3001/temperaments`);
+      return dispatch({
+        type: GET_TEMPERAMENT,
+        payload: response.data
+      })
+    }
+    catch (error) {
+      console.log("No se recibieron los temperamentos", error);
+    }
+  }
+}
+//
+export function filterByTemperament(payload) {
+  console.log(payload)
+  return {
+    type: FILTER_BY_TEMPER,
+    payload
+
+  }
+}
+export function filterByCreated(payload) {
+  return {
+      type: FILTER_BY_CREATED,
+      payload
+  };
+};
+//
+export function orderalphabetical(payload) {
+  return {
+    type: ORDER_ALPHABETICAL,
+    payload
+  }
+}
+//
+

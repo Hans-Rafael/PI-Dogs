@@ -17,9 +17,11 @@ const getApiDogs = async () => {
         lifeExp: e.life_span,
         createdInDB: false
     }))
-    return inf;
+    //console.log(inf)
+    return inf
+    
 }
-
+getApiDogs()
 //  dbDOGS 
 const getDBDogs = async () => {
     const dbDogs = await Dog.findAll({ 
@@ -61,11 +63,13 @@ const getDogsById = async (id) => {
 const getTemperaments = async () => {
     const apiInfo = await getApiDogs();
     const temperaments = apiInfo.map((e) => e.temperament).join(', ');
-    const temperaments2 = temperaments.split(', ');
-    const tempar = new Set(temperaments2)
-    const result = [...tempar].filter(Boolean)// para eliminar el undefined filter (Boolean)
-    //console.log(result)
-    return result;
+    const temperaments2 = temperaments.split(', ')
+    const temper = new Set(temperaments2)
+    const result = [...temper].filter(Boolean)// para eliminar el undefined filter (Boolean)
+    //console.log(result.map(e => e.charAt(0).toUpperCase() + e.slice(1)))
+    //console.log (result)
+    //console.log(result.map(e => e.toLowerCase()))
+    return result
 }
 //getTemperaments()
 
