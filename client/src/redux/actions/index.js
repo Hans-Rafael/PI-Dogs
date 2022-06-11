@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GET_DOGS, CLEAR_PAGE, SEARCH_BREEDS, GET_TEMPERAMENT,FILTER_BY_TEMPER, FILTER_BY_CREATED,
-  ORDER_ALPHABETICAL, } from './actionsTypes';
+  ORDER, } from './actionsTypes';
 export const TEMPER = "TEMPER";
 
 export const getDogs = () => {
@@ -79,9 +79,9 @@ export function filterByCreated(payload) {
   };
 };
 //
-export function orderalphabetical(payload) {
+export function sort(payload) {
   return {
-    type: ORDER_ALPHABETICAL,
+    type: ORDER,
     payload
   }
 }

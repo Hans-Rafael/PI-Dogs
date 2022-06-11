@@ -8,8 +8,8 @@ export default function Dog({ img, temperament, weight,name }) {
       width={
         (window.innerWidth > 500) ? "200px" : "100px"
       } />
-      <p>Peso: {weight} Kg</p>
-      <p>Temperamento: {temperament}</p>
+      <p>Weight: {weight} Kg</p>
+      <p>Temper: {temperament}</p>
     </div>
   );
 }

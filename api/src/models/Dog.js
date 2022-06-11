@@ -47,7 +47,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,5],//numero
+        len: [1,3],//numero
         isNumeric: true, 
     }
     },
@@ -56,7 +56,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,5],//nunero metric kg
+        len: [1,3],//nunero metric kg
         isNumeric: true, 
     }
     },

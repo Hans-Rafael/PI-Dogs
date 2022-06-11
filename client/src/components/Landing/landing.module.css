@@ -1,0 +1,94 @@
+.mainContainer {
+  /* fill bckground */
+  min-height: 100%;
+  min-width: 1024px;
+  /* set propety scaling */
+  width: 100%;
+  height: auto;
+  /* set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+  background-image: url("../../assets/landing.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+@media screen and (max-width: 1024px) {
+  /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px; /* 50% */
+  }
+}
+
+.title {
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2em;
+  margin-left: 10em;
+  margin-bottom: 2em;
+  transition: 1s ease-in-out;
+}
+.title:hover {
+  flex-direction: column;
+  background: #f3f056;
+  color: #c67b49;
+  box-shadow: 0px 0px 15px 15px #ec731e;
+  border-radius: 40% 0 35% 0;
+}
+
+.button {
+  text-align: center;
+  margin-top: 1em;
+  margin-right: -25em;
+  /*  */
+  color: rgb(253, 255, 67);
+  font-size: 28px;
+  line-height: 28px;
+  padding: 13px;
+  border-radius: 30px;
+  font-family: Georgia, serif;
+  background-image: linear-gradient(
+    to right,
+    rgb(28, 110, 164) 0%,
+    rgb(35, 136, 203) 50%,
+    rgb(20, 78, 117) 100%
+  );
+  border: 2px solid rgb(28, 110, 164);
+  cursor: pointer;
+  box-shadow: 0 0 17px black;
+  transition: 1s ease-in-out;
+  animation: pulse 3s ease-out infinite;
+}
+.button:hover {
+  animation: none;
+  background-image: linear-gradient(
+    to right,
+    rgb(234, 241, 35) 0%,
+    rgb(164, 178, 10) 50%,
+    rgb(221, 228, 83) 100%
+  );
+  color:blue;
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  
+}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Dog from "./Dog";
 import { getDogs, getTemperament, filterByTemperament,filterByCreated,
-    orderalphabetical, } from './../../redux/actions';
+    sort, } from './../../redux/actions';
 import Paging from "./Paging";
 import style from "./dogsHome.module.css";
 export default function Dogs() {
@@ -52,9 +52,9 @@ export default function Dogs() {
         dispatch(filterByCreated(e.target.value));
         setCurrentPage(1);
     }
-    function handleAlpha(e){
+    function handleOrder(e){
         e.preventDefault();
-        dispatch(orderalphabetical(e.target.value));
+        dispatch(sort(e.target.value));
         setCurrentPage(1);
         setOrder(`Ordenado ${e.target.value}`)
     }
@@ -81,15 +81,12 @@ export default function Dogs() {
                     ))}
                 </select>}
 
-                <select onChange={(e)=>handleAlpha(e)}>
+                <select onChange={(e)=>handleOrder(e)}>
                     <option value='Asc'>A-Z</option>
                     <option value='Desc'>Z-A</option>
+                    <option value='Inc'>Min-Max weight</option>
+                    <option value='Dec'>Max-Min weight</option>
                 </select>
-                <select>
-                    <option value='INC'>Min-Max weight</option>
-                    <option value='DEC'>Max-Min weight</option>
-                </select>
-                <button> Sort</button>
             </div>
 
             <div>
