@@ -20,8 +20,8 @@ module.exports = (sequelize) => {
     } 
     },
     img: {
-      type: DataTypes.TEXT, /// ''
-      defaultValue:"https:////image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",//"./defoult_img.png",
+      type:DataTypes.TEXT, /// ''
+      defaultValue:"http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",//"./defoult_img.png",
       //validate : { isUrl: true,}
 
     },

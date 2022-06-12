@@ -68,16 +68,16 @@ export default function Dogs() {
             <button onClick={e => { handlerClick(e) }}> Refrech page</button>
 
             <Link to='/create'>
-            <button>Create new breed</button>
+            <button title='take you to the form'>Create new breed</button>
             </Link>
             <div>
-                <select onChange={(e)=>handleCreated(e)} >
+                <select onChange={(e)=>handleCreated(e)} title='you can select from were get info' >
                     <option value='ALL'>All Breeds</option>
                     <option value='API'>Api Breeds</option>
                     <option value='DB'>Created Breeds</option>
                 </select>
                 
-                {<select onChange={(e) =>handleTemperament(e)}>
+                {<select onChange={(e) =>handleTemperament(e)} title='you can select a temperament'>
                     <option value='ALL'>All Temperaments</option>
                     {allTemp && allTemp.map((t) => (
                         <option key={t.name} value={t.name}>
@@ -86,7 +86,7 @@ export default function Dogs() {
                     ))}
                 </select>}
 
-                <select onChange={(e)=>handleOrder(e)}>
+                <select onChange={(e)=>handleOrder(e)} title="sort search">
                     <option value='Asc'>A-Z</option>
                     <option value='Desc'>Z-A</option>
                     <option value='Inc'>Min-Max weight</option>
@@ -110,8 +110,8 @@ export default function Dogs() {
             </div>
             <div>
                 {currentDogs?.map((e) => {
-                    return <Link to={`/home/${e.id}`} key={e.id}>
-                        <Dog key={e.id} name={e.name} img={e.img} temperament={e.temperament} weight={e.weight}></Dog>
+                    return <Link to={`/home/${e.id}`} key={e.id} title='You could go to see the details by clicking on the image'>
+                        <Dog key={e.id} name={e.name} img={e.img} temperament={e.temperament} weight={e.weight} ></Dog>
                     </Link>
                 })
                 }
