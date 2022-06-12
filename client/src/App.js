@@ -1,20 +1,28 @@
 import './App.css';
 import Dogs from './components/Dogs';
 import Landing from './components/Landing';
-import { BrowserRouter, Route } from 'react-router-dom';
-import SearchBar from './components/Dogs/SearchBar/index';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Create from './components/Create/index';
+import Detail from './components/Detail/index';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Route exact path='/' component={Landing}></Route>
-      <Route exact path='/home' component={Dogs}></Route>
-      {/* <Route path = '/dogs/:id' component={SearchBar}></Route> */}
+        <Switch>
+          <Route exact path='/' component={Landing}></Route>
+          <Route exact path='/home' component={Dogs}></Route>
+          <Route path='/detail' component={Detail}></Route>
+          <Route path='/create' component={Create}></Route>
+          <Route path='*' component={NotFound}></Route>
+        </Switch>
       </BrowserRouter>
-      
+
     </div>
   );
+}
+function NotFound() {
+  return <><h1>You have landed on a page that doesn't exist</h1></>;
 }
 
 export default App;

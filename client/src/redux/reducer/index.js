@@ -1,8 +1,8 @@
 
 //import { GET_DOGS } from './../actions/index';
 import {
-    GET_DOGS, CLEAR_PAGE, SEARCH_BREEDS, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
-    ORDER
+    GET_DOGS, CLEAR_PAGE,GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
+    ORDER, POST
 } from "../actions/actionsTypes";
 const initialState = {
     dogs: [],
@@ -26,10 +26,10 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogDetail: {} //estodo inicial de dogDetail
             }
-        case SEARCH_BREEDS:
+        case GET_BY_NAME:
             return {
                 ...state,
-                searchDogs: action.payload
+                dogs: action.payload
             }
         case GET_TEMPERAMENT:
             return {
@@ -101,6 +101,10 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogs: sort
             }
+            case POST:
+                return {
+                    ...state
+                }
 
 
         default:

@@ -3,16 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Dog from "./Dog";
 import { getDogs, getTemperament, filterByTemperament,filterByCreated,
-    sort, } from './../../redux/actions';
+    sort} from './../../redux/actions';
 import Paging from "./Paging";
 import style from "./dogsHome.module.css";
+import SearchBar from "./SearchBar";
+
+
 export default function Dogs() {
     let dogs = useSelector((state) => state.dogs);
-    //console.log(dogs);
+   // console.log(dogs);
     let dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDogs());
-    }, [])
+    }, [dispatch])
 
     const allTemp = useSelector((state) => state.temps);
     
@@ -64,7 +67,9 @@ export default function Dogs() {
         return <div> <h1>Home</h1>
             <button onClick={e => { handlerClick(e) }}> Refrech page</button>
 
-            <button>Create Breed</button>
+            <Link to='/create'>
+            <button>Create new breed</button>
+            </Link>
             <div>
                 <select onChange={(e)=>handleCreated(e)} >
                     <option value='ALL'>All Breeds</option>
@@ -90,8 +95,8 @@ export default function Dogs() {
             </div>
 
             <div>
-                {/* <SearchBar></SearchBar> */}Sbar
-                <button>Find</button>
+            <SearchBar/>
+                
             </div>
             <div>
                 <Paging
@@ -104,9 +109,9 @@ export default function Dogs() {
                 Page: {currentPage}
             </div>
             <div>
-                {currentDogs?.map((i) => {
-                    return <Link to={`/home/${i.id}`} key={i.id}>
-                        <Dog key={i.id} name={i.name} img={i.img} temperament={i.temperament} weight={i.weight}></Dog>
+                {currentDogs?.map((e) => {
+                    return <Link to={`/home/${e.id}`} key={e.id}>
+                        <Dog key={e.id} name={e.name} img={e.img} temperament={e.temperament} weight={e.weight}></Dog>
                     </Link>
                 })
                 }
@@ -121,7 +126,7 @@ export default function Dogs() {
         </div>
     } else {
         return <div>
-            <h1>Cargando...</h1>
+            <h1>Cargando...</h1>{/*si tengo tempo agregar un componet o un css se vea mejor  */}
         </div>
     }
 }

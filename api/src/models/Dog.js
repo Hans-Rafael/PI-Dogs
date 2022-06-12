@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
+
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('dog', {
@@ -19,8 +20,8 @@ module.exports = (sequelize) => {
     } 
     },
     img: {
-      type: DataTypes.STRING, /// ''
-      defaultValue: "/defoult_img.png",
+      type: DataTypes.TEXT, /// ''
+      defaultValue:"https:////image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",//"./defoult_img.png",
       //validate : { isUrl: true,}
 
     },
@@ -35,7 +36,6 @@ module.exports = (sequelize) => {
     },
     maxHeight: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita Altura!'},
         len: [1,5],//numero de digitos
@@ -44,7 +44,6 @@ module.exports = (sequelize) => {
     },
     minWeight: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
         len: [1,3],//numero
@@ -53,7 +52,6 @@ module.exports = (sequelize) => {
     },
     maxWeight: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
         len: [1,3],//nunero metric kg
@@ -62,7 +60,6 @@ module.exports = (sequelize) => {
     },
     minLifeExp: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
         len: [1,5],//nunero Years
@@ -72,7 +69,6 @@ module.exports = (sequelize) => {
     },
     maxLifeExp: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       validate : {
         notEmpty : {msg : 'se nesecita el peso!'},
         len: [1,5],//nunero Years
