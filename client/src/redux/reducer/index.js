@@ -1,8 +1,8 @@
 
 //import { GET_DOGS } from './../actions/index';
 import {
-    GET_DOGS, CLEAR_PAGE,GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
-    ORDER, POST
+    GET_DOGS, CLEAR_PAGE, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
+    ORDER, POST, GET_DOGS_DETAIL
 } from "../actions/actionsTypes";
 const initialState = {
     dogs: [],
@@ -21,11 +21,6 @@ export default function reducer(state = initialState, action) {
                 allDogs: action.payload,
             }
 
-        case CLEAR_PAGE:
-            return {
-                ...state,
-                dogDetail: {} //estodo inicial de dogDetail
-            }
         case GET_BY_NAME:
             return {
                 ...state,
@@ -38,7 +33,7 @@ export default function reducer(state = initialState, action) {
             }
         case FILTER_BY_TEMPER:
             const allDogs = state.allDogs;
-            const temperFilter = allDogs.filter((d) => d.temperament && d.temperament.includes((action.payload).charAt(0).toUpperCase()+ action.payload.slice(1)));
+            const temperFilter = allDogs.filter((d) => d.temperament && d.temperament.includes((action.payload).charAt(0).toUpperCase() + action.payload.slice(1)));
 
             return {
                 ...state,
@@ -101,10 +96,20 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogs: sort
             }
-            case POST:
-                return {
-                    ...state
-                }
+        case POST:
+            return {
+                ...state
+            }
+        case GET_DOGS_DETAIL:
+            return {
+                ...state,
+                detail: action.payload
+            }
+        case CLEAR_PAGE:
+            return {
+                ...state,
+                detail: [] //estodo inicial de dogDetail
+            }
 
 
         default:

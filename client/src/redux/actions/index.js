@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
-  GET_DOGS, CLEAR_PAGE, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_TEMPER, FILTER_BY_CREATED,
-  ORDER,POST
+  GET_DOGS, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_TEMPER, FILTER_BY_CREATED,
+  ORDER, POST, GET_DOGS_DETAIL, CLEAR_PAGE
 } from './actionsTypes';
 export const TEMPER = "TEMPER";
 
@@ -28,12 +28,6 @@ export const getDogs = () => {
         throw error;
       });
   }
-};
-//
-export const clearPage = () => {
-  return {
-    type: CLEAR_PAGE,
-  };
 };
 //
 export function getByName(name) {
@@ -92,7 +86,7 @@ export function post(payload) {
   return async function (dispatch) {
     try {
       const info = await axios.post(`http://localhost:3001/dogs`, payload);
-      //console.log("post Axios del fron: ",info);
+      //console.log("post Axios del front: ",info);
       return {
         type: POST,
         info,
@@ -104,5 +98,39 @@ export function post(payload) {
   }
 }
 //
-export function getDogsDetail(id) { }
+/* export function getDogDetail(id) {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(`http://localhost:3001/dogs/${id}`);
+      const json = await response.json();
+      dispatch({
+        type: GET_DOGS_DETAIL,
+        payload: json
+      });
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+} */
+export function getDogDetail(id) {
+  return function (dispatch) {
+    return axios.get(`http://localhost:3001/dogs/${id}`)
+      .then(response => {
+        dispatch({
+          type: GET_DOGS_DETAIL,
+          payload: response.data
+        })
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+};
+//
+export const clearPage = () => {
+  return {
+    type: CLEAR_PAGE,
+  };
+};
 
