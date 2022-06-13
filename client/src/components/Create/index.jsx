@@ -261,8 +261,8 @@ const imgUrl="http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-
 
 function validate(input) {
   let errors = {};
-  if (!input.name || input.name.length > 50 || !input.name.match(/^[a-zA-Z0-9]+$/)) {
-    errors.name = "Name is required and most be MAX 50 alphanumeric characters, on English keyboard, without special characters like @";
+  if (!input.name || input.name.length > 50 || !input.name.match(/^[a-zA-Z0-9\s]+$/)||input.name.charAt(0)===' ') {
+    errors.name = "Name is required and most be MAX 50 alphanumeric characters, on English keyboard, without special characters like @, and must start with a letter";
   }
   if (!input.minHeight || !input.maxHeight || input.minHeight > input.maxHeight||input.minHeight < 0||input.maxHeight.length>3 || input.minHeight.length>3 ||!input.minHeight.match(/^[0-9]+$/) || !input.maxHeight.match(/^[0-9]+$/)) {
     errors.minHeight = "Height is required and must be less than Max Height & both must be max 3 character > 0";
@@ -270,7 +270,7 @@ function validate(input) {
   if (!input.minWeight || !input.maxWeight || input.minWeight > input.maxWeight||input.minWeight < 0 ||input.maxWeight.length>3||input.minWeight.length>3||!input.minWeight.match(/^[0-9]+$/) || !input.maxWeight.match(/^[0-9]+$/)) {
     errors.minWeight = "Weight is required and must be less than Max Weight & both must be max 3 character > 0";
   }
-  if ( input.minLifeExp > input.maxLifeExp ||!input.minLifeExp.match(/^[0-9]+$/) || !input.maxLifeExp.match(/^[0-9]+$/)||input.maxLifeExp.length>2||input.minLifeExp.length>2) {
+  if ( input.minLifeExp >= input.maxLifeExp ||!input.minLifeExp.match(/^[0-9]+$/) || !input.maxLifeExp.match(/^[0-9]+$/)||input.maxLifeExp.length>2||input.minLifeExp.length>2) {
     errors.minLifeExp = "Life Exp is required and must be less than Max Life Exp & both max 2 character > 0";
   }
   if (input.img!=='' && !input.img.match(/^(http|https):\/\/[^ "]+$/)) {
