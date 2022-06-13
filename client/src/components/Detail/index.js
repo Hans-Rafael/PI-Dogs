@@ -1,32 +1,51 @@
-import React from 'react'
-import { useParams,Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearPage,getDogDetail } from './../../redux/actions/index';
-import { useEffect } from 'react';
- 
+import { clearPage, getDogDetail } from './../../redux/actions/index';
 
-export default function Detail() {
+export default function Detail(props) {
+  const [loading, setLoading] = useState(false)
   const { id } = useParams();
+  //const{id} = props.match.params;
   const dispatch = useDispatch();
-  //Recivo mis 2 parametror al montar el componente
+
   useEffect(() => {
     dispatch(getDogDetail(id));
-  }, [dispatch])
+
+    setLoading(true);
+
+    return () => {
+      dispatch(clearPage());
+    }
+  }, [dispatch, id])
+
   const dogy = useSelector(state => state.detail);
-  console.log(dogy.name);
+  console.log(dogy);
   return (
     <div>
-      <h1>Holaaaaaaa: </h1>
-        <div>
-          <h1>{dogy.name}</h1>
-          {/*  <img src={dogy.img} alt={dogy.name} />
-          {/* <p>Temperament: {dogy.temperament}</p>}
-          <p>Height: {dogy.minHeight}-{dogy.maxHeight}cm</p>
-          <p>Weight: {dogy.minWeight}-{dogy.maxWeight}Kg</p>
-          <p>life expectancy: {dogy.minLifeExp} - {dogy.minLifeExp} Years</p>
-          <button onClick={() => dispatch(clearPage())}>Back Home</button> */}
-        </div>
-      
+      {
+        dogy[0]?.name ? //loading ?
+          <div>
+            <h1>Holaaaaaaa: </h1>
+            <h1>{dogy[0]?.name}</h1>
+            <img src={dogy[0]?.img} alt={dogy[0]?.name } height={  
+        (window.innerWidth > 500) ? "200px" : "100px"
+      }
+      width={
+        (window.innerWidth > 500) ? "200px" : "100px"
+      }/>
+            <p>Temperament: {dogy[0]?.temperament}</p>
+            <p>Height: {dogy[0].height} cm </p>
+            <p>Weight: {dogy[0]?.weight} Kg</p>
+            <p>life expectancy: {dogy[0]?.lifeExp} Years</p>
+            <Link to='/home'><button onClick={() => dispatch(clearPage())}>Back Home</button></Link>
+          </div>
+          :
+          <div>
+            <h1>Loading...</h1>
+          </div>
+      }
+
     </div>
   )
 }
