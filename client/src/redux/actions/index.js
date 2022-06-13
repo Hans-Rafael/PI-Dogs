@@ -40,8 +40,13 @@ export function getByName(name) {
       })
     }
     catch (error) {
-      throw error;
+      alert('Dog not found');
+      window.location.href = 'http://localhost:3000/home';
+      console.log(error)
     }
+    /* catch (error) {
+      throw error;
+    } */ 
   }
 }
 //

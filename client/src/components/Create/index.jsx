@@ -7,7 +7,7 @@ import { post, getTemperament } from './../../redux/actions/index';
 export default function Create() {
   const dispatch = useDispatch();
 
-  const history = useHistory();
+  //const history = useHistory(); //no me desido usar esto
 
   const temperamet = useSelector((state) => state.temps);
   //mi estado local
@@ -62,7 +62,7 @@ const imgUrl="http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-
       img: '',
       temperament: [],
     })
-    history.push('/home');
+    //history.push('/home');
   }
 
   function handleDelete(el) {
@@ -71,7 +71,15 @@ const imgUrl="http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-
       temperament: input.temperament.filter(e => e !== el),
     })
   }
-
+  function handleClick(e){
+    e.preventDefault();
+    const resultado = window.confirm('Are you sure?, will delete all the data of this breed');
+  if (resultado === true) {
+     // window.alert('Okay, si estas seguro.');
+     window.location.href = 'http://localhost:3000/home'
+  }
+} 
+//
   useEffect(() => {
     dispatch(getTemperament());
   }, [dispatch])
@@ -79,11 +87,9 @@ const imgUrl="http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-
 
   return (
     <div>
-      <Link to="/home">
-        <button title="return home and you will lose anything written there so far that is not saved ">
+        <button type='submit' onClick={e => { handleClick(e) }} title="return home and you will lose anything written there so far that is not saved ">
           Home
         </button>
-      </Link>
       <h1>Add the details for the new breed!</h1>
 
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -270,7 +276,7 @@ function validate(input) {
   if (!input.minWeight || !input.maxWeight || input.minWeight > input.maxWeight||input.minWeight < 0 ||input.maxWeight.length>3||input.minWeight.length>3||!input.minWeight.match(/^[0-9]+$/) || !input.maxWeight.match(/^[0-9]+$/)) {
     errors.minWeight = "Weight is required and must be less than Max Weight & both must be max 3 character > 0";
   }
-  if ( input.minLifeExp >= input.maxLifeExp ||!input.minLifeExp.match(/^[0-9]+$/) || !input.maxLifeExp.match(/^[0-9]+$/)||input.maxLifeExp.length>2||input.minLifeExp.length>2) {
+  if ( input.minLifeExp > input.maxLifeExp ||!input.minLifeExp.match(/^[0-9]+$/) || !input.maxLifeExp.match(/^[0-9]+$/)||input.maxLifeExp.length>2||input.minLifeExp.length>2) {
     errors.minLifeExp = "Life Exp is required and must be less than Max Life Exp & both max 2 character > 0";
   }
   if (input.img!=='' && !input.img.match(/^(http|https):\/\/[^ "]+$/)) {
