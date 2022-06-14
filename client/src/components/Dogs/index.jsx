@@ -2,23 +2,26 @@ import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Dog from "./Dog";
-import { getDogs, getTemperament, filterByTemperament,filterByCreated,
-    sort} from './../../redux/actions';
+import {
+    getDogs, getTemperament, filterByTemperament, filterByCreated,
+    sort
+} from './../../redux/actions';
 import Paging from "./Paging";
 import style from "./dogsHome.module.css";
 import SearchBar from "./SearchBar";
 
 
+
 export default function Dogs() {
     let dogs = useSelector((state) => state.dogs);
-   // console.log(dogs);
+    // console.log(dogs);
     let dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDogs());
     }, [dispatch])
 
     const allTemp = useSelector((state) => state.temps);
-    
+
     useEffect(() => {
         dispatch(getTemperament());
     }, [dispatch]);
@@ -55,7 +58,7 @@ export default function Dogs() {
         dispatch(filterByCreated(e.target.value));
         setCurrentPage(1);
     }
-    function handleOrder(e){
+    function handleOrder(e) {
         e.preventDefault();
         dispatch(sort(e.target.value));
         setCurrentPage(1);
@@ -68,16 +71,16 @@ export default function Dogs() {
             <button onClick={e => { handlerClick(e) }}> Refrech page</button>
 
             <Link to='/create'>
-            <button title='take you to the form'>Create new breed</button>
+                <button title='take you to the form'>Create new breed</button>
             </Link>
             <div>
-                <select onChange={(e)=>handleCreated(e)} title='you can select from were get info' >
+                <select onChange={(e) => handleCreated(e)} title='you can select from were get info' >
                     <option value='ALL'>All Breeds</option>
                     <option value='API'>Api Breeds</option>
                     <option value='DB'>Created Breeds</option>
                 </select>
-                
-                {<select onChange={(e) =>handleTemperament(e)} title='you can select a temperament'>
+
+                {<select onChange={(e) => handleTemperament(e)} title='you can select a temperament'>
                     <option value='ALL'>All Temperaments</option>
                     {allTemp && allTemp.map((t) => (
                         <option key={t.name} value={t.name}>
@@ -86,7 +89,7 @@ export default function Dogs() {
                     ))}
                 </select>}
 
-                <select onChange={(e)=>handleOrder(e)} title="sort search">
+                <select onChange={(e) => handleOrder(e)} title="sort search">
                     <option value='Asc'>A-Z</option>
                     <option value='Desc'>Z-A</option>
                     <option value='Inc'>Min-Max weight</option>
@@ -95,8 +98,8 @@ export default function Dogs() {
             </div>
 
             <div>
-            <SearchBar/>
-                
+                <SearchBar />
+
             </div>
             <div>
                 <Paging
@@ -125,8 +128,10 @@ export default function Dogs() {
             </div>
         </div>
     } else {
-        return <div>
-            <h1>Cargando...</h1>{/*si tengo tempo agregar un componet o un css se vea mejor  */}
-        </div>
+        return (<div className={style.loading}>
+            <h1>Cargando...</h1>
+<img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="loading" />
+            
+        </div>)
     }
 }

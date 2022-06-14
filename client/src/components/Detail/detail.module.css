@@ -1,0 +1,59 @@
+.main {
+    /* fill bckground */
+    min-height: 100%;
+    min-width: 1024px;
+    /* set propety scaling */
+    width: 100%;
+    height: auto;
+    /* set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    background-image: url("../../assets/bkgGlass.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  @media screen and (max-width: 1024px) {
+    /* Specific to this particular image */
+    img.bg {
+      left: 50%;
+      margin-left: -512px; /* 50% */
+    }
+  }
+  
+  .text{
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2em;
+    margin-right: 20em;
+    margin-bottom: 2em;
+    transition: 1s ease-in-out;
+  }
+
+  .button {
+  background-color: goldenrod;
+  border: none;
+  color: black;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25% 0 25% 0;
+  box-shadow: cyan 0px 0px 10px;
+  transition: 0.5s easy-in-out;
+}
+.button:hover {
+  background-color: greenyellow;
+  color: #c67b49;
+  box-shadow: 0px 0px 15px 15px #ec731e;
+  border-radius: 40% 0 35% 0;
+}
+.loading{
+    background-color: #ffaf12;
+}
+  
