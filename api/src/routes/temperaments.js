@@ -2,7 +2,7 @@ const { Temperament } = require("../db");
 const { getTemperaments } = require("./functions");
 
 //__GET /temperament__:
-const getTemper = async (req, res, next) => {
+const getTemper = async (req, res,next) => {
   try {
     //res.send('<h1>Temperaments</h1>');
     const temps = await getTemperaments();
@@ -14,10 +14,11 @@ const getTemper = async (req, res, next) => {
       });
     });
     const allTemp = await Temperament.findAll();
+    
     res.status(200).send(allTemp);
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
-
 module.exports = { getTemper };

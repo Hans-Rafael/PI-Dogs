@@ -69,9 +69,9 @@ const getTemperaments = async () => {
     //console.log(result.map(e => e.charAt(0).toUpperCase() + e.slice(1)))
     //console.log (result)
     //console.log(result.map(e => e.toLowerCase()))
-    return result
+    return result.sort();
 }
-//getTemperaments()
+getTemperaments()
 
 module.exports = {
     getAllDogs,
