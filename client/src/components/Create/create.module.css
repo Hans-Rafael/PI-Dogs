@@ -22,8 +22,17 @@
   }
 }
 .delateButton {
-    background-image: url("../../assets/xDelate.png");
-    size: 15rem;
+  color: red;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  size: 15rem;
+  background-color:whitesmoke/*darkgrey*/;
+  border: 2px outset #1C6EA4;
+  margin-top: 1em;
+  border-radius: 50%;
+  /* background-color:transparent;
+  border: none; */
 }
 .button {
   background-color: goldenrod;
@@ -40,12 +49,33 @@
   box-shadow: cyan 0px 0px 10px;
   transition: 0.5s easy-in-out;
 }
-.button:hover {
+.button[disabled] {
+  background-color: gray;
+  color: white;
+  box-shadow: 0px 0px 15px 15px #ec731e;
+  border-radius: 40% 0 35% 0;
+}
+.button:active {
   background-color: greenyellow;
   color: #c67b49;
   box-shadow: 0px 0px 15px 15px #ec731e;
   border-radius: 40% 0 35% 0;
+} /* button[disabled]:hover {
+    background: red;
 }
+button:hover {
+    background: lime;
+} */
+.button[disabled]:hover {
+  background-color: darkred;
+  color: #c67b49;
+  box-shadow: 0px 0px 15px 15px #ec731e;
+  border-radius: 40% 0 35% 0;
+}
+.button:hover {
+  background-color: rgb(110, 176, 38);
+}
+
 .formIn {
   border: none;
   font-weight: bold;
@@ -54,4 +84,6 @@
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: center;
+  margin-top: 2em;
+  row-gap: 0.5em;
 }

@@ -46,7 +46,7 @@ export function getByName(name) {
     }
     /* catch (error) {
       throw error;
-    } */ 
+    } */
   }
 }
 //
@@ -66,12 +66,17 @@ export function getTemperament() {
 }
 //
 export function filterByTemperament(payload) {
-  console.log(payload)
-  return {
-    type: FILTER_BY_TEMPER,
-    payload
-
+  try {
+    console.log(payload)
+    return {
+      type: FILTER_BY_TEMPER,
+      payload
+    }
   }
+  catch (error) {
+    console.log(error);
+  }
+
 }
 export function filterByCreated(payload) {
   return {

@@ -56,4 +56,17 @@
 .loading{
     background-color: #ffaf12;
 }
-  
+.imgContainer {
+  overflow: hidden;
+  ;
+}
+
+.imgContainer img {
+  width: 450px;
+  border-radius:5%;
+  transition: transform 0.3s;
+}
+
+.imgContainer img:hover {
+  transform: scale(1.5);
+}

@@ -33,8 +33,7 @@ export default function reducer(state = initialState, action) {
             }
         case FILTER_BY_TEMPER:
             const allDogs = state.allDogs;
-            const temperFilter = allDogs.filter((d) => d.temperament && d.temperament.includes((action.payload).charAt(0).toUpperCase() + action.payload.slice(1)));
-
+            const temperFilter = allDogs?.filter((d) => d.temperament && d.temperament.includes(action.payload));
             return {
                 ...state,
                 dogs: temperFilter
@@ -45,7 +44,7 @@ export default function reducer(state = initialState, action) {
             const createdFilter = action.payload === 'DB' ? state.allDogs.filter(e => e.createdInDB) : state.allDogs.filter(e => !e.createdInDB)
             return {
                 ...state,
-                dogs: action.payload === 'All' ? state.allDogs.name : createdFilter
+                dogs: action.payload === 'All' ? state.allDogs : createdFilter
             }
         case ORDER:
             let sort

@@ -1,35 +1,47 @@
 .pagesList {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+}
+@media screen and (max-width: 667px) {
+  .pagesList {
+    display: inline-flex;
     align-items: center;
     margin-top: 2%;
+    flex-direction: row;
+    width: auto;
+    flex-wrap: wrap;
+  }
 }
 
 .num {
-    transition: .2s;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    font-weight: bolder;
-    color: rgb(100, 100, 150);
-    margin: 0 3px;
+  transition: 0.2s;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-weight: bolder;
+  color: rgb(100, 100, 150);
+  margin: 0 3px;
 }
 
 .num:hover {
-    cursor: pointer;
-    background-color:lightskyblue;
-    color: white;
+  cursor: pointer;
+  background-color: lightskyblue;
+  color: white;
 }
 
 .active {
-    transition: .2s;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    font-weight: bolder;
-    margin: 0 3px;
-    background-color: rgb(27, 111, 167);
-    color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-weight: bolder;
+  margin: 0 3px;
+  background-color: rgb(27, 111, 167);
+  color: white;
+  margin-top: 0.35em;
+  margin-bottom: 5em;
 }

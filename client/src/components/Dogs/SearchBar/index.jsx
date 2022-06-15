@@ -23,7 +23,7 @@ function SearchBar() {
     }
 
     return (
-        <div>
+        <div className={style.select}>
             <input type='text' placeholder='Search By Breed' onChange={(e) => handlerInChange(e)} className={style.placeholder} />
             <button type='submit' onClick={(e) => handlerSubmit(e)} className={style.button}>Search</button>
 

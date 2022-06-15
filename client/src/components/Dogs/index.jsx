@@ -67,19 +67,25 @@ export default function Dogs() {
     //console.log(dogs, "*****ALl info de api de la back*****");
     ////
     if (dogs.length !== 0) {
-        return <div> <h1>Home</h1>
+        return <div className={style.bkgAll}>
+            <div id='navBar' className={style.navBar}> 
+            <h1>Home</h1>
+            <div id='refre-goCre' className={style.refCre}>
             <button onClick={e => { handlerClick(e) }}> Refrech page</button>
 
             <Link to='/create'>
                 <button title='take you to the form'>Create new breed</button>
             </Link>
-            <div>
+            </div>
+            <div id='select1' className={style.select}>
+                <div>
                 <select onChange={(e) => handleCreated(e)} title='you can select from were get info' >
                     <option value='ALL'>All Breeds</option>
                     <option value='API'>Api Breeds</option>
                     <option value='DB'>Created Breeds</option>
                 </select>
-
+                </div>
+                <div>
                 {<select onChange={(e) => handleTemperament(e)} title='you can select a temperament'>
                     <option value='ALL'>All Temperaments</option>
                     {allTemp && allTemp.map((t) => (
@@ -88,20 +94,22 @@ export default function Dogs() {
                         </option>
                     ))}
                 </select>}
-
+                </div>
+                <div>
                 <select onChange={(e) => handleOrder(e)} title="sort search">
                     <option value='Asc'>A-Z</option>
                     <option value='Desc'>Z-A</option>
                     <option value='Inc'>Min-Max weight</option>
                     <option value='Dec'>Max-Min weight</option>
                 </select>
+                </div>
             </div>
 
-            <div>
+            <div id='Searchbar'>
                 <SearchBar />
 
             </div>
-            <div>
+            <div className={style.paging}>
                 <Paging
                     charactersPerPage={charactersPerPage}
                     allCharacter={allCharacters.length}
@@ -111,13 +119,16 @@ export default function Dogs() {
             <div className={style.num}>
                 Page: {currentPage}
             </div>
+            </div>
             <div>
-                {currentDogs?.map((e) => {
-                    return <Link to={`/home/${e.id}`} key={e.id} title='You could go to see the details by clicking on the image'>
-                        <Dog key={e.id} name={e.name} img={e.img} temperament={e.temperament} weight={e.weight} ></Dog>
-                    </Link>
-                })
-                }
+                <div className={style.boxCards}>
+                    {currentDogs?.map((e) => {
+                        return <Link to={`/home/${e.id}`} key={e.id} title='You could go to see the details by clicking on the image'>
+                            <Dog key={e.id} name={e.name} img={e.img} temperament={e.temperament} weight={e.weight} ></Dog>
+                        </Link>
+                    })
+                    }
+                </div>
 
                 {/* {dogs.map((e) => {
                     return <Link key={e.id} to={`/home/${e.id}`}>
@@ -130,8 +141,8 @@ export default function Dogs() {
     } else {
         return (<div className={style.loading}>
             <h1>Cargando...</h1>
-<img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="loading" />
-            
+            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="loading" />
+
         </div>)
     }
 }

@@ -16,7 +16,15 @@
 .placeholder {
   background-color: moccasin;
 
-  border: none;
+  border-radius: 5%;
   font-weight: bold;
   box-shadow: cyan 0px 0px 10px;
+}
+.select{
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 2em;
+   
 }

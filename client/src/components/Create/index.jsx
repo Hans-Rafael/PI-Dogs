@@ -104,6 +104,7 @@ export default function Create() {
               placeholder="Breed..."
               title="MAX 50 alphanumeric characters, on English keyboard, without special characters like @"
             />
+          </div><div>
             {errors.name && <p /*className=style.errors */>{errors.name}</p>}
           </div>
           <div>
@@ -117,6 +118,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> cm</label>
+          </div><div>
             {errors.minHeight && (
               <p /*className=style.errors */>{errors.minHeight}</p>
             )}
@@ -132,6 +134,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> cm</label>
+          </div><div>
             {errors.maxHeight && (
               <p /*className=style.errors */>{errors.maxHeight}</p>
             )}
@@ -147,6 +150,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> kg</label>
+          </div><div>
             {errors.minWeight && (
               <p /*className=style.errors */>{errors.minWeight}</p>
             )}
@@ -162,6 +166,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> kg</label>
+          </div><div>
             {errors.maxWeight && (
               <p /*className=style.errors */>{errors.maxWeight}</p>
             )}
@@ -177,6 +182,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> years</label>
+          </div><div>
             {errors.minLifeExp && (
               <p /*className=style.errors */>{errors.minLifeExp}</p>
             )}
@@ -192,6 +198,7 @@ export default function Create() {
               title="most be a number max 5 character"
             />
             <label> years</label>
+          </div><div>
             {errors.maxLifeExp && (
               <p /*className=style.errors */>{errors.maxLifeExp}</p>
             )}
@@ -206,6 +213,7 @@ export default function Create() {
               placeholder="add image url"
               title="Remember img most be a url"
             />
+          </div><div>
             {errors.img && <p /*className=style.errors */>{errors.img}</p>}
           </div>
           <div>
@@ -242,11 +250,12 @@ export default function Create() {
         </div>
         <div>
           <button
-          className={style.button}
+            className={style.button}
             type="submit"
             title="Save on DataBase and take you back home"
             disabled={
               input.temperament.length === 0 ||
+                input.name.length < 1 ||
                 errors.name ||
                 errors.minHeight ||
                 errors.maxHeight ||
@@ -271,19 +280,19 @@ export default function Create() {
 function validate(input) {
   let errors = {};
   if (!input.name || input.name.length > 50 || !input.name.match(/^[a-zA-Z0-9\s]+$/) || input.name.charAt(0) === ' ') {
-    errors.name = "Name is required and most be MAX 50 alphanumeric characters, on English keyboard, without special characters like @, and must start with a letter";
+    errors.name = "* NAME is required and most be MAX 50 alphanumeric characters, on English keyboard, without special characters like @, and must start with a letter";
   }
-  if (!input.minHeight || !input.maxHeight || input.minHeight > input.maxHeight || input.minHeight < 0 || input.maxHeight.length > 3 || input.minHeight.length > 3 || !input.minHeight.match(/^[0-9]+$/) || !input.maxHeight.match(/^[0-9]+$/)) {
-    errors.minHeight = "Height is required and must be less than Max Height & both must be max 3 character > 0";
+  if (!input.minHeight || !input.maxHeight || input.minHeight > input.maxHeight || input.minHeight < 1 || input.maxHeight.length > 3 || input.minHeight.length > 3 || !input.minHeight.match(/^[0-9]+$/) || !input.maxHeight.match(/^[0-9]+$/)) {
+    errors.minHeight = "* HEIGHT is required and must be less than Max Height & both must be max 3 character > 1";
   }
-  if (!input.minWeight || !input.maxWeight || input.minWeight > input.maxWeight || input.minWeight < 0 || input.maxWeight.length > 3 || input.minWeight.length > 3 || !input.minWeight.match(/^[0-9]+$/) || !input.maxWeight.match(/^[0-9]+$/)) {
-    errors.minWeight = "Weight is required and must be less than Max Weight & both must be max 3 character > 0";
+  if (!input.minWeight || !input.maxWeight || input.minWeight > input.maxWeight || input.minWeight < 1 || input.maxWeight.length > 3 || input.minWeight.length > 3 || !input.minWeight.match(/^[0-9]+$/) || !input.maxWeight.match(/^[0-9]+$/)) {
+    errors.minWeight = "* WEIGHT is required and must be less than Max Weight & both must be max 3 character > 1";
   }
   if (input.minLifeExp > input.maxLifeExp || !input.minLifeExp.match(/^[0-9]+$/) || !input.maxLifeExp.match(/^[0-9]+$/) || input.maxLifeExp.length > 2 || input.minLifeExp.length > 2) {
-    errors.minLifeExp = "Life Exp is required and must be less than Max Life Exp & both max 2 character > 0";
+    errors.minLifeExp = "* LIFE Exp is required and must be less than Max Life Exp & both max 2 character > 0";
   }
   if (input.img !== '' && !input.img.match(/^(http|https):\/\/[^ "]+$/)) {
-    errors.img = "Image is required but not obligatory & most be a url"
+    errors.img = "* IMAGE is required but not obligatory & most be a url"
   }
   return errors;
 }

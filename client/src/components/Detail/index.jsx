@@ -29,23 +29,25 @@ export default function Detail(props) {
           <>
             <div id='2' className={style.text}>
               <h1>{dogy[0]?.name}</h1>
-              <img src={dogy[0]?.img} alt={dogy[0]?.name} height={
-                (window.innerWidth > 500) ? "200px" : "100px"
-              }
-                width={
-                  (window.innerWidth > 500) ? "200px" : "100px"
-                } />
+              <div className={style.imgContainer}>
+                <img className={style.img} src={dogy[0]?.img} alt={dogy[0]?.name} height={
+                  "250px" 
+                }
+                  width={
+                   "250px"
+                  } />
+              </div>
               <p>Temperament: {dogy[0]?.temperament}</p>
               <p>Height: {dogy[0].height} cm </p>
               <p>Weight: {dogy[0]?.weight} Kg</p>
               <p>life expectancy: {dogy[0]?.lifeExp} Years</p>
-            <Link to='/home'><button className={style.button} onClick={() => dispatch(clearPage())}>Back Home</button></Link>
+              <Link to='/home'><button className={style.button} onClick={() => dispatch(clearPage())}>Back Home</button></Link>
             </div>
           </>
           :
           <div>
             <h1>Loading...</h1>
-            <img src="https://media1.giphy.com/media/kZJcpM3gYdlK4D64Ft/200w.webp?cid=ecf05e47i2qbyydmnkoibbiy0ykyrmjjshlub7rxeh4fc62q&rid=200w.webp&ct=g" alt="loading" height="500px" width="500px" />
+             <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="loading" />
             {/* <img src="https://media3.giphy.com/media/52qtwCtj9OLTi/100.webp?cid=ecf05e476ngo41xcmymswgc8zkeizixjcjm48zej1q1fjwvm&rid=100.webp&ct=g" alt="loading" /> */}
           </div>
       }
