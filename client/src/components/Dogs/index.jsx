@@ -69,7 +69,10 @@ export default function Dogs() {
     if (dogs.length !== 0) {
         return <div className={style.bkgAll}>
             <div id='navBar' className={style.navBar}>
-                <h1 className ={style.txt}>Home</h1>
+                <div id='Titulo'>
+                <h1 className ={style.txt}>Henry Dogs</h1>
+                <h3>By Hans Garcia</h3>
+                </div>
                 <div id='Searchbar'>
                     <SearchBar />
                 </div>

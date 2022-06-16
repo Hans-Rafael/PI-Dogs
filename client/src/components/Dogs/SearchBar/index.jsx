@@ -12,6 +12,7 @@ function SearchBar() {
         e.preventDefault();
         setName(e.target.value);
         console.log(name);
+        
 
 
     }
@@ -19,13 +20,15 @@ function SearchBar() {
         e.preventDefault();
         dispatch(getByName(name));
         setName("");
+        document.getElementById("search").value = "";
         
     }
+    
 
     return (
         <div className={style.select}>
-            <input type='text' placeholder='Search By Breed' onChange={(e) => handlerInChange(e)} className={style.placeholder} />
-            <button type='submit' onClick={(e) => handlerSubmit(e)} className={style.button}>Search</button>
+            <input id='search' type='text' placeholder='Search By Breed' onChange={(e) => handlerInChange(e)} className={style.placeholder} />
+            <button id='submit'type='submit' onClick={(e) => handlerSubmit(e)} className={style.button}>Search</button>
 
         </div>
     )
