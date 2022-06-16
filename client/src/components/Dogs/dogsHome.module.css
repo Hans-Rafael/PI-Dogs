@@ -51,7 +51,12 @@
     margin-bottom: 0.5em;
 }
 .bkgAll{
-    background-color: #fb9815
+    background-color: #fb9815;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
 }
 .bkgHome{
     background:transparent url("../../assets/homeicon.png") no-repeat scroll 0% 0%;
