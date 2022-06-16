@@ -1,6 +1,8 @@
 
 .bkgDogCard{
-    background-color: #fb9815
+    background-color: #fb9815;
+    border-radius: 5%;
+    width: min-content;
     
 }
 .img{

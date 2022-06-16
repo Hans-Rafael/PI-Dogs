@@ -68,57 +68,57 @@ export default function Dogs() {
     ////
     if (dogs.length !== 0) {
         return <div className={style.bkgAll}>
-            <div id='navBar' className={style.navBar}> 
-            <h1>Home</h1>
-            <div id='refre-goCre' className={style.refCre}>
-            <button onClick={e => { handlerClick(e) }}> Refrech page</button>
-
-            <Link to='/create'>
-                <button title='take you to the form'>Create new breed</button>
-            </Link>
-            </div>
-            <div id='select1' className={style.select}>
-                <div>
-                <select onChange={(e) => handleCreated(e)} title='you can select from were get info' >
-                    <option value='ALL'>All Breeds</option>
-                    <option value='API'>Api Breeds</option>
-                    <option value='DB'>Created Breeds</option>
-                </select>
+            <div id='navBar' className={style.navBar}>
+                <h1 className ={style.txt}>Home</h1>
+                <div id='Searchbar'>
+                    <SearchBar />
                 </div>
-                <div>
-                {<select onChange={(e) => handleTemperament(e)} title='you can select a temperament'>
-                    <option value='ALL'>All Temperaments</option>
-                    {allTemp && allTemp.map((t) => (
-                        <option key={t.name} value={t.name}>
-                            {t.name}
-                        </option>
-                    ))}
-                </select>}
-                </div>
-                <div>
-                <select onChange={(e) => handleOrder(e)} title="sort search">
-                    <option value='Asc'>A-Z</option>
-                    <option value='Desc'>Z-A</option>
-                    <option value='Inc'>Min-Max weight</option>
-                    <option value='Dec'>Max-Min weight</option>
-                </select>
-                </div>
-            </div>
+                <div id='SortBar' className={style.sortBar}>
+                    {/* </div>
+                    <div id='select1' className={style.select}> */}
+                    {/* <div> */}
+                    <select className={style.button} onChange={(e) => handleCreated(e)} title='you can select from were get info' >
+                        <option value='ALL'>All Breeds</option>
+                        <option value='API'>Api Breeds</option>
+                        <option value='DB'>Created Breeds</option>
+                    </select>
+                    {/* </div>
+                    <div> */}
+                    {<select className={style.button} onChange={(e) => handleTemperament(e)} title='you can select a temperament'>
+                        <option value='ALL'>All Temperaments</option>
+                        {allTemp && allTemp.map((t) => (
+                            <option key={t.name} value={t.name}>
+                                {t.name}
+                            </option>
+                        ))}
+                    </select>}
+                    {/* </div>
+                    <div> */}
+                    <select className={style.button} onChange={(e) => handleOrder(e)} title="sort search">
+                        <option value='Asc'>A-Z</option>
+                        <option value='Desc'>Z-A</option>
+                        <option value='Inc'>Min-Max weight</option>
+                        <option value='Dec'>Max-Min weight</option>
+                    </select>
+                    {/* </div> */}
+                    <Link to='/create' className={style.button}>
+                        <button className={style.buttonIn} title='take you to the form'>Create new breed</button>
+                    </Link>
 
-            <div id='Searchbar'>
-                <SearchBar />
+                    <button className={style.buttonR} onClick={e => { handlerClick(e) }}> Refrech page</button>
 
-            </div>
-            <div className={style.paging}>
-                <Paging
-                    charactersPerPage={charactersPerPage}
-                    allCharacter={allCharacters.length}
-                    Paginited={Paginited}
-                />
-            </div>
-            <div className={style.num}>
-                Page: {currentPage}
-            </div>
+                </div>
+
+                <div className={style.paging}>
+                    <Paging
+                        charactersPerPage={charactersPerPage}
+                        allCharacter={allCharacters.length}
+                        Paginited={Paginited}
+                    />
+                </div>
+                <div className={style.num}>
+                    Page: {currentPage}
+                </div>
             </div>
             <div>
                 <div className={style.boxCards}>

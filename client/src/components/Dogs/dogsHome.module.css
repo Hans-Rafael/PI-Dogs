@@ -1,64 +1,120 @@
 .num {
-   /* transition: .2s;*/
-    border-radius: 50%;
-    width: auto;
-    height: 25px;
-    text-align: center;
-    font-weight: bolder;
-    color: white;
-    margin: 0 3px;
-    background-color:lightskyblue;
+  /* transition: .2s;*/
+  border-radius: 50%;
+  width: auto;
+  height: 25px;
+  text-align: center;
+  font-weight: bolder;
+  color: white;
+  margin: 0 3px;
+  background-color: lightskyblue;
 }
 .boxCards {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    gap: 0.1em; 
-} 
-.navBar{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 0.1em;
+  border-radius: 43%;
+  background-color: currentColor;
+  align-items: center;
+}
+.navBar {
+  display: flex;
+  gap: 0.5em;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.select {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 1em;
+}
+@media screen and (max-width: 667px) {
+  .select {
     display: flex;
     gap: 0.5em;
     flex-direction: column;
     flex-wrap: wrap;
+  }
 }
-.select{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    gap: 1em; 
+.sortBar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  align-content: center;
+  margin-top: 2rem;
 }
-@media screen and (max-width: 667px) {
-    .select {
-        display: flex;
-        gap:0.5em;
-        flex-direction: column;
-        flex-wrap: wrap;
-    }
+.paging {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5em;
 }
-.refCre{
-    display:flex;
-    justify-content: center;
-    gap:1.5em;
-    align-content: center;
+.bkgAll {
+  background-color: #fb9815;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: absolute;
 }
-.paging{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 0.5em;
+.bkgHome {
+  background: transparent url("../../assets/homeicon.png") no-repeat scroll 0%
+    0%;
+  background-size: cover;
 }
-.bkgAll{
-    background-color: #fb9815;
-    min-height: 100%;
-    min-width: 1024px;
-    width: 100%;
-    height: auto;
-    position: fixed;
+
+/******/
+.button{
+    text-align: center;
+    margin-top: 1em;
+    color: rgb(243 237 49);
+    font-size: 12px;
+    line-height: 12px;
+    padding: 13px;
+    border-radius: 30px;
+    font-family: Georgia, serif;
+    background-image: linear-gradient( to right, rgb(28 45 164) 0%, rgb(35 136 203) 50%, #1c6ea4 100% );
+    border: 2px solid rgb(164 115 28);
+    cursor: pointer;
+    box-shadow: 0 0 17px black;
 }
-.bkgHome{
-    background:transparent url("../../assets/homeicon.png") no-repeat scroll 0% 0%;
-    background-size: cover;
+.buttonR {
+    text-align: center;
+    margin-top: 1em;
+    color: rgb(243 237 49);
+    font-size: 12px;
+    line-height: 12px;
+    padding: 13px;
+    border-radius: 30px;
+    font-family: Georgia, serif;
+    background-image: linear-gradient( to right, rgb(28 164 32) 0%, rgb(29 165 58) 50%, rgb(83 114 20) 100% );
+    border: 2px solid rgb(164 115 28);
+    cursor: pointer;
+    box-shadow: 0 0 17px black;
+    
+  }
+.myButton:hover {
+  background: #94a42e;
+}
+.myButton:active {
+  background: #752f1a;
+}
+/******/
+.txt {
+  color:black;
+
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #49ff18,
+    0 0 30px #49ff18, 0 0 40px #49ff18, 0 0 55px #49ff18, 0 0 75px #49ff18;
+  font-weight: bold;
+  font-family: cursive;
+}
+.buttonIn{
+    border:none;
+    background-color: transparent;
+    color:rgb(253, 255, 67);
 }
