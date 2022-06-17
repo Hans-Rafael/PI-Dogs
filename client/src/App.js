@@ -4,8 +4,9 @@ import Landing from './components/Landing';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Create from './components/Create/index';
 import Detail from './components/Detail/index';
+import MissLanding from './components/MissLanding'; 
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
@@ -14,10 +15,9 @@ function App() {
           <Route exact path='/home' component={Dogs}></Route>
           <Route path='/home/:id' component={Detail}></Route>
           <Route path='/create' component={Create}></Route>
-          <Route path='*' component={NotFound}></Route>
+          <Route path='*' component={MissLanding}></Route>{/* MissLanding */}
         </Switch>
       </BrowserRouter>
-
     </div>
   );
 }
@@ -25,4 +25,3 @@ function NotFound() {
   return <><h1>You have landed on a page that doesn't exist</h1></>;
 }
 
-export default App;

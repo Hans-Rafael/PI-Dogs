@@ -5,16 +5,14 @@ import { clearPage, getDogDetail } from '../../redux/actions/index';
 import style from "./detail.module.css";
 
 export default function Detail(props) {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const { id } = useParams();
   //const{id} = props.match.params;
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getDogDetail(id));
-
-    setLoading(true);
-
+    //setLoading(true);
     return () => {
       dispatch(clearPage());
     }
@@ -25,16 +23,16 @@ export default function Detail(props) {
   return (
     <div id='1' className={style.main}>
       {
-        dogy[0]?.name ? //loading ?
+        dogy[0]?.id ? //loading ?
           <>
             <div id='2' className={style.text}>
               <h1>{dogy[0]?.name}</h1>
               <div className={style.imgContainer}>
                 <img className={style.img} src={dogy[0]?.img} alt={dogy[0]?.name} height={
-                  "250px" 
+                  "250px"
                 }
                   width={
-                   "250px"
+                    "250px"
                   } />
               </div>
               <p>Temperament: {dogy[0]?.temperament}</p>
@@ -45,11 +43,13 @@ export default function Detail(props) {
             </div>
           </>
           :
+          
           <div>
             <h1>Loading...</h1>
-             <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="loading" />
+            <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="loading" />
             {/* <img src="https://media3.giphy.com/media/52qtwCtj9OLTi/100.webp?cid=ecf05e476ngo41xcmymswgc8zkeizixjcjm48zej1q1fjwvm&rid=100.webp&ct=g" alt="loading" /> */}
           </div>
+          
       }
 
     </div>

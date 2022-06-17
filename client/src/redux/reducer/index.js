@@ -40,11 +40,11 @@ export default function reducer(state = initialState, action) {
 
             }
         case FILTER_BY_CREATED:
-
-            const createdFilter = action.payload === 'DB' ? state.allDogs.filter(e => e.createdInDB) : state.allDogs.filter(e => !e.createdInDB)
+            //const f =state.allDogs.filter(e => e.createdInDB)
+            const createdFilter = action.payload === 'DB'? state.allDogs.filter(e => e.createdInDB) : state.allDogs.filter(e => !e.createdInDB)   
             return {
                 ...state,
-                dogs: action.payload === 'All' ? state.allDogs : createdFilter
+                dogs: action.payload === 'All' ? state.allDogs : (createdFilter)? createdFilter : "db is empty"
             }
         case ORDER:
             let sort

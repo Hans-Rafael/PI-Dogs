@@ -1,0 +1,51 @@
+.bkg {
+  
+  min-height: 100%;
+  min-width: 1024px;
+  width: 50%;
+  height: auto;
+  position: fixed;
+  background-image: url("../../assets/WrongPlace.png");
+  background-size: cover;
+}
+
+.error {
+  width: 550px;
+  left: 850px;
+  bottom: 400px;
+  position: absolute;
+  font-size: 80px;
+  animation: slide-right 1s linear infinite alternate-reverse both;
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+.back {
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 80px;
+}
+
+.backbtn {
+  color: black;
+  font-size: 80px;
+  border: 2px dotted rgba(135 149 44, 0.5);
+  border-radius: 100px 0px 100px 0px;
+  width: 500px;
+  height: 100px;
+  position: absolute;
+  top: 690px;
+  left: 900px;
+}
+
+.backbtn:hover {
+  -webkit-transform: rotate(-7deg);
+  transform: rotate(-7deg);
+}
