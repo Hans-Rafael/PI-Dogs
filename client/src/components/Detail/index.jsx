@@ -5,21 +5,21 @@ import { clearPage, getDogDetail } from '../../redux/actions/index';
 import style from "./detail.module.css";
 
 export default function Detail(props) {
-  // const [loading, setLoading] = useState(false)
+
   const { id } = useParams();
   //const{id} = props.match.params;
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getDogDetail(id));
-    //setLoading(true);
-    return () => {
+     return () => {
       dispatch(clearPage());
-    }
+    } 
   }, [dispatch, id])
 
   const dogy = useSelector(state => state.detail);
-  console.log(dogy);
+  
+  
   return (
     <div id='1' className={style.main}>
       {
@@ -43,13 +43,12 @@ export default function Detail(props) {
             </div>
           </>
           :
-          
-          <div>
+           <div id='detailLoading' className={"loading"}>
             <h1>Loading...</h1>
             <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="loading" />
-            {/* <img src="https://media3.giphy.com/media/52qtwCtj9OLTi/100.webp?cid=ecf05e476ngo41xcmymswgc8zkeizixjcjm48zej1q1fjwvm&rid=100.webp&ct=g" alt="loading" /> */}
-          </div>
-          
+           
+           </div> 
+
       }
 
     </div>

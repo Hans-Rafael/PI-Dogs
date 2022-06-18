@@ -60,7 +60,7 @@ export function getTemperament() {
       })
     }
     catch (error) {
-      console.log("No se recibieron los temperamentos", error);
+      console.log(" ERROR geting response from Temperament URL", error);
     }
   }
 }

@@ -141,9 +141,10 @@ export default function Dogs() {
             </div>
         </div>
     }
-    return (<div className={style.loading}>
+    return (<div id="mainLoading" className={style.loading}>
         <h1>Cargando...</h1>
         {/* <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="loading" /> */}
        <img src="https://th.bing.com/th/id/R.632d51142994066cdfb410ef7e5089a9?rik=pri9VRZj8W3kgQ&riu=http%3a%2f%2fi8.glitter-graphics.org%2fpub%2f116%2f116018lyjo7r0y5j.gif&ehk=PVk3RbS1fzpZJzP28mZCL%2filh36TIACLksK2CKg3PWg%3d&risl=&pid=ImgRaw&r=0" alt="loading" />
+       
     </div>)
 }
