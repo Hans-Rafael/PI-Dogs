@@ -87,9 +87,7 @@ const createDog = async (req, res, next) => {
   }
 };
 
-//GET /temperaments:
-
-//__DELETE /dog/{idRaza}__:
+//__DELETE /dog/:id
 const delateDog = async (req, res, next) => {
   try {
     //res.send("<h1>Dog Deleted</h1>");
