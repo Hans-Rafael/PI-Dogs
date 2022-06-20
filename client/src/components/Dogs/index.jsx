@@ -8,7 +8,7 @@ import {
 import Paging from "./Paging";
 import style from "./dogsHome.module.css";
 import SearchBar from "./SearchBar";
-
+import { useHistory } from "react-router-dom";
 
 
 export default function Dogs() {
@@ -25,7 +25,6 @@ export default function Dogs() {
         dispatch(getTemperament());
     }, [dispatch]);
 
-
     //paging
     const allCharacters = useSelector((state) => state.dogs);
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +38,7 @@ export default function Dogs() {
 
 
     //handlers
+    const history = useHistory()
 
     function handlerClick(event) {
         event.preventDefault();
@@ -47,9 +47,15 @@ export default function Dogs() {
     }
 
     function handleTemperament(e) {
-        e.preventDefault();
-        dispatch(filterByTemperament(e.target.value));//e.target.value<=payload
+       // e.preventDefault();
+       if (e.target.value === "ALL") {
+              dispatch(getDogs());
+              setCurrentPage(1);
+              return;}
+        else {
+        dispatch(filterByTemperament(e.target.value));//e.target.value<=payload 
         setCurrentPage(1);
+        }
     };
 
     function handleCreated(e) {
@@ -87,7 +93,7 @@ export default function Dogs() {
                     {/* </div>
                     <div> */}
                     {<select className={style.button} onChange={(e) => handleTemperament(e)} title='you can select a temperament'>
-                        <option value='ALL'>All Temperaments</option>
+                        <option value='ALL'>Temperaments</option>
                         {allTemp && allTemp.map((t) => (
                             <option key={t.name} value={t.name}>
                                 {t.name}
