@@ -7,7 +7,7 @@ const {getTemper} = require('./temperaments.js');
 
 const router = Router();
 
-// Configurar los routers
+// Configurar los routers;
 // Ejemplo: router.use('/auth', authRouter);
 router.get('/dogs', getDogs);
 router.get('/dogs/:id', getById);

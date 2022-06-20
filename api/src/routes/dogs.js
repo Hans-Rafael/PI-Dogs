@@ -11,8 +11,8 @@ const getDogs = async (req, res, next) => {
     const data = dogs.map((e) => e);
     const { name } = req.query;
     if (name) {
-      let dogName = data.filter((dog) =>
-        dog.name.toLowerCase().includes(name.toLowerCase())
+      let dogName = data.filter((e) =>
+        e.name.toLowerCase().includes(name.toLowerCase())
       );
       dogName.length
         ? res.status(200).send(dogName)

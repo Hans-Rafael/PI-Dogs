@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 
 module.exports = (sequelize) => {
-  // defino el modelo
+  // defino el modelo & nombre tbl
   sequelize.define('dog', {
     id: {
       type: DataTypes.UUID,
@@ -17,12 +17,13 @@ module.exports = (sequelize) => {
             validate : {
         notEmpty : {msg : 'The Name is required!'},
         len: [1,20],
+        isAlphanumeric: true,
     } 
     },
     img: {
       type:DataTypes.TEXT, /// ''
       defaultValue:"http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",//"./defoult_img.png",
-      //validate : { isUrl: true,}
+      validate : { isUrl: true,}
 
     },
     minHeight: {

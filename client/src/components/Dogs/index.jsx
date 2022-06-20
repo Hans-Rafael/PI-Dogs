@@ -29,7 +29,7 @@ export default function Dogs() {
     const allCharacters = useSelector((state) => state.dogs);
     const [currentPage, setCurrentPage] = useState(1);
     const [charactersPerPage, setCharactersPerPage] = useState(8);
-    const [order, setOrder] = useState('')
+    const [order, setOrder] = useState('')//
     const indexOfLastDog = currentPage * charactersPerPage;//8 
     const indexOfFirstDog = indexOfLastDog - charactersPerPage;//0  
     const currentDogs = allCharacters.slice(indexOfFirstDog, indexOfLastDog);
