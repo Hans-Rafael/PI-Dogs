@@ -37,8 +37,9 @@ export default function Dogs() {
     const Paginited = (pageNumber) => setCurrentPage(pageNumber);
 
 
+   // const history = useHistory()
+    ////history.push('/home')
     //handlers
-    const history = useHistory()
 
     function handlerClick(event) {
         event.preventDefault();
