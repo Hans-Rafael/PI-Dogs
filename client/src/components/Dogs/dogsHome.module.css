@@ -10,15 +10,15 @@
   background-color: lightskyblue;
 }
 .boxCards {
-  width: 100%;
-  display: flex;
+  width: 28%;
+  display: inline-flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  grid-gap: 0.1em;
   gap: 0.1em;
-  border-radius: 43%;
-  background-color: currentColor;
+  border-radius: 1%;
+  background-color: burlywood;
   align-items: center;
+
 }
 .navBar {
   display: flex;
