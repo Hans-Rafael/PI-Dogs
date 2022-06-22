@@ -88,14 +88,18 @@ const createDog = async (req, res, next) => {
 };
 
 //__DELETE /dog/:id
+//function delateDog(req, res, next) {
+  
 const delateDog = async (req, res, next) => {
   try {
     //res.send("<h1>Dog Deleted</h1>");
     const { id } = req.params;
-    Dog.destroy({
+    if (id.length > 0 || id.length < 37 || isUUID(id) === true)
+     {await Dog.destroy({
       where: { id: id }
     });
-    res.status(200).send(`Dog of id: ${id} has been deleted`);
+    return res.status(200).send(`Dog of id: ${id} has been deleted`)};
+    return res.status(400).send("there is no dog with that id");
   } catch (err) {
     next(err);
   }
