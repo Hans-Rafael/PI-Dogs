@@ -38,17 +38,29 @@ export function getByName(name) {
         type: GET_BY_NAME,
         payload: response.data
       })
+    } catch (error) {
+      //console.log(error.response.data);
+      //console.log(error.response.status);
+      
+      alert(error.response.data);
+      //alert('Dog not found')
     }
-    catch (error) {
-      alert('Dog not found');
-      window.location.href = 'http://localhost:3000/home';
-      console.log(error)
-    }
-    /* catch (error) {
-      throw error;
-    } */
   }
 }
+/*  return async function (dispatch) {
+   try {
+     const response = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+     return dispatch({
+       type: GET_BY_NAME,
+       payload: response.data
+     })
+   }
+   catch (error) {
+     alert('Dog not found');
+    // window.location.href = 'http://localhost:3000/home';
+     console.log(error)
+   } */
+
 //
 export function getTemperament() {
   return async function (dispatch) {

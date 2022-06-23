@@ -16,7 +16,7 @@ const getDogs = async (req, res, next) => {
       );
       dogName.length
         ? res.status(200).send(dogName)
-        : res.send("there is no dog with that name");
+        : res.status(400).send("there is no dog with that name");
     } else {
       return res.status(200).send(data);
     }
@@ -34,7 +34,7 @@ const getById = async (req, res, next) => {
       const dog = await getDogsById(id);
       res.status(200).send(dog);
     } else {
-      res.send("there is no dog with that id");
+      res.status(400).send("there is no dog with that id");
     }
   } catch (err) {
     next(err);
