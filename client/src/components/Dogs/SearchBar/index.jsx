@@ -18,10 +18,14 @@ function SearchBar() {
     }
     function handlerSubmit(e) {
         e.preventDefault();
+        if (name === '') {
+            return alert("please insert a name")
+        }
+        else {
         dispatch(getByName(name));
         setName("");
         document.getElementById("search").value = "";
-        
+        }
     }
     
 
