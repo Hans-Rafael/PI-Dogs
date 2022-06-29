@@ -17,7 +17,7 @@ export const getDogs = () => {
       });
   }; */
   return function (dispatch) {
-    return axios.get('http://localhost:3001/dogs')
+    return axios.get('/dogs')//'http://localhost:3001/dogs'
       .then(response => {
         dispatch({
           type: GET_DOGS,
@@ -33,7 +33,7 @@ export const getDogs = () => {
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+      const response = await axios.get(`/dogs?name=${name}`);//`http://localhost:3001/dogs?name=${name}
       return dispatch({
         type: GET_BY_NAME,
         payload: response.data
@@ -65,7 +65,7 @@ export function getByName(name) {
 export function getTemperament() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/temperaments`);
+      const response = await axios.get(`/temperaments`);//`http://localhost:3001/temperaments
       return dispatch({
         type: GET_TEMPERAMENT,
         payload: response.data
@@ -107,7 +107,7 @@ export function sort(payload) {
 export function post(payload) {
   return async function (dispatch) {
     try {
-      const info = await axios.post(`http://localhost:3001/dogs`, payload);
+      const info = await axios.post(`/dogs`, payload);//http://localhost:3001/dogs
       //console.log("post Axios del front: ",info);
       return {
         type: POST,
@@ -137,7 +137,7 @@ export function post(payload) {
 } */
 export function getDogDetail(id) {
   return function (dispatch) {
-    return axios.get(`http://localhost:3001/dogs/${id}`)
+    return axios.get(`/dogs/${id}`)//`http://localhost:3001/dogs/${id}
       .then(response => {
         dispatch({
           type: GET_DOGS_DETAIL,
