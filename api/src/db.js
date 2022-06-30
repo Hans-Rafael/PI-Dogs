@@ -3,21 +3,21 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME 
 } = process.env;
 //*** 
 let sequelize =
 process.env.NODE_ENV === 'production' ?
 new Sequelize({
-  dialect: 'postgres',
   database: DB_NAME,
+  dialect: "postgres",
   host: DB_HOST,
   port: 5432,
   username: DB_USER,
   password: DB_PASSWORD,
   pool:{
     max: 3,
-    min: 0,
+    min: 1,
     idle: 10000
   },
   dialectOptions: {
@@ -31,14 +31,14 @@ new Sequelize({
   ssl: true,
 }) :
 new Sequelize(
-  'postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/development',
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`,
   { logging : false, native:false }
 );
 
-//const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
- // logging: false, // set to console.log to see the raw SQL queries
- // native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-//});
+/* const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+}); */
 const basename = path.basename(__filename);
 
 const modelDefiners = [];

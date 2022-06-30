@@ -65,7 +65,7 @@ export function getByName(name) {
 export function getTemperament() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/temperaments`);//`http://localhost:3001/temperaments
+      const response = await axios.get('/temperaments');//`http://localhost:3001/temperaments
       return dispatch({
         type: GET_TEMPERAMENT,
         payload: response.data
@@ -107,7 +107,7 @@ export function sort(payload) {
 export function post(payload) {
   return async function (dispatch) {
     try {
-      const info = await axios.post(`/dogs`, payload);//http://localhost:3001/dogs
+      const info = await axios.post('/dogs', payload);//http://localhost:3001/dogs
       //console.log("post Axios del front: ",info);
       return {
         type: POST,
