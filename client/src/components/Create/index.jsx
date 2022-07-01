@@ -76,7 +76,7 @@ export default function Create() {
     const resultado = window.confirm('Are you sure?, will delete all the data of this breed');
     if (resultado === true) {
       // window.alert('Okay, si estas seguro.');
-      window.location.href = 'http://localhost:3000/api/home'
+      window.location.href = '/home'//http://localhost:3000/api/home
     }
   }
   //
