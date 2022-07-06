@@ -26,7 +26,7 @@ const { conn } = require('./src/db.js');
 require('dotenv').config();  // liberia dotenv configurar var de entornos
 const {PORT} = process.env;  // variable entorno
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
+conn.sync({ alter: true }).then(() => {
   server.listen(PORT , () => {
     console.log('%s listening at ', PORT); // eslint-disable-line no-console
   });
