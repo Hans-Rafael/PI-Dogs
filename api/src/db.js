@@ -6,6 +6,7 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME 
 } = process.env;
 // next is a link used to deploy en heroku
+//PAKETE NEED TAMBIEN: PROJECT_PATH
 // https://github.com/timanovsky/subdir-heroku-buildpack //
 let sequelize =
 process.env.NODE_ENV === 'production' ?
