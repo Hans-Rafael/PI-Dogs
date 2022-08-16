@@ -11,6 +11,34 @@
 - Aprender mejores prácticas.
 - Aprender y practicar el workflow de GIT.
 - Usar y practicar testing.
+<table>
+<tr>
+<td><img align="center"  alt="Español" src="https://hans-rafael.github.io/img/Spain.png" height="30" /><br></td><td><img align = "center" alt="English"  src="https://hans-rafael.github.io/img/uk.png" height="30" />
+<br>
+</td>
+</tr>
+<td>
+<h3 align="left">
+Aplicación en la cual se puedan ver distintas razas de perro junto con información relevante de las mismas utilizando la api externa [the dog api](https://thedogapi.com/) y a partir de ella poder, entre otras cosas:<br>
+- Buscar perros - Filtrarlos / Ordenarlos - Agregar nuevos perros<br>
+<b><h3>Principales tecnologías:</b></h3><br>
+- React - Redux - Express - Sequelize - Postgres.<br>
+</h3>
+</td>
+<td>
+<h3 align = "left">
+Application in which you can see different dog breeds along with relevant information about them using the external api [the dog api](https://thedogapi.com/) and from it you can, among other things:<br>
+- search for a dog breed - Filter / sort the dogs - add new dogs breed to the data base.<br>
+<h3><b>Main Technologies:</b></h3><br>
+- React - Redux - Express - Sequelize - Postgres.<br>
+</h3>
+</td>
+<tr>
+</tr>
+</table>
+<br>
+<img height="300" src="./Captura.png" />
+<br>
 
 ## Horarios y Fechas
 

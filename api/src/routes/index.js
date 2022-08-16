@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Ejemplo: const authRouter = require('./auth.js');
 const {getDogs, getById,createDog,delateDog} = require('./dogs.js');
 const {getTemper} = require('./temperaments.js');
-
+const {configRoutes} = require('./routes.js');
 
 const router = Router();
 
