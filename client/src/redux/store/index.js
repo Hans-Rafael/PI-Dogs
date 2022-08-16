@@ -10,20 +10,21 @@ const store = createStore( reducer,
     )
 );
 export default store; */
-//****Matias Stile****** */
-/* import { createStore, applyMiddleware,compose } from 'redux';
+//********** */
+ import { createStore, applyMiddleware,compose } from 'redux';
 
 import thunk from 'redux-thunk';
-import reducer from './../reducer';
+import reducer from './../reducerMain';
 
 const composeEnhancers = 
 (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore( reducer, composeEnhancers(applyMiddleware(thunk)));
 
-export default store; */
+export default store; 
 
 //***con redux-toolkit */
+/*
 //importamos configuracion de redux-toolkit
 import {configureStore} from '@reduxjs/toolkit';
 //importamos el/los reducer/s
@@ -33,4 +34,4 @@ export default configureStore(
     {
         reducer: reducerMain
     }
-)
+)*/

@@ -21,7 +21,7 @@ export default function App() {
     </div>
   );
 }
-function NotFound() {
+/* function NotFound() {
   return <><h1>You have landed on a page that doesn't exist</h1></>;
-}
+} */
 
