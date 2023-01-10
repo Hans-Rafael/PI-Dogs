@@ -1,14 +1,16 @@
 {
   "name": "api",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "description": "",
+  "type": "module",
+  "author": "Hans Garcia",
+  "license": "ISC",
   "scripts": {
     "start": "nodemon -L",
     "test": "mocha -w ./tests/**/*.spec.js"
   },
-  "author": "Henry",
-  "license": "ISC",
   "engines": {
     "node": ">=12.18.3",
     "npm": ">=6.14.6"

@@ -17,7 +17,7 @@ const getApiDogs = async () => {
         lifeExp: e.life_span,
         createdInDB: false
     }))
-    //console.log(inf)
+    console.log(inf)
     return inf
     
 }

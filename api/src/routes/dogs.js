@@ -71,7 +71,7 @@ const createDog = async (req, res, next) => {
       minLifeExp,
       maxLifeExp,
       createdInDb,
-      temperament
+      temperament//no hacia falta
     });
      const dogTemperament = await Temperament.findAll({
      where: {
