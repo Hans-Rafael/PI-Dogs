@@ -1,6 +1,5 @@
 {
-    "projectId": "prj_svD87reQpUT5nnTH3KJyTXZSxxDr",
-    "orgId": "StV9skxQl53Iz6itQ9VIrCOS",
+   
     "builds": [
         {
             "src": "./index.js",
