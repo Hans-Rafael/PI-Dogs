@@ -1,4 +1,4 @@
-// Type definitions for UglifyJS 3.13
+// Type definitions for UglifyJS 3.17
 // Project: https://github.com/mishoo/UglifyJS
 // Definitions by: Alan Agius <https://github.com/alan-agius4>
 //                 Tanguy Krotoff <https://github.com/tkrotoff>
@@ -30,7 +30,7 @@ export interface CompressOptions {
     arguments?: boolean | undefined;
     /**
      * Apply optimizations to assignment expressions
-     * @default ture
+     * @default true
      */
     assignments?: boolean | undefined;
     /**
@@ -170,6 +170,12 @@ export interface CompressOptions {
      * @default true
      */
     merge_vars?: boolean | undefined;
+    /**
+     * set to `true` if you wish to process input as ES module,
+     * i.e. implicit `"use strict";` alongside with `toplevel` enabled.
+     * @default false
+     */
+    module?: boolean | undefined;
     /**
      * negate `Immediately-Called Function Expressions` where the return value is discarded,
      * to avoid the parens that the code generator would insert.
@@ -408,6 +414,11 @@ export interface MinifyOptions {
      */
     compress?: false | CompressOptions | undefined;
     /**
+     * Parse as a single expression, e.g. JSON.
+     * @default false
+     */
+    expression?: boolean | undefined;
+    /**
      * Pass `false` to skip mangling names,
      * or pass an object to specify mangle options (see below).
      * @default true
@@ -429,6 +440,12 @@ export interface MinifyOptions {
      * @default false
      */
     toplevel?: boolean | undefined;
+    /**
+     * set to `true` if you wish to process input as ES module,
+     * i.e. implicit `"use strict";` alongside with `toplevel` enabled.
+     * @default false
+     */
+    module?: boolean | undefined;
     /**
      * Pass an empty object {} or a previously used nameCache object
      * if you wish to cache mangled variable and property names across multiple invocations of minify().

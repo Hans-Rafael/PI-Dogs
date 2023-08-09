@@ -6,7 +6,7 @@ const { Dog, Temperament } = require('../db');
 //  APIDOGS
 
 const getApiDogs = async () => {
-    const response = await axios(`${api}`);
+    const response = await axios(`${api}`);//promesa
     const inf = response.data.map(e => ({
         id: e.id,
         name: (e.name).toLowerCase(),
