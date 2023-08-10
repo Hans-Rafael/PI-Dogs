@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   color: DARKGREEN;
-  background-image: url("../../assets/bkgCreate.webp");
+  background-image: url("../../assets/bkg1.webp");/* bkgCreate.webp */
   background-size: cover;
   background-repeat: no-repeat;
 }

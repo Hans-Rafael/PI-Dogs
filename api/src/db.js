@@ -9,7 +9,7 @@ const {
 //PAKETE NEED TAMBIEN: PROJECT_PATH =>/api or carpetaName de la api
 // https://github.com/timanovsky/subdir-heroku-buildpack //
 let sequelize =
-process.env.NODE_ENV === 'production' ?
+/* process.env.NODE_ENV === 'production' ?
 new Sequelize({
   database: DB_NAME,
   dialect: "postgres",
@@ -31,10 +31,10 @@ new Sequelize({
     keepAlive: true,
   },
   ssl: true,
-}) :
+}) : */
 new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`,
-  { logging : false, native:false }
+  { logging : false, native:false, omitNull: false  }
 );
 
 /* const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
