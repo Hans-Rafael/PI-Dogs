@@ -38,9 +38,18 @@ Application in which you can see different dog breeds along with relevant inform
 </table>
 <br>
 Deploy at: (https://dogs-backfront.vercel.app/)
-<img height="300" src="./Captura.png" />
+<img height="300" src="./printScreen/landing.png" />
 <br>
-
+Home page
+<br>
+<img height="300" src="./printScreen/home.png" />
+<br>
+Detail page
+<img height="300" src="./printScreen/detail.png" />
+<br>
+Add a new breed
+<img height="300" src="./printScreen/newBreed.png" />
+<br>
 ## Horarios y Fechas
 
 El proyecto tendrá una duración máxima de tres semanas. En el caso de que completan todas las tareas antes de dicho lapso podrán avisar a su Instructor para coordinar una fecha de presentación del trabajo (DEMO).
