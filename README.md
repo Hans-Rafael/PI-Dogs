@@ -37,7 +37,7 @@ Application in which you can see different dog breeds along with relevant inform
 </table>
 <br>
  ![the deploy(src="./Captura.png")](https://dogs-backfront.vercel.app/)
- <img height="200" src="https://dogs-backfront.vercel.app/" />
+ ![<img height="200" src="./Captura.png" />](https://dogs-backfront.vercel.app/)
  [![Esta es una imagen de ejemplo](src="./Captura.png")](https://dogs-backfront.vercel.app/)
 <img height="300" src="./Captura.png" />
 <br>
