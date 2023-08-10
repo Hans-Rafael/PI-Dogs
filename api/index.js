@@ -34,7 +34,7 @@ conn.sync({ alter: true }).then(() => {
 //
 conn.sync({ force: true }).then(() => {
   server.listen(port, () => {
-    console.log('%s listening at ',); // eslint-disable-line no-console
+    console.log('listening at',port); // eslint-disable-line no-console
   });
 });
 /* conn.sync({ force: true }).then(() => {
