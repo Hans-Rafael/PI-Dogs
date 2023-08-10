@@ -19,7 +19,7 @@
 </tr>
 <td>
 <h3 align="left">
-Aplicación en la cual se puedan ver distintas razas de perro junto con información relevante de las mismas utilizando la api externa [the dog api](https://thedogapi.com/) y a partir de ella poder, entre otras cosas:<br>
+Aplicación en la cual se puedan ver distintas razas de perro junto con información relevante de las mismas utilizando la api externa [the dog api](thedogapi.com) y a partir de ella poder, entre otras cosas:<br>
 - Buscar perros - Filtrarlos / Ordenarlos - Agregar nuevos perros<br>
 <b><h3>Principales tecnologías:</b></h3><br>
 - React - Redux - Express - Sequelize - Postgres.<br>
