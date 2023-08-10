@@ -36,9 +36,8 @@ Application in which you can see different dog breeds along with relevant inform
 </tr>
 </table>
 <br>
- ![the deploy(src="./Captura.png")](https://dogs-backfront.vercel.app/)
- ![<img height="200" src="./Captura.png" />](https://dogs-backfront.vercel.app/)
- [![Esta es una imagen de ejemplo](src="./Captura.png")](https://dogs-backfront.vercel.app/)
+ [![name](link to image on GH)](link to your URL)
+ [![Deploy](src="./Captura.png")](https://dogs-backfront.vercel.app/)
 <img height="300" src="./Captura.png" />
 <br>
 
