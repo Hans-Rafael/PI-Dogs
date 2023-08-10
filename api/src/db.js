@@ -5,6 +5,16 @@ const path = require('path');
 const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME 
 } = process.env;
+const {Pool} = require('pg')
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+})
+pool.connect((err) => {
+  if (err) throw err
+  console.log("Connect to PostgreSQL successfully!")
+})
+
+
 // next is a link used to deploy en heroku
 //PAKETE NEED TAMBIEN: PROJECT_PATH =>/api or carpetaName de la api
 // https://github.com/timanovsky/subdir-heroku-buildpack //
@@ -71,4 +81,5 @@ Temperament.belongsToMany(Dog, { through: 'dogTemperament' })
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
+  pool,
 };
