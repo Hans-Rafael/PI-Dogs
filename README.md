@@ -1,7 +1,7 @@
 ![HenryLogo](https://d31uz8lwfmyn8g.cloudfront.net/Assets/logo-henry-white-lg.png)
 
 # Individual Project - Henry Dogs
-[![name](link to image on GH)](link to your URL)
+
 
 <img height="200" src="./dog.png" />
 ## Objetivos del Proyecto
@@ -37,7 +37,7 @@ Application in which you can see different dog breeds along with relevant inform
 </tr>
 </table>
 <br> 
- [![Deploy](src="./Captura.png")](https://dogs-backfront.vercel.app/)
+ ![Deploy](src="./Captura.png")(https://dogs-backfront.vercel.app/)
  
 <img height="300" src="./Captura.png" />
 <br>
