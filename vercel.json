@@ -14,12 +14,13 @@
     ],
     "routes": [
       {
-        "src": "/",
-        "dest": "client/dist"
-      },
-      {
         "src": "/.*",
         "dest": "api/app.js"
+      },
+      {
+        "src": "/",
+        "dest": "client/dist"
       }
+      
     ]
   }
