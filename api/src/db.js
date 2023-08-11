@@ -3,10 +3,11 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, POSTGRES_URL 
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME,
 } = process.env;
 
-const {Pool} = require('pg')
+//const {Pool} = require('pg')
+const { Pool } = pg;
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
   
