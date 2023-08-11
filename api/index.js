@@ -32,7 +32,7 @@ conn.sync({ alter: true }).then(() => {
   });
 }); */
 //force: false to alter: true
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
   server.listen(port, () => {
     console.log('listening at',port); // eslint-disable-line no-console
   });
