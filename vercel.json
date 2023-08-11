@@ -5,6 +5,7 @@
         "maxDuration": 10
       }
     },
+    "version": 2,
     "builds": [
       {
         "src": "./index.js",
