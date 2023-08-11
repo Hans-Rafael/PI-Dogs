@@ -22,7 +22,6 @@ const { conn } = require('./src/db.js');
 const port = process.env.PORT || 3001;
 // Syncing all the models at once.
 //
-
 /* require('dotenv').config();  // liberia dotenv configurar var de entornos
 const {PORT} = process.env;  // variable entorno
 // Syncing all the models at once.
@@ -31,12 +30,13 @@ conn.sync({ alter: true }).then(() => {
     console.log('%s listening at ', PORT); // eslint-disable-line no-console
   });
 }); */
-//force: false to alter: true
-conn.sync({ alter: true }).then(() => {
+
+app.listen(process.env.PORT, () => console.log("Server is running on port",port))
+/***** conn.sync({ alter: true }).then(() => {
   server.listen(port, () => {
     console.log('listening at',port); // eslint-disable-line no-console
   });
-});
+}); *******/
 /* conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
