@@ -1,4 +1,3 @@
-import { Pool } from 'pg';
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
@@ -6,11 +5,12 @@ const path = require('path');
 const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, POSTGRES_URL 
 } = process.env;
+
 const {Pool} = require('pg')
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
-  host: DB_HOST,
-  user: DB_USER,
+  host: 'ep-aged-wood-21424240-pooler.us-east-1.postgres.vercel-storage.com',
+  user: 'default',
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
