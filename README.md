@@ -57,7 +57,7 @@ Si tienes Node instalado.
 ## Clonar repositorio de Github a una carpeta local
 - En una terminal utilizar el siguiente comando:
 ```sh
-git clone http://github.com/pablogomila/PI-Dogs-FT14a
+git clone https://github.com/Hans-Rafael/PI-Dogs
 ```
 
 ## Instalar dependencias
