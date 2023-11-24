@@ -53,6 +53,43 @@ Add a new breed
 El proyecto tendrá una duración máxima de tres semanas. En el caso de que completan todas las tareas antes de dicho lapso podrán avisar a su Instructor para coordinar una fecha de presentación del trabajo (DEMO).
 
 ## Comenzando
+Si tienes Node instalado.
+## Clonar repositorio de Github a una carpeta local
+- En una terminal utilizar el siguiente comando:
+```sh
+git clone http://github.com/pablogomila/PI-Dogs-FT14a
+```
+
+## Instalar dependencias
+- Dentro de la carpeta donde se clono el repositorio ingresar los siguientes comandos
+```sh
+cd api
+npm install
+```
+- Abrir una nueva consola, dentro de la carpeta donde se clono el repositorio ingresar:
+```sh
+cd client
+npm install
+```
+
+## Correr la aplicación
+- Una vez instaladas las dependencias dentro de /api ingresar el siguiente comando:
+```sh
+npm start
+```
+
+- Lo mismo hacer dentro de la carpeta /client:
+```sh
+npm start
+```
+
+## Utilización
+- Una vez iniciado el cliente abrirá automaticamente un navegador
+- Puede utilizar otra instancia del navegador para simular otro usuario en la siguiente dirección:
+```sh
+http://localhost:3000/
+```
+## Pasos realizar projecto por tu cuenta. 
 
  1. Forkear el repositorio para tener una copia del mismo en sus cuentas
  2. Clonar el repositorio en sus computadoras para comenzar a trabajar
