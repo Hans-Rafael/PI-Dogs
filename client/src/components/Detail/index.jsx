@@ -1,56 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearPage, getDogDetail } from '../../redux/actions/index';
+import { getDogDetail, deleteDog, clearPage } from '../../redux/actions/index';
 import style from "./detail.module.css";
 
-export default function Detail(props) {
-
+export default function Detail() {
   const { id } = useParams();
-  //const{id} = props.match.params;
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const dogDetail = useSelector(state => state.detail);
 
   useEffect(() => {
     dispatch(getDogDetail(id));
-     return () => {
+    return () => {
       dispatch(clearPage());
-    } 
-  }, [dispatch, id])
+    }
+  }, [dispatch, id]);
 
-  const dogy = useSelector(state => state.detail);
-  
-  
+  const handleDelete = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this breed? This action cannot be undone.");
+    if (confirmDelete) {
+      dispatch(deleteDog(id));
+      alert("Breed successfully deleted.");
+      history.push('/home');
+    }
+  }
+
+  // Loading state
+  if (!dogDetail.id) {
+    return (
+      <div className={style.loadingContainer}>
+        <h1>Loading...</h1>
+        <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="Loading dog..." />
+      </div>
+    );
+  }
+
+  // Detail view
   return (
-    <div id='1' className={style.main}>
-      {
-        dogy[0]?.id ? //loading ?
-          <>
-            <div id='2' className={style.text}>
-              <h1>{dogy[0]?.name}</h1>
-              <div className={style.imgContainer}>
-                <img className={style.img} src={dogy[0]?.img} alt={dogy[0]?.name} height={
-                  "250px"
-                }
-                  width={
-                    "250px"
-                  } />
-              </div>
-              <p>Temperament: {dogy[0]?.temperament}</p>
-              <p>Height: {dogy[0].height} cm </p>
-              <p>Weight: {dogy[0]?.weight} Kg</p>
-              <p>life expectancy: {dogy[0]?.lifeExp} Years</p>
-              <Link to='/home'><button className={style.button} onClick={() => dispatch(clearPage())}>Back Home</button></Link>
-            </div>
-          </>
-          :
-           <div id='detailLoading' className={"loading"}>
-            <h1>Loading...</h1>
-            <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="loading" />
-           
-           </div> 
-
-      }
-
+    <div className={style.main}>
+      <div className={style.detailCard}>
+        <div className={style.header}>
+          <h1>{dogDetail.name}</h1>
+        </div>
+        <div className={style.content}>
+          <div className={style.imageContainer}>
+             <img className={style.img} src={dogDetail.img} alt={dogDetail.name} />
+          </div>
+          <div className={style.info}>
+            <p><strong>Temperaments:</strong> {dogDetail.temperament || "Not available"}</p>
+            <p><strong>Height:</strong> {dogDetail.height} cm</p>
+            <p><strong>Weight:</strong> {dogDetail.weight} Kg</p>
+            {/* Use life_span which is the consistent field from the backend */}
+            <p><strong>Life Span:</strong> {dogDetail.life_span || "Not available"}</p>
+          </div>
+        </div>
+        <div className={style.actions}>
+          <Link to='/home'>
+            <button className={style.button}>Back Home</button>
+          </Link>
+          {/* Only show delete button if the dog was created from the DB */}
+          {dogDetail.createdInDB && (
+             <button className={`${style.button} ${style.deleteButton}`} onClick={handleDelete}>Delete Breed</button>
+          )}
+        </div>
+      </div>
     </div>
-  )
+  );
 }
