@@ -4,9 +4,14 @@ import {
   ORDER, POST, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG
 } from './actionsTypes';
 
+// Set the base URL for all axios requests.
+// This will use the environment variable on the production server (Vercel) 
+// and a default for local development.
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
+
 export const getDogs = () => {
   return function (dispatch) {
-    return axios.get('/api/dogs')
+    return axios.get('/dogs') // Route is now relative to the base URL
       .then(response => {
         dispatch({
           type: GET_DOGS,
@@ -22,13 +27,12 @@ export const getDogs = () => {
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/api/dogs?name=${name}`);
+      const response = await axios.get(`/dogs?name=${name}`);
       return dispatch({
         type: GET_BY_NAME,
         payload: response.data
       });
     } catch (error) {
-      // Use a more user-friendly way to show errors if possible
       alert(error.response?.data?.message || "Dog not found");
     }
   }
@@ -37,7 +41,7 @@ export function getByName(name) {
 export function getTemperament(order) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/api/temperaments?order=${order || 'ASC'}`);
+      const response = await axios.get(`/temperaments?order=${order || 'ASC'}`);
       return dispatch({
         type: GET_TEMPERAMENT,
         payload: response.data
@@ -72,11 +76,10 @@ export function sort(payload) {
 export function post(payload) {
   return async function () {
     try {
-      const response = await axios.post('/api/dogs', payload);
+      const response = await axios.post('/dogs', payload);
       return response;
     } catch (error) {
       console.error("Error creating dog:", error);
-      // Propagate error for component to handle
       throw error;
     }
   }
@@ -84,9 +87,8 @@ export function post(payload) {
 
 export function getDogDetail(id) {
     return function (dispatch) {
-        // Reset detail state before fetching new data
         dispatch(clearPage()); 
-        return axios.get(`/api/dogs/${id}`)
+        return axios.get(`/dogs/${id}`)
             .then(response => {
                 dispatch({
                     type: GET_DOGS_DETAIL,
@@ -95,7 +97,6 @@ export function getDogDetail(id) {
             })
             .catch(error => {
                 console.error("Error fetching dog detail:", error);
-                // Optionally dispatch an error action
             });
     }
 }
@@ -103,14 +104,13 @@ export function getDogDetail(id) {
 export function deleteDog(id) {
     return async function (dispatch) {
         try {
-            await axios.delete(`/api/dogs/${id}`);
+            await axios.delete(`/dogs/${id}`);
             return dispatch({
                 type: DELETE_DOG,
                 payload: id
             });
         } catch (error) {
             console.error("Error deleting dog:", error);
-            // Propagate error for component to handle
             throw error;
         }
     }

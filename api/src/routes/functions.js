@@ -13,7 +13,17 @@ const checkImageExists = async (url) => {
 };
 
 const getApiDogs = async () => {
-  const response = await axios(api);
+  // Create a configuration object for the axios request
+  const config = {
+    headers: {
+      // Read the API Key from environment variables
+      'x-api-key': process.env.API_KEY
+    }
+  };
+
+  // Pass the config object to the axios call
+  const response = await axios(api, config);
+  
   const inf = await Promise.all(response.data.map(async (e) => {
     let imgUrl = e.reference_image_id
       ? `https://cdn2.thedogapi.com/images/${e.reference_image_id}.jpg`
