@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { Dog, Temperament } = require('../db');
 const { getAllDogs, getDogsById } = require('./functions');
+const { validate: isUuid } = require('uuid');
 
 const router = Router();
 
@@ -24,6 +25,13 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
+    if (isUuid(id)) {
+      const dog = await Dog.findByPk(id, { include: Temperament });
+      if (dog) {
+        return res.json(dog);
+      }
+      return res.status(404).json({ message: 'No dog found with that ID' });
+    }
     const dog = await getDogsById(id);
     if (dog) {
       return res.json(dog);
@@ -70,6 +78,9 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
+    if (!isUuid(id)) {
+      return res.status(400).json({ message: 'Invalid ID format' });
+    }
     const deletedDog = await Dog.destroy({
       where: { id }
     });
