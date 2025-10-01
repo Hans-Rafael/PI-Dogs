@@ -25,18 +25,35 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
+    // If it's a UUID, it's a dog from our DB
     if (isUuid(id)) {
-      const dog = await Dog.findByPk(id, { include: Temperament });
-      if (dog) {
-        return res.json(dog);
+      const dogFromDb = await Dog.findByPk(id, { include: Temperament });
+      
+      if (dogFromDb) {
+        // Standardize the DB dog object to match the API's format
+        const formattedDog = {
+          id: dogFromDb.id,
+          name: dogFromDb.name,
+          img: dogFromDb.img,
+          temperament: dogFromDb.temperaments.map(t => t.name).join(', '), // Convert array to string
+          height: `${dogFromDb.minHeight} - ${dogFromDb.maxHeight}`,
+          weight: `${dogFromDb.minWeight} - ${dogFromDb.maxWeight}`,
+          life_span: `${dogFromDb.minLifeExp} - ${dogFromDb.maxLifeExp} years`,
+          createdInDB: true
+        };
+        return res.json(formattedDog);
       }
-      return res.status(404).json({ message: 'No dog found with that ID' });
+      return res.status(404).json({ message: 'Dog not found in database' });
     }
-    const dog = await getDogsById(id);
-    if (dog) {
-      return res.json(dog);
+
+    // Otherwise, fetch from the external API
+    const dogFromApi = await getDogsById(id);
+    if (dogFromApi) {
+      return res.json(dogFromApi);
     }
-    return res.status(404).json({ message: 'No dog found with that ID' });
+    
+    return res.status(404).json({ message: 'Dog not found' });
+
   } catch (error) {
     next(error);
   }
@@ -45,21 +62,28 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   const { name, img, temperament, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp } = req.body;
 
-  if (!name || !temperament || !minWeight || !maxWeight || !minHeight || !maxHeight) {
-    return res.status(400).json({ message: 'Missing required fields' });
+  // Enhanced validation
+  if (!name || !temperament || temperament.length === 0 || !minWeight || !maxWeight || !minHeight || !maxHeight) {
+    return res.status(400).json({ message: 'Name, height, weight, and at least one temperament are required.' });
   }
 
   try {
-    const newDog = await Dog.create({
-      name,
-      img,
-      minHeight,
-      maxHeight,
-      minWeight,
-      maxWeight,
-      minLifeExp,
-      maxLifeExp
+    const [newDog, created] = await Dog.findOrCreate({
+      where: { name }, // Prevent duplicate names
+      defaults: {
+        img: img || null, // Allow for optional image
+        minHeight,
+        maxHeight,
+        minWeight,
+        maxWeight,
+        minLifeExp,
+        maxLifeExp
+      }
     });
+
+    if (!created) {
+      return res.status(409).json({ message: 'A dog with this name already exists.' });
+    }
 
     const associatedTemperaments = await Temperament.findAll({
       where: {
@@ -79,15 +103,19 @@ router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
     if (!isUuid(id)) {
-      return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: 'Invalid ID. Only dogs created in the database can be deleted.' });
     }
-    const deletedDog = await Dog.destroy({
+    
+    const rowsDeleted = await Dog.destroy({
       where: { id }
     });
-    if (deletedDog) {
-      return res.status(204).send(); // No content
+
+    if (rowsDeleted > 0) {
+      return res.status(204).send(); // Standard success, no content
     }
-    return res.status(404).json({ message: 'No dog found with that ID' });
+    
+    return res.status(404).json({ message: 'Dog not found in database' });
+
   } catch (error) {
     next(error);
   }

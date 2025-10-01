@@ -1,13 +1,13 @@
 import {
     GET_DOGS, CLEAR_PAGE, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
-    ORDER, POST, GET_DOGS_DETAIL
+    ORDER, POST, GET_DOGS_DETAIL, DELETE_DOG
 } from "../actions/actionsTypes";
 
 const initialState = {
     dogs: [],
-    allDogs: [], // This is our permanent list of dogs
+    allDogs: [], 
     temps: [],
-    detail: [],
+    detail: {}, // Detail should be an object, not an array
 }
 
 export default function reducer(state = initialState, action) {
@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 dogs: action.payload,
-                allDogs: action.payload, // Store a copy of all dogs
+                allDogs: action.payload,
             }
 
         case GET_BY_NAME:
@@ -36,15 +36,10 @@ export default function reducer(state = initialState, action) {
             const allDogs = state.allDogs;
             const selectedTemper = action.payload;
 
+            // Simplified filter now that API format is consistent
             const temperFilter = allDogs.filter(dog => {
                 if (!dog.temperament) return false;
-                if (typeof dog.temperament === 'string') {
-                    return dog.temperament.split(', ').includes(selectedTemper);
-                }
-                if (Array.isArray(dog.temperament)) {
-                    return dog.temperament.some(t => t.name === selectedTemper);
-                }
-                return false;
+                return dog.temperament.split(', ').includes(selectedTemper);
             });
 
             return {
@@ -71,7 +66,6 @@ export default function reducer(state = initialState, action) {
         case ORDER:
             const dogsToSort = [...state.dogs];
             dogsToSort.sort((a, b) => {
-                // Helper to safely parse weight, returning Infinity for invalid/missing values
                 const getWeight = (dog) => {
                     if (!dog.weight) return Infinity;
                     const weightValue = parseInt(dog.weight.split(' - ')[0], 10);
@@ -84,10 +78,8 @@ export default function reducer(state = initialState, action) {
                     case 'Desc':
                         return b.name.localeCompare(a.name);
                     case 'Inc':
-                        // For ascending sort, dogs with no weight go to the end
                         return getWeight(a) - getWeight(b);
                     case 'Dec':
-                        // For descending sort, we flip the logic but still want dogs with no weight at the end
                         const weightA = getWeight(a);
                         const weightB = getWeight(b);
                         if (weightA === Infinity) return 1;
@@ -116,7 +108,14 @@ export default function reducer(state = initialState, action) {
         case CLEAR_PAGE:
             return {
                 ...state,
-                detail: []
+                detail: {} // Should be an empty object
+            }
+
+        case DELETE_DOG:
+            return {
+                ...state,
+                dogs: state.dogs.filter(dog => dog.id !== action.payload),
+                allDogs: state.allDogs.filter(dog => dog.id !== action.payload),
             }
 
         default:
