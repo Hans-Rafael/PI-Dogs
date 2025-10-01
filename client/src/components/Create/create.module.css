@@ -1,89 +1,153 @@
+/* === Main Layout & Background === */
 .main {
-  /* fill bckground */
-  min-height: 100%;
-  min-width: 1024px;
-  /* set propety scaling */
-  width: 100%;
-  height: auto;
-  /* set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
-  color: DARKGREEN;
-  background-image: url("../../assets/bkg1.webp");/* bkgCreate.webp */
+  background-image: url("../../assets/bkgGlass.webp");
   background-size: cover;
-  background-repeat: no-repeat;
-}
-@media screen and (max-width: 1024px) {
-  /* Specific to this particular image */
-  img.bg {
-    left: 50%;
-    margin-left: -512px; /* 50% */
-  }
-}
-.delateButton {
-  color: red;
-  font-size: 1em;
-  font-weight: bold;
-  text-align: center;
-  size: 15rem;
-  background-color:whitesmoke/*darkgrey*/;
-  border: 2px outset #1C6EA4;
-  margin-top: 1em;
-  border-radius: 50%;
-  /* background-color:transparent;
-  border: none; */
-}
-.button {
-  background-color: goldenrod;
-  border: none;
-  color: black;
-  padding: 10px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 25% 0 25% 0;
-  box-shadow: cyan 0px 0px 10px;
-  transition: 0.5s easy-in-out;
-}
-.button[disabled] {
-  background-color: gray;
-  color: white;
-  box-shadow: 0px 0px 15px 15px #ec731e;
-  border-radius: 40% 0 35% 0;
-}
-.button:active {
-  background-color: greenyellow;
-  color: #c67b49;
-  box-shadow: 0px 0px 15px 15px #ec731e;
-  border-radius: 40% 0 35% 0;
-} /* button[disabled]:hover {
-    background: red;
-}
-button:hover {
-    background: lime;
-} */
-.button[disabled]:hover {
-  background-color: darkred;
-  color: #c67b49;
-  box-shadow: 0px 0px 15px 15px #ec731e;
-  border-radius: 40% 0 35% 0;
-}
-.button:hover {
-  background-color: rgb(110, 176, 38);
-}
-
-.formIn {
-  border: none;
-  font-weight: bold;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  padding: 2rem;
+  color: #333;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: center;
-  margin-top: 2em;
-  row-gap: 0.5em;
+}
+
+.header h1 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* === Form Grid Layout === */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: bold;
+  color: #004d40;
+}
+
+/* === Input & Control Styling === */
+.formGroup input[type="text"],
+.formGroup input[type="number"],
+.formGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formGroup input:focus, 
+.formGroup select:focus {
+  outline: none;
+  border-color: #00796b;
+  box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2);
+}
+
+.minMax {
+  display: flex;
+  gap: 1rem;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* === Temperament Tags === */
+.temperamentTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  background-color: #00796b;
+  color: white;
+  padding: 0.3rem 0.7rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.tag button:hover {
+  color: #e0f2f1;
+}
+
+/* === Buttons === */
+.submitContainer {
+  grid-column: 1 / -1; /* Span full width of grid */
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.button {
+  background-color: #ffc107; /* Amber */
+  border: none;
+  color: black;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #ffca28; /* Lighter Amber */
+}
+
+.button:disabled {
+  background-color: #bdbdbd; /* Gray */
+  color: #757575;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button:not(:disabled):active {
+    transform: scale(0.98);
 }
