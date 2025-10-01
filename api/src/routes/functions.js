@@ -10,7 +10,7 @@ const getApiDogs = async () => {
     const inf = response.data.map(e => ({
         id: e.id,
         name: (e.name).toLowerCase(),
-        img: e.image.url,
+        img: e.image?.url,
         temperament: (e.temperament)?.toLowerCase(),
         weight: e.weight.metric,
         height: e.height.metric,
