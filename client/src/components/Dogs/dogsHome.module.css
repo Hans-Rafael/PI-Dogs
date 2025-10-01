@@ -1,5 +1,98 @@
+/* Base styles for layout */
+.bkgAll {
+  background-color: #fb9815;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: absolute;
+}
+
+.navBar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.sortBar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  gap: 1em; /* Consistent spacing */
+  align-items: center;
+  margin-top: 2rem;
+  padding: 0 1rem; /* Add some padding */
+}
+
+/* --- NEW BUTTON & SELECT STYLES --- */
+
+/* Base for all interactive elements */
+.baseButton {
+  text-align: center;
+  margin-top: 1em;
+  font-size: 13px;
+  line-height: 13px;
+  padding: 13px 18px;
+  border-radius: 30px;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.baseButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Style for <select> elements - SOLVES THE CONTRAST PROBLEM */
+.selectFilter {
+  composes: baseButton;
+  color: #111; /* Dark text for readability */
+  background-color: #f0f0f0; /* Light background */
+  border: 1px solid #ccc;
+}
+
+/* Style for the main CTA (Create Breed) */
+.ctaButton {
+  composes: baseButton;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(to right, #28a745, #218838);
+  border: 1px solid #1e7e34;
+}
+
+/* Style for secondary actions (Clear Filters) */
+.actionButton {
+  composes: baseButton;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border: 1px solid #c75e3c;
+}
+
+/* For the text inside the Link button */
+.buttonIn{
+    border:none;
+    background-color: transparent;
+    color: inherit; /* Inherit color from parent */
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+}
+
+
+/* Other styles... */
+.paging {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
 .num {
-  /* transition: .2s;*/
   border-radius: 50%;
   width: auto;
   height: 25px;
@@ -9,121 +102,30 @@
   margin: 0 3px;
   background-color: lightskyblue;
 }
+
 .boxCards {
-  width: 28%;
-  display: inline-flex;
-  flex-direction: column;
-  grid-gap: 0.1em;
-  gap: 0.1em;
-  border-radius: 1%;
+  width: 95%; /* Make it wider */
+  max-width: 1400px; /* Max width */
+  margin: 2rem auto; /* Center it */
+  display: grid; /* Use CSS Grid for a responsive layout */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  border-radius: 8px;
   background-color: burlywood;
-  align-items: center; 
-
-
-}
-.navBar {
-  display: flex;
-  gap: 0.5em;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-.select {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  gap: 1em;
-}
-@media screen and (max-width: 667px) {
-  .select {
-    display: flex;
-    gap: 0.5em;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
-}
-.sortBar {
-  display: flex;
-  justify-content: center;
-  gap: 1.5em;
-  align-content: center;
-  margin-top: 2rem;
-}
-.paging {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5em;
-}
-.bkgAll {
-  background-color: #fb9815;
-  min-height: 100%;
-  min-width: 1024px;
-  width: 100%;
-  height: auto;
-  position: absolute;
-}
-.bkgHome {
-  background: transparent url("../../assets/homeicon.png") no-repeat scroll 0%
-    0%;
-  background-size: cover;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
-/******/
-.button{
+.noResults {
+    grid-column: 1 / -1; /* Span all columns */
     text-align: center;
-    margin-top: 1em;
-    color: white; /* Changed for better contrast */
-    font-size: 12px;
-    line-height: 12px;
-    padding: 13px;
-    border-radius: 30px;
-    font-family: Georgia, serif;
-    background-image: linear-gradient( to right, rgb(28 45 164) 0%, rgb(35 136 203) 50%, #1c6ea4 100% );
-    border: 2px solid rgb(164 115 28);
-    cursor: pointer;
-    box-shadow: 0 0 17px black;
+    padding: 3rem;
 }
 
-.ctaButton {
-    composes: button; /* Inherits styles from .button */
-    background-image: linear-gradient(to right, rgb(28, 164, 32) 0%, rgb(29, 165, 58) 50%, rgb(83, 114, 20) 100%);
-    border: 2px solid rgb(200, 150, 50); /* Slightly different border */
-    transform: scale(1.05); /* Make it slightly larger */
-}
-
-.buttonR {
-    text-align: center;
-    margin-top: 1em;
-    color: white;
-    font-size: 12px;
-    line-height: 12px;
-    padding: 13px;
-    border-radius: 30px;
-    font-family: Georgia, serif;
-    background-image: linear-gradient( to right, rgb(28 164 32) 0%, rgb(29 165 58) 50%, rgb(83 114 20) 100% );
-    border: 2px solid rgb(164 115 28);
-    cursor: pointer;
-    box-shadow: 0 0 17px black;
-    
-  }
-.myButton:hover {
-  background: #94a42e;
-}
-.myButton:active {
-  background: #752f1a;
-}
-/******/
 .txt {
   color:black;
-
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #49ff18,
     0 0 30px #49ff18, 0 0 40px #49ff18, 0 0 55px #49ff18, 0 0 75px #49ff18;
   font-weight: bold;
   font-family: cursive;
-}
-.buttonIn{
-    border:none;
-    background-color: transparent;
-    color: white;
 }

@@ -86,25 +86,25 @@ export default function Dogs() {
                     <SearchBar />
                 </div>
                 <div id='SortBar' className={style.sortBar}>
-                    <select className={style.button} onChange={handleCreated} title='Filter by origin' aria-label="Filter dogs by origin">
+                    <select className={style.selectFilter} onChange={handleCreated} title='Filter by origin' aria-label="Filter dogs by origin">
                         <option value='ALL'>All Breeds</option>
                         <option value='API'>Api Breeds</option>
                         <option value='DB'>Created Breeds</option>
                     </select>
 
-                    <select className={style.button} onChange={handleTemperament} title='Filter by temperament' aria-label="Filter dogs by temperament">
+                    <select className={style.selectFilter} onChange={handleTemperament} title='Filter by temperament' aria-label="Filter dogs by temperament">
                         <option value='ALL'>All Temperaments</option>
                         {allTemp && allTemp.map((t) => (
                             <option key={t.name} value={t.name}>{t.name}</option>
                         ))}
                     </select>
 
-                    <select className={style.button} onChange={handleTemperamentOrder} title="Sort temperaments alphabetically" aria-label="Sort temperaments alphabetically">
+                    <select className={style.selectFilter} onChange={handleTemperamentOrder} title="Sort temperaments alphabetically" aria-label="Sort temperaments alphabetically">
                         <option value='ASC'>Temperament A-Z</option>
                         <option value='DESC'>Temperament Z-A</option>
                     </select>
 
-                    <select className={style.button} onChange={handleOrder} title="Sort breeds" aria-label="Sort breeds by name or weight">
+                    <select className={style.selectFilter} onChange={handleOrder} title="Sort breeds" aria-label="Sort breeds by name or weight">
                         <option value='Asc'>Name A-Z</option>
                         <option value='Desc'>Name Z-A</option>
                         <option value='Inc'>Min-Max Weight</option>
@@ -115,7 +115,7 @@ export default function Dogs() {
                         <button className={style.buttonIn} title='Go to the creation form'>Create New Breed</button>
                     </Link>
 
-                    <button className={style.buttonR} onClick={handlerClick}>Clear Filters</button>
+                    <button className={style.actionButton} onClick={handlerClick}>Clear Filters</button>
                 </div>
 
                 <div className={style.paging}>
