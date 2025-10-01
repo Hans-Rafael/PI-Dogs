@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
+const cors = require('cors'); // Import cors
 
 require('./db.js');
 
@@ -10,26 +11,38 @@ const server = express();
 
 server.name = 'API';
 
+// Define a whitelist of allowed origins. 
+// We'll use an environment variable for production and a default for development.
+const whitelist = (process.env.CORS_ORIGIN_WHITELIST || 'http://localhost:3000').split(',');
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
-server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); //http://localhost:3000 update to match the domain you will make the request from esta es url de produccion al no tenerla no seguro pero trabaja bien con '*' ose cualquiera
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  next();
-});
+server.use(cors(corsOptions)); // Use cors with our custom options
 
 server.use('/api', routes);
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;
-  const message = err.message || err;
+  // Don't leak stack trace in production
+  const message = process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message || err;
   console.error(err);
-  res.status(status).send(message);
+  // Also, don't send the error object itself in production
+  res.status(status).send(process.env.NODE_ENV === 'production' ? { message } : message);
 });
 
 module.exports = server;
