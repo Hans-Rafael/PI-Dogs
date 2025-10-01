@@ -6,18 +6,8 @@ import {
 export const TEMPER = "TEMPER";
 
 export const getDogs = () => {
-  /* return (dispatch) => {
-    return fetch("http://localhost:3001/dogs")
-      .then((response) => response.json())
-      .then((response) => {
-        dispatch({
-          type: GET_DOGS,
-          payload: response,
-        });
-      });
-  }; */
   return function (dispatch) {
-    return axios.get('/api/dogs')//'http://localhost:3001/api/dogs'
+    return axios.get('/api/dogs')
       .then(response => {
         dispatch({
           type: GET_DOGS,
@@ -29,43 +19,25 @@ export const getDogs = () => {
       });
   }
 };
-//
+
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/api/dogs?name=${name}`);//`http://localhost:3001/dogs?name=${name}
+      const response = await axios.get(`/api/dogs?name=${name}`);
       return dispatch({
         type: GET_BY_NAME,
         payload: response.data
       })
     } catch (error) {
-      //console.log(error.response.data);
-      //console.log(error.response.status);
-      
       alert(error.response.data);
-      //alert('Dog not found')
     }
   }
 }
-/*  return async function (dispatch) {
-   try {
-     const response = await axios.get(`http://localhost:3001/dogs?name=${name}`);
-     return dispatch({
-       type: GET_BY_NAME,
-       payload: response.data
-     })
-   }
-   catch (error) {
-     alert('Dog not found');
-    // window.location.href = 'http://localhost:3000/home';
-     console.log(error)
-   } */
 
-//
-export function getTemperament() {
+export function getTemperament(order) {
   return async function (dispatch) {
     try {
-      const response = await axios.get('/api/temperaments');//`http://localhost:3001/temperaments
+      const response = await axios.get(`/api/temperaments?order=${order || 'ASC'}`);
       return dispatch({
         type: GET_TEMPERAMENT,
         payload: response.data
@@ -76,7 +48,7 @@ export function getTemperament() {
     }
   }
 }
-//
+
 export function filterByTemperament(payload) {
   try {
     console.log(payload)
@@ -96,19 +68,18 @@ export function filterByCreated(payload) {
     payload
   };
 };
-//
+
 export function sort(payload) {
   return {
     type: ORDER,
     payload
   }
 }
-//
+
 export function post(payload) {
   return async function (dispatch) {
     try {
-      const info = await axios.post('/api/dogs', payload);//http://localhost:3001/dogs
-      //console.log("post Axios del front: ",info);
+      const info = await axios.post('/api/dogs', payload);
       return {
         type: POST,
         info,
@@ -119,25 +90,10 @@ export function post(payload) {
     }
   }
 }
-//
-/* export function getDogDetail(id) {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(`http://localhost:3001/dogs/${id}`);
-      const json = await response.json();
-      dispatch({
-        type: GET_DOGS_DETAIL,
-        payload: json
-      });
-    }
-    catch (error) {
-      throw error;
-    }
-  }
-} */
+
 export function getDogDetail(id) {
   return function (dispatch) {
-    return axios.get(`/api/dogs/${id}`)//`http://localhost:3001/dogs/${id}
+    return axios.get(`/api/dogs/${id}`)
       .then(response => {
         dispatch({
           type: GET_DOGS_DETAIL,
@@ -149,10 +105,9 @@ export function getDogDetail(id) {
       });
   }
 };
-//
+
 export const clearPage = () => {
   return {
     type: CLEAR_PAGE,
   };
 };
-
