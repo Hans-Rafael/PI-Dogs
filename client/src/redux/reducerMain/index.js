@@ -37,21 +37,14 @@ export default function reducer(state = initialState, action) {
             const selectedTemper = action.payload;
 
             const temperFilter = allDogs.filter(dog => {
-                // If a dog has no temperament, it shouldn't be in the results
                 if (!dog.temperament) return false;
-
-                // Case 1: Temperament from API is a String (e.g., "Brave, Loyal, Kind")
                 if (typeof dog.temperament === 'string') {
-                    // Split the string into an array and check for an exact match
                     return dog.temperament.split(', ').includes(selectedTemper);
                 }
-
-                // Case 2: Temperament from DB is an Array of Objects (e.g., [{name: 'Brave'}, {name: 'Loyal'}])
                 if (Array.isArray(dog.temperament)) {
                     return dog.temperament.some(t => t.name === selectedTemper);
                 }
-
-                return false; // Don't include if format is unknown
+                return false;
             });
 
             return {
@@ -76,36 +69,37 @@ export default function reducer(state = initialState, action) {
             }
 
         case ORDER:
-            let sort;
-            const dogsToSort = [...state.dogs]; // Create a copy to avoid state mutation
-            if (action.payload === 'Asc') {
-                sort = dogsToSort.sort(function (a, b) {
-                    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-                    if (b.name.toLowerCase() > a.name.toLowerCase()) return -1;
-                    return 0;
-                });
-            } else if (action.payload === 'Desc') {
-                sort = dogsToSort.sort(function (a, b) {
-                    if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
-                    if (b.name.toLowerCase() > a.name.toLowerCase()) return 1;
-                    return 0;
-                });
-            } else if (action.payload === 'Inc') {
-                sort = dogsToSort.sort(function (a, b) {
-                    const weightA = a.weight ? parseInt(a.weight.split(' - ')[0], 10) : Infinity;
-                    const weightB = b.weight ? parseInt(b.weight.split(' - ')[0], 10) : Infinity;
-                    return (isNaN(weightA) ? Infinity : weightA) - (isNaN(weightB) ? Infinity : weightB);
-                });
-            } else if (action.payload === 'Dec') {
-                sort = dogsToSort.sort(function (a, b) {
-                    const weightA = a.weight ? parseInt(a.weight.split(' - ')[0], 10) : -Infinity;
-                    const weightB = b.weight ? parseInt(b.weight.split(' - ')[0], 10) : -Infinity;
-                    return (isNaN(weightB) ? -Infinity : weightB) - (isNaN(weightA) ? -Infinity : weightA);
-                });
-            }
+            const dogsToSort = [...state.dogs];
+            dogsToSort.sort((a, b) => {
+                // Helper to safely parse weight, returning Infinity for invalid/missing values
+                const getWeight = (dog) => {
+                    if (!dog.weight) return Infinity;
+                    const weightValue = parseInt(dog.weight.split(' - ')[0], 10);
+                    return isNaN(weightValue) ? Infinity : weightValue;
+                };
+
+                switch (action.payload) {
+                    case 'Asc':
+                        return a.name.localeCompare(b.name);
+                    case 'Desc':
+                        return b.name.localeCompare(a.name);
+                    case 'Inc':
+                        // For ascending sort, dogs with no weight go to the end
+                        return getWeight(a) - getWeight(b);
+                    case 'Dec':
+                        // For descending sort, we flip the logic but still want dogs with no weight at the end
+                        const weightA = getWeight(a);
+                        const weightB = getWeight(b);
+                        if (weightA === Infinity) return 1;
+                        if (weightB === Infinity) return -1;
+                        return weightB - weightA;
+                    default:
+                        return 0;
+                }
+            });
             return {
                 ...state,
-                dogs: sort
+                dogs: dogsToSort
             }
 
         case POST:
