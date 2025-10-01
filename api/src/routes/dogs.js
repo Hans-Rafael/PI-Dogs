@@ -1,67 +1,48 @@
-//const { Router } = require("express");
-const { Dog, Temperament } = require("../db");
-const { getAllDogs, getDogsById } = require("./functions");
+const { Router } = require('express');
+const { Dog, Temperament } = require('../db');
+const { getAllDogs, getDogsById } = require('./functions');
 
-//GET /dogs & //__GET /dogs?name="..."__:
+const router = Router();
 
-const getDogs = async (req, res, next) => {
-  //res.send('<h1>Dog by name or all from api y db</h1>');
+router.get('/', async (req, res, next) => {
+  const { name } = req.query;
   try {
     const dogs = await getAllDogs();
-    const data = dogs.map((e) => e);
-    const { name } = req.query;
     if (name) {
-      let dogName = data.filter((e) =>
-        e.name.toLowerCase().includes(name.toLowerCase())
-      );
-      dogName.length
-        ? res.status(200).send(dogName)
-        : res.status(400).send("there is no dog with that name");
-    } else {
-      return res.status(200).send(data);
+      const filteredDogs = dogs.filter(dog => dog.name.toLowerCase().includes(name.toLowerCase()));
+      if (filteredDogs.length > 0) {
+        return res.json(filteredDogs);
+      } 
+      return res.status(404).json({ message: 'No dogs found with that name' });
     }
-  } catch (err) {
-    next(err);
+    return res.json(dogs);
+  } catch (error) {
+    next(error);
   }
-};
+});
 
-//__GET /dogs/{idRaza}__:
-const getById = async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
   try {
-    //res.send('<h1>Dog by id</h1>')
-    const id = req.params.id;
-    if (id.length > 0 || id.length < 37 || isUUID(id) === true) {
-      const dog = await getDogsById(id);
-      res.status(200).send(dog);
-    } else {
-      res.status(400).send("there is no dog with that id");
+    const dog = await getDogsById(id);
+    if (dog) {
+      return res.json(dog);
     }
-  } catch (err) {
-    next(err);
+    return res.status(404).json({ message: 'No dog found with that ID' });
+  } catch (error) {
+    next(error);
   }
-};
+});
 
-//__POST /dog__:
-const createDog = async (req, res, next) => {
+router.post('/', async (req, res, next) => {
+  const { name, img, temperament, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp } = req.body;
+
+  if (!name || !temperament || !minWeight || !maxWeight || !minHeight || !maxHeight) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+
   try {
-    //res.send("<h1>Post dog Created </h1>");
-    const {
-      name,
-      img,
-      temperament,
-      minHeight,
-      maxHeight,
-      minWeight,
-      maxWeight,
-      minLifeExp,
-      maxLifeExp,
-      createdInDb,
-    } = req.body;
-
-    if (!name || !temperament || !minWeight) {
-      return res.status(400).send("missing parameters");
-    }
-    const dogCreated = await Dog.create({
+    const newDog = await Dog.create({
       name,
       img,
       minHeight,
@@ -69,40 +50,36 @@ const createDog = async (req, res, next) => {
       minWeight,
       maxWeight,
       minLifeExp,
-      maxLifeExp,
-      createdInDb,
-      temperament
+      maxLifeExp
     });
-     const dogTemperament = await Temperament.findAll({
-     where: {
-       name: temperament,
-     },
-   });
-   
-    dogCreated.addTemperament(dogTemperament);
-    // console.log(dogCreated)
-    res.status(201).send(`dog ${dogCreated.name} added to db`);
-  } catch (err) {
-    next(err);
-  }
-};
 
-//__DELETE /dog/:id
-//function delateDog(req, res, next) {
-  
-const delateDog = async (req, res, next) => {
+    const associatedTemperaments = await Temperament.findAll({
+      where: {
+        name: temperament
+      }
+    });
+
+    await newDog.addTemperament(associatedTemperaments);
+
+    return res.status(201).json(newDog);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
   try {
-    //res.send("<h1>Dog Deleted</h1>");
-    const { id } = req.params;
-    if (id.length > 0 || id.length < 37 || isUUID(id) === true)
-     {await Dog.destroy({
-      where: { id: id }
+    const deletedDog = await Dog.destroy({
+      where: { id }
     });
-    return res.status(200).send(`Dog of id: ${id} has been deleted`)};
-    return res.status(400).send("there is no dog with that id");
-  } catch (err) {
-    next(err);
+    if (deletedDog) {
+      return res.status(204).send(); // No content
+    }
+    return res.status(404).json({ message: 'No dog found with that ID' });
+  } catch (error) {
+    next(error);
   }
-};
+});
 
-module.exports = { getDogs, getById, createDog, delateDog };
+module.exports = router;

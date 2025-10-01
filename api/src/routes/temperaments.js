@@ -1,24 +1,23 @@
-const { Temperament } = require("../db");
-const { getTemperaments } = require("./functions");
+const { Router } = require('express');
+const { Temperament } = require('../db');
+const { getTemperaments } = require('./functions');
 
-//__GET /temperament__:
-const getTemper = async (req, res,next) => {
+const router = Router();
+
+router.get('/', async (req, res, next) => {
   try {
-    //res.send('<h1>Temperaments</h1>');
-    const temps = await getTemperaments();
-    temps.forEach((e) => {
-      Temperament.findOrCreate({
-        where: {
-          name: e.toLowerCase(),
-        },
-      });
-    });
-    const allTemp = await Temperament.findAll();
-    
-    res.status(200).send(allTemp);
-  } catch (err) {
-    console.log(err);
-    next(err);
+    const temperaments = await Temperament.findAll();
+    if (temperaments.length === 0) {
+      const apiTemperaments = await getTemperaments();
+      const temperamentNames = apiTemperaments.map(t => ({ name: t.toLowerCase() }));
+      await Temperament.bulkCreate(temperamentNames);
+      const allTemperaments = await Temperament.findAll();
+      return res.json(allTemperaments);
+    }
+    return res.json(temperaments);
+  } catch (error) {
+    next(error);
   }
-};
-module.exports = { getTemper };
+});
+
+module.exports = router;
