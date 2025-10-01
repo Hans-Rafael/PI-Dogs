@@ -10,7 +10,9 @@ const router = Router();
 // Configurar los routers;
 // Ejemplo: router.use('/auth', authRouter);
 //router.send('/dogs',( req,res)=>{res.send("hellow world \n")});
-
+router.get('/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});// ruta para pruebas
 router.get('/dogs', getDogs);
 router.get('/dogs/:id', getById);
 router.post('/dogs', createDog);
