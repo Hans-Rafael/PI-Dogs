@@ -9,8 +9,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notEmpty: { msg: 'The temperament are required!' },
-        len: [1, 20],
-        isLowercase: true,
+        len: [1, 40], // Increased length for more descriptive temperaments
       }
     }
   }, {

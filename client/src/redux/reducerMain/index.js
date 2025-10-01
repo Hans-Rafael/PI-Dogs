@@ -2,9 +2,10 @@ import {
     GET_DOGS, CLEAR_PAGE, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
     ORDER, POST, GET_DOGS_DETAIL
 } from "../actions/actionsTypes";
+
 const initialState = {
     dogs: [],
-    allDogs: [],
+    allDogs: [], // This is our permanent list of dogs
     temps: [],
     detail: [],
 }
@@ -16,7 +17,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 dogs: action.payload,
-                allDogs: action.payload,
+                allDogs: action.payload, // Store a copy of all dogs
             }
 
         case GET_BY_NAME:
@@ -24,25 +25,56 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogs: action.payload
             }
+
         case GET_TEMPERAMENT:
             return {
                 ...state,
                 temps: action.payload
             }
+
         case FILTER_BY_TEMPER:
             const allDogs = state.allDogs;
-            const temperFilter = allDogs?.filter((d) => d.temperament && d.temperament.includes(action.payload));
+            const selectedTemper = action.payload;
+
+            const temperFilter = allDogs.filter(dog => {
+                // If a dog has no temperament, it shouldn't be in the results
+                if (!dog.temperament) return false;
+
+                // Case 1: Temperament from API is a String (e.g., "Brave, Loyal, Kind")
+                if (typeof dog.temperament === 'string') {
+                    // Split the string into an array and check for an exact match
+                    return dog.temperament.split(', ').includes(selectedTemper);
+                }
+
+                // Case 2: Temperament from DB is an Array of Objects (e.g., [{name: 'Brave'}, {name: 'Loyal'}])
+                if (Array.isArray(dog.temperament)) {
+                    return dog.temperament.some(t => t.name === selectedTemper);
+                }
+
+                return false; // Don't include if format is unknown
+            });
+
             return {
                 ...state,
                 dogs: temperFilter
-
             }
+
         case FILTER_BY_CREATED:
-            const createdFilter = action.payload === 'DB' ? state.allDogs.filter(e => e.createdInDB) : state.allDogs.filter(e => !e.createdInDB);
+            const allDogs2 = state.allDogs;
+            if (action.payload === 'ALL') {
+                return {
+                    ...state,
+                    dogs: allDogs2
+                }
+            }
+            const createdFilter = action.payload === 'DB'
+                ? allDogs2.filter(e => e.createdInDB)
+                : allDogs2.filter(e => !e.createdInDB);
             return {
                 ...state,
-                dogs: action.payload === 'All' ? state.allDogs : createdFilter || []
+                dogs: createdFilter
             }
+
         case ORDER:
             let sort;
             const dogsToSort = [...state.dogs]; // Create a copy to avoid state mutation
@@ -60,39 +92,40 @@ export default function reducer(state = initialState, action) {
                 });
             } else if (action.payload === 'Inc') {
                 sort = dogsToSort.sort(function (a, b) {
-                    const weightA = parseInt(a.weight.split(' - ')[0]);
-                    const weightB = parseInt(b.weight.split(' - ')[0]);
-                    return weightA - weightB;
+                    const weightA = a.weight ? parseInt(a.weight.split(' - ')[0], 10) : Infinity;
+                    const weightB = b.weight ? parseInt(b.weight.split(' - ')[0], 10) : Infinity;
+                    return (isNaN(weightA) ? Infinity : weightA) - (isNaN(weightB) ? Infinity : weightB);
                 });
             } else if (action.payload === 'Dec') {
                 sort = dogsToSort.sort(function (a, b) {
-                    const weightA = parseInt(a.weight.split(' - ')[0]);
-                    const weightB = parseInt(b.weight.split(' - ')[0]);
-                    return weightB - weightA;
+                    const weightA = a.weight ? parseInt(a.weight.split(' - ')[0], 10) : -Infinity;
+                    const weightB = b.weight ? parseInt(b.weight.split(' - ')[0], 10) : -Infinity;
+                    return (isNaN(weightB) ? -Infinity : weightB) - (isNaN(weightA) ? -Infinity : weightA);
                 });
             }
             return {
                 ...state,
                 dogs: sort
             }
+
         case POST:
             return {
                 ...state
             }
+
         case GET_DOGS_DETAIL:
             return {
                 ...state,
                 detail: action.payload
             }
+
         case CLEAR_PAGE:
             return {
                 ...state,
-                detail: [] //estodo inicial de dogDetail
+                detail: []
             }
-
 
         default:
             return state;
-
     }
 }
