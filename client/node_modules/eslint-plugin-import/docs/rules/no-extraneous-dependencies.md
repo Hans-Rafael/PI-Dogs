@@ -7,7 +7,7 @@ The closest parent `package.json` will be used. If no `package.json` is found, t
 
 Modules have to be installed for this rule to work.
 
-### Options
+## Options
 
 This rule supports the following options:
 
@@ -32,7 +32,7 @@ You can also use an array of globs instead of literal booleans:
 "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}]
 ```
 
-When using an array of globs, the setting will be set to `true` (no errors reported) if the name of the file being linted matches a single glob in the array, and `false` otherwise.
+When using an array of globs, the setting will be set to `true` (no errors reported) if the name of the file being linted (i.e. not the imported file/module) matches a single glob in the array, and `false` otherwise.
 
 There are 2 boolean options to opt into checking extra imports that are normally ignored: `includeInternal`, which enables the checking of internal modules, and `includeTypes`, which enables checking of type imports in TypeScript.
 
@@ -60,6 +60,7 @@ folder layouts:
 ## Rule Details
 
 Given the following `package.json`:
+
 ```json
 {
   "name": "my-project",
@@ -87,7 +88,6 @@ Given the following `package.json`:
   ]
 }
 ```
-
 
 ## Fail
 
@@ -117,7 +117,6 @@ var foo = require('./foo');
 import type { MyType } from 'foo';
 ```
 
-
 ## Pass
 
 ```js
@@ -134,7 +133,6 @@ import type { MyType } from 'foo';
 /* eslint import/no-extraneous-dependencies: ["error", {"peerDependencies": true}] */
 import react from 'react';
 ```
-
 
 ## When Not To Use It
 
