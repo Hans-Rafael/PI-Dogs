@@ -33,6 +33,7 @@ server.use(cookieParser());
 server.use(morgan('dev'));
 server.use(cors(corsOptions)); // Use cors with our custom options
 
+// Apply the routes AFTER the CORS middleware
 server.use('/api', routes);
 
 // Error catching endware.
