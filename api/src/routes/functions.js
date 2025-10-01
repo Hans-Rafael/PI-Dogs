@@ -1,106 +1,75 @@
-const axios = require("axios");
-const api = "https://api.thedogapi.com/v1/breeds";
-const { Dog, Temperament } = require("../db");
+const axios = require('axios');
+const { Dog, Temperament } = require('../db.js');
+const { API_KEY } = process.env;
 
-//  APIDOGS
-const checkImageExists = async (url) => {
+// Función para obtener datos de la API externa
+const getApiInfo = async () => {
+  console.log('Iniciando la obtención de datos desde la API externa...');
   try {
-    await axios.head(url);
-    return url;
-  } catch {
-    return "https://cdn.pixabay.com/photo/2017/02/25/15/40/box-2098116_960_720.jpg";
+    const apiUrl = await axios.get('https://api.thedogapi.com/v1/breeds', {
+      headers: {
+        'x-api-key': API_KEY,
+      },
+    });
+    console.log('Datos de la API externa recibidos con éxito.');
+
+    const apiInfo = await apiUrl.data.map((el) => {
+      return {
+        id: el.id,
+        name: el.name,
+        image: el.image.url,
+        temperament: el.temperament,
+        weightMin: parseInt(el.weight.metric.split(' - ')[0]),
+        weightMax: parseInt(el.weight.metric.split(' - ')[1]),
+        source: 'api'
+      };
+    });
+    return apiInfo;
+  } catch (error) {
+    console.error('Error al obtener datos de la API externa:', error.message);
+    throw new Error('Fallo al traer datos de la API externa');
   }
 };
 
-const getApiDogs = async () => {
-  // Create a configuration object for the axios request
-  const config = {
-    headers: {
-      // Read the API Key from environment variables
-      'x-api-key': process.env.API_KEY
-    }
-  };
-
-  // Pass the config object to the axios call
-  const response = await axios(api, config);
-  
-  const inf = await Promise.all(response.data.map(async (e) => {
-    let imgUrl = e.reference_image_id
-      ? `https://cdn2.thedogapi.com/images/${e.reference_image_id}.jpg`
-      : (e.image && e.image.url)
-        ? e.image.url
-        : "https://cdn.pixabay.com/photo/2017/02/25/15/40/box-2098116_960_720.jpg";
-    imgUrl = await checkImageExists(imgUrl);
-    return {
-      id: e.id,
-      name: e.name.toLowerCase(),
-      img: imgUrl,
-      temperament: e.temperament ? e.temperament : "",
-      weight: e.weight.metric,
-      height: e.height.metric,
-      lifeExp: e.life_span,
-      createdInDB: false,
-    };
-  }));
-  return inf;
+// Función para obtener datos de la base de datos local
+const getDbInfo = async () => {
+  console.log('Iniciando la obtención de datos desde la base de datos local...');
+  try {
+    const dbData = await Dog.findAll({
+      include: {
+        model: Temperament,
+        attributes: ['name'],
+        through: {
+          attributes: [],
+        },
+      },
+    });
+    console.log('Datos de la base de datos local recibidos con éxito.');
+    return dbData;
+  } catch (error) {
+    console.error('Error al obtener datos de la base de datos local:', error.message);
+    throw new Error('Fallo al traer datos de la base de datos');
+  }
 };
 
-//getApiDogs()
-//  dbDOGS
-const getDBDogs = async () => {
-  const dbDogs = await Dog.findAll({
-    include: Temperament,
-  });
-  return dbDogs.map((e) => {
-    return {
-      id: e.id,
-      name: e.name,
-      img: e.img,
-      temperament: e.temperaments.map((e) => e.name).join(", "),
-      weight: `${e.minWeight} - ${e.maxWeight}`,
-      height: `${e.minHeight} - ${e.maxHeight}`,
-      lifeExp: `${e.minLifeExp} - ${e.maxLifeExp}`,
-      createdInDB: true,
-    };
-  });
-};
-
-// All Dogs
+// Función para combinar datos de ambas fuentes
 const getAllDogs = async () => {
-  const apiDogs = await getApiDogs();
-  const dbDogs = await getDBDogs();
-  const allDogs = [...apiDogs, ...dbDogs];
-  // return apiDogs;
-  //return dbDogs
-  return allDogs;
+  console.log('Combinando datos de la API y la base de datos...');
+  try {
+    const apiInfo = await getApiInfo();
+    const dbInfo = await getDbInfo();
+    const infoTotal = apiInfo.concat(dbInfo);
+    console.log('Datos combinados con éxito. Total de perros encontrados:', infoTotal.length);
+    return infoTotal;
+  } catch (error) {
+    console.error('Error al combinar los datos:', error.message);
+    // Re-lanzamos el error para que el controlador de la ruta lo atrape
+    throw error; 
+  }
 };
-
-//get dog By id
-const getDogsById = async (id) => {
-  const Dogs = await getAllDogs();
-  const dog = Dogs.map((e) => e);
-  const filter = dog.filter((e) => e.id == id);
-  return filter;
-};
-// All Temperaments
-const getTemperaments = async () => {
-  const apiInfo = await getApiDogs();
-  // Extrae todos los temperamentos en un solo array
-  let temps = apiInfo
-    .map((e) => e.temperament)
-    .filter(Boolean) // elimina undefined/null
-    .join(",") // une todos los strings
-    .split(",") // separa por coma
-    .map((e) => e.trim()) // elimina espacios
-    .filter((e) => e); // elimina strings vacíos
-  // Elimina duplicados
-  temps = [...new Set(temps)];
-  return temps;
-};
-getTemperaments();
 
 module.exports = {
+  getApiInfo,
+  getDbInfo,
   getAllDogs,
-  getTemperaments,
-  getDogsById,
 };
