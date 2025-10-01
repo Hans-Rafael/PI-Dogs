@@ -111,7 +111,7 @@ export default function Dogs() {
                         <option value='Dec'>Max-Min Weight</option>
                     </select>
 
-                    <Link to='/create' className={style.button}>
+                    <Link to='/create' className={style.ctaButton}>
                         <button className={style.buttonIn} title='Go to the creation form'>Create New Breed</button>
                     </Link>
 

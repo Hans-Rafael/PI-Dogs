@@ -73,7 +73,7 @@
 .button{
     text-align: center;
     margin-top: 1em;
-    color: rgb(243 237 49);
+    color: white; /* Changed for better contrast */
     font-size: 12px;
     line-height: 12px;
     padding: 13px;
@@ -84,10 +84,18 @@
     cursor: pointer;
     box-shadow: 0 0 17px black;
 }
+
+.ctaButton {
+    composes: button; /* Inherits styles from .button */
+    background-image: linear-gradient(to right, rgb(28, 164, 32) 0%, rgb(29, 165, 58) 50%, rgb(83, 114, 20) 100%);
+    border: 2px solid rgb(200, 150, 50); /* Slightly different border */
+    transform: scale(1.05); /* Make it slightly larger */
+}
+
 .buttonR {
     text-align: center;
     margin-top: 1em;
-    color: rgb(243 237 49);
+    color: white;
     font-size: 12px;
     line-height: 12px;
     padding: 13px;
@@ -117,5 +125,5 @@
 .buttonIn{
     border:none;
     background-color: transparent;
-    color:rgb(253, 255, 67);
+    color: white;
 }
