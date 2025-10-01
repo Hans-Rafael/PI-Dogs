@@ -22,29 +22,6 @@ pool.connect((err) => {
 //PAKETE NEED TAMBIEN: PROJECT_PATH =>/api or carpetaName de la api
 // https://github.com/timanovsky/subdir-heroku-buildpack //
 let sequelize =
-/* process.env.NODE_ENV === 'production' ?
-new Sequelize({
-  database: DB_NAME,
-  dialect: "postgres",
-  host: DB_HOST,
-  port: 5432,
-  username: DB_USER,
-  password: DB_PASSWORD,
-  pool:{
-    max: 3,
-    min: 1,
-    idle: 10000
-  },
-  dialectOptions: {
-    ssl: {
-      require: true,
-      // Ref: https:// github.com/brianc/node-postgres/issues/2009
-      rejectUnauthorized: false,
-    },
-    keepAlive: true,
-  },
-  ssl: true,
-}) : */
 new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`,
   { logging : false, native:false, omitNull: false  }
@@ -80,6 +57,10 @@ const { Dog,Temperament } = sequelize.models;
 // Product.hasMany(Reviews);
 Dog.belongsToMany(Temperament, { through: 'dogTemperament' })
 Temperament.belongsToMany(Dog, { through: 'dogTemperament' })
+// Sincroniza los modelos con la base de datos (crea las tablas si no existen)
+sequelize.sync()
+  .then(() => console.log('Tablas sincronizadas'))
+  .catch(err => console.error('Error al sincronizar tablas:', err));
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
