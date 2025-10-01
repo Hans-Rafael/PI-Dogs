@@ -10,8 +10,9 @@ const getApiDogs = async () => {
     const inf = response.data.map(e => ({
         id: e.id,
         name: (e.name).toLowerCase(),
-        img: e.image?.url,
-        temperament: (e.temperament)?.toLowerCase(),
+        img: e.reference_image_id 
+      ? `https://cdn2.thedogapi.com/images/${e.reference_image_id}.jpg`
+      : "https://media.istockphoto.com/id/1482199015/es/foto/feliz-cachorro-gal%C3%A9s-corgi-14-semanas-de-edad-perro-gui%C3%B1ando-un-ojo-jadeando-y-sentado-aislado.jpg?s=612x612&w=0&k=20&c=lX65jf64HFLnR8XDD7pphv5KVRMmBCNTQBvzggRvQ14=", // Imagen por defecto si no existe
         weight: e.weight.metric,
         height: e.height.metric,
         lifeExp: e.life_span,
