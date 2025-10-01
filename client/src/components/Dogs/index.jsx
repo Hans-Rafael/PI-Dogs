@@ -17,15 +17,11 @@ export default function Dogs() {
     const [currentPage, setCurrentPage] = useState(1);
     const [charactersPerPage] = useState(8);
     const [order, setOrder] = useState('');
-    const [temperamentOrder, setTemperamentOrder] = useState('ASC');
 
     useEffect(() => {
         dispatch(getDogs());
+        dispatch(getTemperament()); // Fetch temperaments on initial load
     }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(getTemperament(temperamentOrder));
-    }, [dispatch, temperamentOrder]);
 
     const currentDogs = useMemo(() => {
         const indexOfLastDog = currentPage * charactersPerPage;
@@ -61,11 +57,6 @@ export default function Dogs() {
         setOrder(`Ordenado ${e.target.value}`);
     }
 
-    function handleTemperamentOrder(e) {
-        setTemperamentOrder(e.target.value);
-    }
-
-    // Componente de carga inicial
     if (dogs.length === 0 && allTemp.length === 0) {
         return (
             <div id="mainLoading" className={style.loading}>
@@ -97,11 +88,6 @@ export default function Dogs() {
                         {allTemp && allTemp.map((t) => (
                             <option key={t.name} value={t.name}>{t.name}</option>
                         ))}
-                    </select>
-
-                    <select className={style.selectFilter} onChange={handleTemperamentOrder} title="Sort temperaments alphabetically" aria-label="Sort temperaments alphabetically">
-                        <option value='ASC'>Temperament A-Z</option>
-                        <option value='DESC'>Temperament Z-A</option>
                     </select>
 
                     <select className={style.selectFilter} onChange={handleOrder} title="Sort breeds" aria-label="Sort breeds by name or weight">
