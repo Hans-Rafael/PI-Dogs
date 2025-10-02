@@ -32,11 +32,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // Destructure all fields exactly as they are sent from the form and defined in the model
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    // FIX: Pass the form data directly to Dog.create, ensuring a 1:1 match with the model fields.
-    // No more creating composite strings like 'life_span' at this stage.
     const newDog = await Dog.create({
       name,
       minHeight,
@@ -48,21 +45,20 @@ router.post('/', async (req, res, next) => {
       img,
     });
 
+    // SENIOR FIX: The form sends an array of temperament IDs, not names.
+    // The `addTemperament` method is smart enough to accept an array of primary keys directly.
+    // This is more efficient and respects the data contract.
     if (temperament && temperament.length > 0) {
-        const foundTemperaments = await Temperament.findAll({ where: { name: temperament } });
-        await newDog.addTemperament(foundTemperaments);
+        await newDog.addTemperament(temperament);
     }
     
-    // Respond with a success message. The created dog object is not strictly necessary here.
     res.status(201).send({ message: 'Dog created successfully' });
 
   } catch (error) {
-    // Senior-level error handling: Catch validation errors from Sequelize and respond with a 400 Bad Request.
     if (error.name === 'SequelizeValidationError') {
       const messages = error.errors.map(err => err.message);
       return res.status(400).json({ message: 'Validation Error', errors: messages });
     }
-    // For any other type of error, pass it to the next middleware.
     next(error);
   }
 });
