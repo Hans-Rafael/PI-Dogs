@@ -12,7 +12,6 @@ function Dogs() {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterType, setFilterType] = useState('All');
   const dogsPerPage = 6;
 
   const indexOfLastDog = currentPage * dogsPerPage;
@@ -27,6 +26,11 @@ function Dogs() {
     dispatch(getDogs());
   }, [dispatch]);
 
+  // Reset a la página 1 cuando cambia la lista de perros (por filtros)
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [dogs]);
+
   return (
     <div className={style.bkg}>
       <h1>Henry Dogs</h1>
@@ -38,7 +42,7 @@ function Dogs() {
       
       <SearchBar />
       
-      <Filters setFilterType={setFilterType} />
+      <Filters />
 
       <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} />
       
@@ -55,7 +59,7 @@ function Dogs() {
             </Link>
           ))
         ) : (
-          <p>{filterType === 'created' ? 'No new breeds created yet.' : 'No dogs found.'}</p>
+          <p>No dogs found for the selected filters.</p>
         )}
       </div>
     </div>

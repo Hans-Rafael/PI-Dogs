@@ -44,13 +44,13 @@ export default function reducer(state = initialState, action) {
             }
 
             const temperFilter = allDogs.filter(dog => {
-                if (!dog.temperament) return false;
+                // CORREGIDO: Usar 'temperaments' en lugar de 'temperament'
+                if (!dog.temperaments) return false;
 
-                // Handle both string and array formats for temperaments.
-                if (typeof dog.temperament === 'string') {
-                    return dog.temperament.includes(selectedTemper);
-                } else if (Array.isArray(dog.temperament)) {
-                    return dog.temperament.some(t => t.name === selectedTemper);
+                if (typeof dog.temperaments === 'string') {
+                    return dog.temperaments.includes(selectedTemper);
+                } else if (Array.isArray(dog.temperaments)) {
+                    return dog.temperaments.some(t => t.name === selectedTemper);
                 }
                 return false;
             });
@@ -85,14 +85,15 @@ export default function reducer(state = initialState, action) {
                     return isNaN(weightValue) ? Infinity : weightValue;
                 };
 
+                // CORREGIDO: Usar los valores del componente de filtros
                 switch (action.payload) {
-                    case 'Asc':
+                    case 'ASC':
                         return a.name.localeCompare(b.name);
-                    case 'Desc':
+                    case 'DESC':
                         return b.name.localeCompare(a.name);
-                    case 'Inc':
+                    case 'WEIGHT_ASC':
                         return getWeight(a) - getWeight(b);
-                    case 'Dec':
+                    case 'WEIGHT_DESC':
                         const weightA = getWeight(a);
                         const weightB = getWeight(b);
                         if (weightA === Infinity) return 1;
