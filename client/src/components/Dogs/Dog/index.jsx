@@ -2,7 +2,7 @@ import React from 'react';
 import style from "./dog.module.css";
 
 function Dog({ img, temperament, weight, name }) {
-  // SENIOR DEV DEBUG: Log the props to see what the component is actually receiving.
+  // Log the props to see what the component is actually receiving.
   console.log(`Rendering card for "${name}":`, { temperament: temperament });
 
   return (
@@ -17,7 +17,7 @@ function Dog({ img, temperament, weight, name }) {
         loading="lazy"
       />
       <p>Weight: {weight} Kg</p>
-      {/* SENIOR DEV FIX: Only render the temperament if it exists and is not an empty string */}
+      {/* Only render the temperament if it exists and is not an empty string */}
       {temperament && <p>Temper: {temperament}</p>}
     </div>
   );

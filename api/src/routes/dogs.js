@@ -50,7 +50,6 @@ router.post('/', async (req, res, next) => {
 
     const newDog = await Dog.create(dogPayload);
 
-    // SENIOR DEV FIX: Use a more robust method for association.
     // Find the IDs of the temperaments and use `setTemperaments` for a clean, atomic association.
     if (temperament && temperament.length > 0) {
         const temperamentInstances = await Temperament.findAll({

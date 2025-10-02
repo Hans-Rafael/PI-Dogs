@@ -41,8 +41,7 @@ export default function Detail() {
     );
   }
 
-  // SENIOR DEV FIX: The backend now provides a unified 'temperament' string for all dogs.
-  // This component now simply displays that string, ensuring consistency with the main page cards.
+  // backend provides a unified 'temperament' string for all dogs.
   const temperamentsToShow = dogDetail.temperament || "Not available";
 
   return (

@@ -33,7 +33,7 @@ router.get('/', async (req, res, next) => {
             console.log(`Seeded ${temperamentObjects.length} temperaments.`);
         }
 
-        // SENIOR DEV FIX: Always return the full temperament objects {id, name}.
+        //Always return the full temperament objects {id, name}.
         // The frontend form depends on this structure to render the select options.
         const temperamentsFromDb = await Temperament.findAll({
             order: [
