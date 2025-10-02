@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTemperament, filterByTemperament, filterByCreated, sort } from '../../../redux/actions';
 import style from './filters.module.css';
 
-function Filters() {
+function Filters({ setFilterType }) {
   const dispatch = useDispatch();
-  const temperaments = useSelector(state => state.temperaments);
+  const temperaments = useSelector(state => state.temps);
 
   useEffect(() => {
     dispatch(getTemperament());
@@ -16,7 +16,9 @@ function Filters() {
   };
 
   const handleFilterByCreated = (e) => {
-    dispatch(filterByCreated(e.target.value));
+    const value = e.target.value;
+    dispatch(filterByCreated(value));
+    if (setFilterType) setFilterType(value);
   };
 
   const handleSort = (e) => {
@@ -33,7 +35,7 @@ function Filters() {
       </select>
       <select onChange={handleFilterByTemperament}>
         <option value="All">All Temperaments</option>
-        {temperaments.map(temp => (
+        {temperaments && temperaments.map(temp => (
           <option key={temp.name} value={temp.name}>{temp.name}</option>
         ))}
       </select>

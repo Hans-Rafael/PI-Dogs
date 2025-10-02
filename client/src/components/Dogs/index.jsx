@@ -12,6 +12,7 @@ function Dogs() {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterType, setFilterType] = useState('All');
   const dogsPerPage = 6;
 
   const indexOfLastDog = currentPage * dogsPerPage;
@@ -31,23 +32,31 @@ function Dogs() {
       <h1>Henry Dogs</h1>
       <h2>by HANS</h2>
       
+      <Link to="/create">
+        <button>Create New Breed</button>
+      </Link>
+      
       <SearchBar />
       
-      <Filters />
+      <Filters setFilterType={setFilterType} />
 
       <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} />
       
       <div className={style.dogsgrid}>
-        {currentDogs.map(dog => (
-          <Link to={`/dogs/${dog.id}`} key={dog.id}>
-            <Dog 
-              name={dog.name} 
-              img={dog.img} 
-              temperament={dog.temperaments} 
-              weight={dog.weight} 
-            />
-          </Link>
-        ))}
+        {currentDogs.length > 0 ? (
+          currentDogs.map(dog => (
+            <Link to={`/dogs/${dog.id}`} key={dog.id}>
+              <Dog 
+                name={dog.name} 
+                img={dog.img} 
+                temperament={dog.temperaments} 
+                weight={dog.weight} 
+              />
+            </Link>
+          ))
+        ) : (
+          <p>{filterType === 'created' ? 'No new breeds created yet.' : 'No dogs found.'}</p>
+        )}
       </div>
     </div>
   );

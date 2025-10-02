@@ -36,6 +36,13 @@ export default function reducer(state = initialState, action) {
             const allDogs = state.allDogs;
             const selectedTemper = action.payload;
 
+            if (selectedTemper === 'All') {
+                return {
+                    ...state,
+                    dogs: allDogs
+                }
+            }
+
             const temperFilter = allDogs.filter(dog => {
                 if (!dog.temperament) return false;
 
@@ -55,13 +62,13 @@ export default function reducer(state = initialState, action) {
 
         case FILTER_BY_CREATED:
             const allDogs2 = state.allDogs;
-            if (action.payload === 'ALL') {
+            if (action.payload === 'All') {
                 return {
                     ...state,
                     dogs: allDogs2
                 }
             }
-            const createdFilter = action.payload === 'DB'
+            const createdFilter = action.payload === 'created'
                 ? allDogs2.filter(e => e.createdInDB)
                 : allDogs2.filter(e => !e.createdInDB);
             return {
