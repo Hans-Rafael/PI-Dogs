@@ -4,14 +4,14 @@ import {
   ORDER, POST, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG
 } from './actionsTypes';
 
-// Set the base URL for all axios requests.
-// This will use the environment variable on the production server (Vercel) 
-// and a default for local development.
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
+// Define the absolute URL for the API for local development.
+// This ensures the frontend knows exactly where to send requests.
+const API_URL = "http://localhost:3001/api";
+
 
 export const getDogs = () => {
   return function (dispatch) {
-    return axios.get('/dogs') // Route is now relative to the base URL
+    return axios.get(`${API_URL}/dogs`) // Using absolute URL
       .then(response => {
         dispatch({
           type: GET_DOGS,
@@ -27,7 +27,7 @@ export const getDogs = () => {
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/dogs?name=${name}`);
+      const response = await axios.get(`${API_URL}/dogs?name=${name}`); // Using absolute URL
       return dispatch({
         type: GET_BY_NAME,
         payload: response.data
@@ -41,7 +41,7 @@ export function getByName(name) {
 export function getTemperament(order) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`/temperaments?order=${order || 'ASC'}`);
+      const response = await axios.get(`${API_URL}/temperaments?order=${order || 'ASC'}`); // Using absolute URL
       return dispatch({
         type: GET_TEMPERAMENT,
         payload: response.data
@@ -76,7 +76,8 @@ export function sort(payload) {
 export function post(payload) {
   return async function () {
     try {
-      const response = await axios.post('/dogs', payload);
+      // Using absolute URL
+      const response = await axios.post(`${API_URL}/dogs`, payload);
       return response;
     } catch (error) {
       console.error("Error creating dog:", error);
@@ -87,8 +88,9 @@ export function post(payload) {
 
 export function getDogDetail(id) {
     return function (dispatch) {
-        dispatch(clearPage()); 
-        return axios.get(`/dogs/${id}`)
+        dispatch(clearPage());
+        // Using absolute URL
+        return axios.get(`${API_URL}/dogs/${id}`)
             .then(response => {
                 dispatch({
                     type: GET_DOGS_DETAIL,
@@ -104,7 +106,8 @@ export function getDogDetail(id) {
 export function deleteDog(id) {
     return async function (dispatch) {
         try {
-            await axios.delete(`/dogs/${id}`);
+            // Using absolute URL
+            await axios.delete(`${API_URL}/dogs/${id}`);
             return dispatch({
                 type: DELETE_DOG,
                 payload: id
