@@ -34,7 +34,8 @@ router.post('/', async (req, res, next) => {
   try {
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    const newDog = await Dog.create({
+    // 1. Build the creation object, making the image truly optional.
+    const dogPayload = {
       name,
       minHeight,
       maxHeight,
@@ -42,12 +43,27 @@ router.post('/', async (req, res, next) => {
       maxWeight,
       minLifeExp,
       maxLifeExp,
-      img,
-    });
+    };
 
-    // CRITICAL FIX: The method for a hasMany/belongsToMany association is PLURAL.
+    // Only add the img field if it's a non-empty string. Otherwise, let the DB default kick in.
+    if (img && img.trim() !== '') {
+      dogPayload.img = img;
+    }
+
+    const newDog = await Dog.create(dogPayload);
+
+    // 2. Correctly find and associate temperaments by name.
     if (temperament && temperament.length > 0) {
-        await newDog.addTemperaments(temperament); // Corrected from addTemperament to addTemperaments
+        // Step 1: Find the full temperament instances from the DB based on the names array.
+        const temperamentInstances = await Temperament.findAll({
+            where: { name: temperament }
+        });
+
+        // Step 2: Associate the found instances with the new dog.
+        // The `addTemperaments` method accepts an array of model instances.
+        if (temperamentInstances.length > 0) {
+            await newDog.addTemperaments(temperamentInstances);
+        }
     }
     
     res.status(201).send({ message: 'Dog created successfully' });
@@ -57,6 +73,7 @@ router.post('/', async (req, res, next) => {
       const messages = error.errors.map(err => err.message);
       return res.status(400).json({ message: 'Validation Error', errors: messages });
     }
+    // For any other error (like the DB type mismatch), pass it to the default error handler.
     next(error);
   }
 });
