@@ -10,121 +10,93 @@ const isUUID = (id) => {
   return uuidRegex.test(id);
 };
 
-// SENIOR DEV FIX: Unify data format at the source.
-// Both API and DB functions will now return a `temperament` STRING, not an array.
-
 const getApiInfo = async () => {
-  try {
-    const apiUrl = await axios.get('https://api.thedogapi.com/v1/breeds', {
-      headers: { 'x-api-key': API_KEY },
-    });
-    
-    return apiUrl.data.map((el) => {
-      return {
-        id: el.id,
-        name: el.name,
-        img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
-        temperament: el.temperament || 'N/A', // Use the string directly
-        weight: el.weight.metric,
-        height: el.height.metric,
-        life_span: el.life_span,
-      };
-    });
-  } catch (error) {
-    console.error('Error fetching from external API:', error.message);
-    throw new Error('Failed to fetch from external API');
-  }
+  const apiUrl = await axios.get('https://api.thedogapi.com/v1/breeds', {
+    headers: { 'x-api-key': API_KEY },
+  });
+  
+  return apiUrl.data.map((el) => ({
+    id: el.id,
+    name: el.name,
+    img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
+    temperament: el.temperament || 'N/A',
+    weight: el.weight.metric,
+    height: el.height.metric,
+    life_span: el.life_span,
+  }));
 };
 
 const getDbInfo = async () => {
-  try {
-    const dbDogs = await Dog.findAll({
+  const dbDogs = await Dog.findAll({
+    include: {
+      model: Temperament,
+      attributes: ['name'],
+      through: { attributes: [] },
+    },
+  });
+
+  return dbDogs.map((dog) => ({
+    id: dog.id,
+    name: dog.name,
+    img: dog.img || DEFAULT_IMAGE_URL,
+    temperament: (dog.Temperaments || []).map((t) => t.name).join(', ') || 'N/A',
+    weight: `${dog.minWeight} - ${dog.maxWeight}`,
+    height: `${dog.minHeight} - ${dog.maxHeight}`,
+    life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
+    createdInDB: dog.createdInDB,
+  }));
+};
+
+const getAllDogs = async () => {
+  const apiInfo = await getApiInfo();
+  const dbInfo = await getDbInfo();
+  return [...apiInfo, ...dbInfo];
+};
+
+// SENIOR DEV FIX: Rewritten for clarity and correctness. No more complex helpers.
+// The logic is now direct and mirrors the working functions `getDbInfo` and `getApiInfo`.
+const getDogsById = async (id) => {
+  if (isUUID(id)) {
+    // DB DOG: Find it and format it directly.
+    const dogFromDb = await Dog.findByPk(id, {
       include: {
         model: Temperament,
         attributes: ['name'],
         through: { attributes: [] },
       },
     });
+    if (!dogFromDb) throw new Error(`Dog with ID ${id} not found.`);
 
-    return dbDogs.map((dog) => {
-      // Convert the array of temperament objects into a single comma-separated string.
-      const temperamentString = (dog.Temperaments || []).map((t) => t.name).join(', ');
-      
-      return {
-        id: dog.id,
-        name: dog.name,
-        img: dog.img || DEFAULT_IMAGE_URL,
-        temperament: temperamentString || 'N/A', // Use the generated string
-        weight: `${dog.minWeight} - ${dog.maxWeight}`,
-        height: `${dog.minHeight} - ${dog.maxHeight}`,
-        life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
-        createdInDB: dog.createdInDB,
-      };
-    });
-  } catch (error) {
-    console.error('Error fetching from DB:', error.message);
-    throw new Error('Failed to fetch from DB');
-  }
-};
-
-const getAllDogs = async () => {
-  try {
-    const apiInfo = await getApiInfo();
-    const dbInfo = await getDbInfo();
-    return [...apiInfo, ...dbInfo];
-  } catch (error) {
-    console.error('Error combining data sources:', error.message);
-    throw error;
-  }
-};
-
-const getDogsById = async (id) => {
-    // Helper to format dog details consistently.
-    const formatDogDetails = (dog, isDbDog = false) => {
-        if (!dog) return null;
-
-        let temperament, weight, height, life_span;
-
-        if (isDbDog) {
-            temperament = (dog.Temperaments || []).map(t => t.name).join(', ');
-            weight = `${dog.minWeight} - ${dog.maxWeight}`;
-            height = `${dog.minHeight} - ${dog.maxHeight}`;
-            life_span = `${dog.minLifeExp} - ${dog.maxLifeExp} years`;
-        } else {
-            temperament = dog.temperament || 'N/A';
-            weight = dog.weight.metric;
-            height = dog.height.metric;
-            life_span = dog.life_span;
-        }
-
-        return {
-            id: dog.id,
-            name: dog.name,
-            img: (dog.image && dog.image.url) || dog.img || DEFAULT_IMAGE_URL,
-            temperament: temperament,
-            weight: weight,
-            height: height,
-            life_span: life_span,
-            createdInDB: dog.createdInDB || false,
-        };
+    return {
+      id: dogFromDb.id,
+      name: dogFromDb.name,
+      img: dogFromDb.img || DEFAULT_IMAGE_URL,
+      temperament: (dogFromDb.Temperaments || []).map(t => t.name).join(', ') || 'N/A',
+      weight: `${dogFromDb.minWeight} - ${dogFromDb.maxWeight}`,
+      height: `${dogFromDb.minHeight} - ${dogFromDb.maxHeight}`,
+      life_span: `${dogFromDb.minLifeExp} - ${dogFromDb.maxLifeExp} years`,
+      createdInDB: dogFromDb.createdInDB,
     };
 
-    if (isUUID(id)) {
-        const dogFromDb = await Dog.findByPk(id, {
-            include: { model: Temperament, attributes: ['name'], through: { attributes: [] } },
-        });
-        if (!dogFromDb) throw new Error(`Dog with ID ${id} not found.`);
-        return formatDogDetails(dogFromDb, true);
-    } else {
-        const response = await axios.get('https://api.thedogapi.com/v1/breeds', { headers: { 'x-api-key': API_KEY } });
-        const dogFromApi = response.data.find(d => d.id == id);
-        if (!dogFromApi) throw new Error(`Dog with ID ${id} not found.`);
-        return formatDogDetails(dogFromApi);
-    }
+  } else {
+    // API DOG: Find it and format it directly.
+    const allApiDogs = await getApiInfo();
+    const dogFromApi = allApiDogs.find(d => d.id == id);
+    if (!dogFromApi) throw new Error(`Dog with ID ${id} not found.`);
+    
+    return {
+        id: dogFromApi.id,
+        name: dogFromApi.name,
+        img: dogFromApi.img,
+        temperament: dogFromApi.temperament,
+        weight: dogFromApi.weight,
+        height: dogFromApi.height,
+        life_span: dogFromApi.life_span
+    };
+  }
 };
 
 const getTemperaments = async () => {
-  // This function remains the same, as the creation form still needs the full objects.
   const { count } = await Temperament.findAndCountAll();
   if (count === 0) {
     const response = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
