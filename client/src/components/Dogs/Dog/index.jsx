@@ -2,6 +2,9 @@ import React from 'react';
 import style from "./dog.module.css";
 
 function Dog({ img, temperament, weight, name }) {
+  // SENIOR DEV DEBUG: Log the props to see what the component is actually receiving.
+  console.log(`Rendering card for "${name}":`, { temperament: temperament });
+
   return (
     <div className={style.bkgDogCard}>
       <h2>{name}</h2>
@@ -14,7 +17,8 @@ function Dog({ img, temperament, weight, name }) {
         loading="lazy"
       />
       <p>Weight: {weight} Kg</p>
-      <p>Temper: {temperament}</p>
+      {/* SENIOR DEV FIX: Only render the temperament if it exists and is not an empty string */}
+      {temperament && <p>Temper: {temperament}</p>}
     </div>
   );
 }
