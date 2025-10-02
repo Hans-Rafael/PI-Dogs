@@ -34,26 +34,32 @@ const getDbInfo = async () => {
       },
     });
 
+    // The single source of truth for transforming raw DB data into presentational data.
     return dbDogs.map((dog) => {
       const temperamentsString = (dog.Temperaments || []).map((t) => t.name).join(', ');
-      const weightString = `${dog.weightMin} - ${dog.weightMax}`;
-      const heightString = `${dog.heightMin} - ${dog.heightMax}`;
+      const weightString = `${dog.minWeight} - ${dog.maxWeight}`;
+      const heightString = `${dog.minHeight} - ${dog.maxHeight}`;
+      // FIX: Correctly construct the life_span string from the atomic data in the DB.
+      const lifeSpanString = `${dog.minLifeExp} - ${dog.maxLifeExp} years`;
 
-      // FINAL FIX: Return a complete object that serves both list and detail views.
+      // Return the complete, enriched object for use in all views.
       return {
         id: dog.id,
         name: dog.name,
         img: dog.img || DEFAULT_IMAGE_URL,
         temperament: temperamentsString,
-        weight: weightString, // For list view
-        height: heightString, // For list view
-        life_span: dog.life_span,
-        createdInDB: true,
-        // Add the individual fields required by the detail view
-        minWeight: dog.weightMin,
-        maxWeight: dog.weightMax,
-        minHeight: dog.heightMin,
-        maxHeight: dog.heightMax,
+        // Presentational strings for list/card views
+        weight: weightString,
+        height: heightString,
+        life_span: lifeSpanString,
+        // Raw data for detail views and filtering
+        minWeight: dog.minWeight,
+        maxWeight: dog.maxWeight,
+        minHeight: dog.minHeight,
+        maxHeight: dog.maxHeight,
+        minLifeExp: dog.minLifeExp,
+        maxLifeExp: dog.maxLifeExp,
+        createdInDB: dog.createdInDB,
       };
     });
   } catch (error) {
@@ -74,8 +80,6 @@ const getAllDogs = async () => {
 };
 
 const getDogsById = async (id) => {
-  // This function currently relies on getAllDogs. By enriching the objects in getDbInfo,
-  // we ensure that the object found here has all the necessary data for the detail page.
   const allDogs = await getAllDogs();
   const dog = allDogs.find(d => d.id == id);
   if (!dog) {

@@ -1,9 +1,6 @@
 const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
 
 module.exports = (sequelize) => {
-  // defino el modelo & nombre tbl
   sequelize.define('dog', {
     id: {
       type: DataTypes.UUID,
@@ -13,73 +10,73 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false ,
-            validate : {
-        notEmpty : {msg : 'The Name is required!'},
-        len: [1,20],
-        isAlphanumeric: true,
-    } 
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'The Name is required!' },
+        len: [1, 50], // Increased length for more descriptive names
+        is: { // FIX: Replaced isAlphanumeric with a RegExp that allows letters and spaces
+          args: /^[a-zA-Z\s]*$/,
+          msg: 'Name can only contain letters and spaces.'
+        }
+      }
     },
     img: {
-      type:DataTypes.TEXT, /// ''
-      defaultValue:"http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",//"./defoult_img.png",
-      validate : { isUrl: true,}
-
+      type: DataTypes.TEXT,
+      defaultValue: "http://image.shutterstock.com/image-photo/happy-puppy-dog-smiling-on-260nw-1799966587.jpg",
+      validate: { isUrl: true }
     },
     minHeight: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate : {
-        notEmpty : {msg : 'se nesecita Altura!'},
-        len: [1,5], 
-        isNumeric: true, 
-    }
+      validate: {
+        notEmpty: { msg: 'Minimum height is required!' },
+        isNumeric: true
+      }
     },
     maxHeight: {
       type: DataTypes.INTEGER,
-      validate : {
-        notEmpty : {msg : 'se nesecita Altura!'},
-        len: [1,5],//numero de digitos
-        isNumeric: true, 
-    }
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Maximum height is required!' },
+        isNumeric: true
+      }
     },
     minWeight: {
       type: DataTypes.INTEGER,
-      validate : {
-        notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,3],//numero
-        isNumeric: true, 
-    }
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Minimum weight is required!' },
+        isNumeric: true
+      }
     },
     maxWeight: {
       type: DataTypes.INTEGER,
-      validate : {
-        notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,3],//nunero metric kg
-        isNumeric: true, 
-    }
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Maximum weight is required!' },
+        isNumeric: true
+      }
     },
     minLifeExp: {
       type: DataTypes.INTEGER,
-      validate : {
-        notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,5],//nunero Years
-        isNumeric: true, 
-    }
-      
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Minimum life expectancy is required!' },
+        isNumeric: true
+      }
     },
     maxLifeExp: {
       type: DataTypes.INTEGER,
-      validate : {
-        notEmpty : {msg : 'se nesecita el peso!'},
-        len: [1,5],//nunero Years
-        isNumeric: true, 
-    }
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Maximum life expectancy is required!' },
+        isNumeric: true
+      }
     },
-    createdInDB:{
+    createdInDB: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-      allowNull: false,
+      allowNull: false
     }
   },
   {
