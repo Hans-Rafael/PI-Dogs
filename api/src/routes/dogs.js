@@ -45,11 +45,9 @@ router.post('/', async (req, res, next) => {
       img,
     });
 
-    // SENIOR FIX: The form sends an array of temperament IDs, not names.
-    // The `addTemperament` method is smart enough to accept an array of primary keys directly.
-    // This is more efficient and respects the data contract.
+    // CRITICAL FIX: The method for a hasMany/belongsToMany association is PLURAL.
     if (temperament && temperament.length > 0) {
-        await newDog.addTemperament(temperament);
+        await newDog.addTemperaments(temperament); // Corrected from addTemperament to addTemperaments
     }
     
     res.status(201).send({ message: 'Dog created successfully' });
