@@ -35,16 +35,23 @@ const getDbInfo = async () => {
     },
   });
 
-  return dbDogs.map((dog) => ({
-    id: dog.id,
-    name: dog.name,
-    img: dog.img || DEFAULT_IMAGE_URL,
-    temperaments: dog.Temperaments || [],
-    weight: `${dog.minWeight} - ${dog.maxWeight}`,
-    height: `${dog.minHeight} - ${dog.maxHeight}`,
-    life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
-    createdInDB: dog.createdInDB,
-  }));
+  return dbDogs.map((dog) => {
+    const temperaments = dog.Temperaments ? dog.Temperaments.map(t => ({
+      id: t.id,
+      name: t.name
+    })) : [];
+
+    return {
+      id: dog.id,
+      name: dog.name,
+      img: dog.img || DEFAULT_IMAGE_URL,
+      temperaments: temperaments,
+      weight: `${dog.minWeight} - ${dog.maxWeight}`,
+      height: `${dog.minHeight} - ${dog.maxHeight}`,
+      life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
+      createdInDB: dog.createdInDB,
+    };
+  });
 };
 
 const getAllDogs = async () => {
@@ -64,11 +71,16 @@ const getDogsById = async (id) => {
     });
     if (!dogFromDb) throw new Error(`Dog with ID ${id} not found.`);
 
+    const temperaments = dogFromDb.Temperaments ? dogFromDb.Temperaments.map(t => ({
+      id: t.id,
+      name: t.name
+    })) : [];
+
     return {
       id: dogFromDb.id,
       name: dogFromDb.name,
       img: dogFromDb.img || DEFAULT_IMAGE_URL,
-      temperaments: dogFromDb.Temperaments || [],
+      temperaments: temperaments,
       weight: `${dogFromDb.minWeight} - ${dogFromDb.maxWeight}`,
       height: `${dogFromDb.minHeight} - ${dogFromDb.maxHeight}`,
       life_span: `${dogFromDb.minLifeExp} - ${dogFromDb.maxLifeExp} years`,

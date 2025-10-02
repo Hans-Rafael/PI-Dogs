@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./paging.module.css";
 
-export default function Paging({ charactersPerPage, allCharacter, Paginited }) {
+export default function Paging({ charactersPerPage, allCharacter, Paginited, currentPage }) {
   const pageNumber = [];
 
   for (let i = 1;i <= Math.ceil(allCharacter/ charactersPerPage);i++ ) {
@@ -11,7 +11,11 @@ export default function Paging({ charactersPerPage, allCharacter, Paginited }) {
     <nav className={style.pagesList}>
         {pageNumber &&
           pageNumber.map((number) => (
-            <nav key={number}  onClick={() => Paginited(number)} className={style.num}>
+            <nav 
+              key={number}  
+              onClick={() => Paginited(number)} 
+              className={`${style.num} ${currentPage === number ? style.active : ''}`}
+            >
               {number}
             </nav>
           ))}

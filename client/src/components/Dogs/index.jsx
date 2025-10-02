@@ -44,12 +44,12 @@ function Dogs() {
       
       <Filters />
 
-      <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} />
+      <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} currentPage={currentPage} />
       
       <div className={style.dogsgrid}>
         {currentDogs.length > 0 ? (
           currentDogs.map(dog => (
-            <Link to={`/dogs/${dog.id}`} key={dog.id}>
+            <Link to={`/home/${dog.id}`} key={dog.id}>
               <Dog 
                 name={dog.name} 
                 img={dog.img} 

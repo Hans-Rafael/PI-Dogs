@@ -41,8 +41,12 @@ export default function Detail() {
     );
   }
 
-  // backend provides a unified 'temperament' string for all dogs.
-  const temperamentsToShow = dogDetail.temperament || "Not available";
+  // Handle temperaments as array or string
+  const temperamentsToShow = dogDetail.temperaments && dogDetail.temperaments.length > 0
+    ? (Array.isArray(dogDetail.temperaments) 
+        ? dogDetail.temperaments.map(t => t.name).join(', ') 
+        : dogDetail.temperaments)
+    : "Not available";
 
   return (
     <div className={style.main}>
@@ -55,7 +59,7 @@ export default function Detail() {
              <img className={style.img} src={dogDetail.img} alt={dogDetail.name} />
           </div>
           <div className={style.info}>
-            <p><strong>Temperaments:</strong> {temperamentsToShow}</p>
+            <p><strong>Temperament:</strong> {temperamentsToShow}</p>
             <p><strong>Height:</strong> {dogDetail.height} cm</p>
             <p><strong>Weight:</strong> {dogDetail.weight} Kg</p>
             <p><strong>Life Span:</strong> {dogDetail.life_span || "Not available"}</p>

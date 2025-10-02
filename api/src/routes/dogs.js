@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { getAllDogs, getDogsById } = require('./functions');
 const { Dog, Temperament } = require('../db');
+const { Op } = require('sequelize');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -33,6 +34,7 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
+    console.log('Received temperament:', temperament);
 
     const dogPayload = {
       name,
@@ -53,12 +55,14 @@ router.post('/', async (req, res, next) => {
     // Find the IDs of the temperaments and use `setTemperaments` for a clean, atomic association.
     if (temperament && temperament.length > 0) {
         const temperamentInstances = await Temperament.findAll({
-            where: { name: temperament },
+            where: { name: { [Op.in]: temperament } },
             attributes: ['id'] // Only fetch the ID.
         });
 
+        console.log('Found temperament instances:', temperamentInstances.length);
         if (temperamentInstances.length > 0) {
             const temperamentIds = temperamentInstances.map(inst => inst.id);
+            console.log('Setting temperament IDs:', temperamentIds);
             await newDog.setTemperaments(temperamentIds); // setTemperaments uses an array of primary keys.
         }
     }
