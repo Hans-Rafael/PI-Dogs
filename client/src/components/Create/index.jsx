@@ -105,6 +105,7 @@ export default function Create() {
         });
     }
 
+    // FIX: Add try...catch to handle potential submission errors gracefully
     async function handleSubmit(e) {
         e.preventDefault();
         const finalErrors = validate(input);
@@ -114,14 +115,16 @@ export default function Create() {
             try {
                 await dispatch(post(input));
                 alert('New dog breed saved successfully!');
-                history.push('/home');
+                history.push('/home'); // This line will now be reached upon success
             } catch (error) {
+                // If the backend rejects the post, show an alert with the error
                 console.error('Submission failed:', error);
                 alert(`Failed to save dog. Please check the data and try again.\nServer says: ${error.message}`);
             }
         }
     }
 
+    // Determine if the form is valid for enabling the submit button
     const isFormValid = Object.keys(errors).length === 0 && input.name !== '' && input.temperament.length > 0;
 
     return (
@@ -200,9 +203,8 @@ export default function Create() {
                         <label>Temperaments</label>
                         <select onChange={handleSelect} defaultValue="">
                             <option value="" disabled>Select one or more</option>
-                            {/* SENIOR DEV FIX: Correctly map over the array of strings. */}
-                            {temperaments.map((temp, index) => (
-                                <option key={index} value={temp}>{temp}</option>
+                            {temperaments.map((t) => (
+                                <option key={t.id} value={t.name}>{t.name}</option>
                             ))}
                         </select>
                         {errors.temperament && <p className={style.error}>{errors.temperament}</p>}

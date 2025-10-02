@@ -41,9 +41,9 @@ export default function Detail() {
     );
   }
 
-  // SENIOR DEV FIX: Correctly access and render the 'temperaments' array.
+  // SENIOR DEV FIX: Correctly map over the array of temperament OBJECTS to get their names.
   const temperamentsToShow = (dogDetail.temperaments && dogDetail.temperaments.length > 0)
-    ? dogDetail.temperaments.join(', ')
+    ? dogDetail.temperaments.map(t => t.name).join(', ')
     : "Not available";
 
   return (
