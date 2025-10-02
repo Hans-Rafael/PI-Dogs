@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getAllDogs, getDogsById } = require('./functions'); // FIX: Import getDogsById
+const { getAllDogs, getDogsById } = require('./functions');
 const { Dog, Temperament } = require('../db');
 
 router.get('/', async (req, res, next) => {
@@ -23,29 +23,33 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const dog = await getDogsById(id); // This will now work
+    const dog = await getDogsById(id);
     res.status(200).json(dog);
   } catch (error) {
     next(error);
   }
 });
 
+// FIX: Correctly handle form data from the frontend
 router.post('/', async (req, res, next) => {
   try {
-    const { name, heightMin, heightMax, weightMin, weightMax, life_span, image, temperaments } = req.body;
+    // Destructure using frontend names (minHeight, img, temperament)
+    const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
     const newDog = await Dog.create({
       name,
-      heightMin,
-      heightMax,
-      weightMin,
-      weightMax,
-      life_span,
-      image,
+      minHeight,      // Pass correctly to the model
+      maxHeight,      // Pass correctly to the model
+      minWeight,      // Pass correctly to the model
+      maxWeight,      // Pass correctly to the model
+      minLifeExp,     // Pass correctly to the model
+      maxLifeExp,     // Pass correctly to the model
+      image: img,     // Map frontend 'img' to backend 'image'
     });
 
-    if (temperaments) {
-        const foundTemperaments = await Temperament.findAll({ where: { name: temperaments } });
+    // Handle temperaments (frontend sends 'temperament', plural)
+    if (temperament && temperament.length > 0) {
+        const foundTemperaments = await Temperament.findAll({ where: { name: temperament } });
         await newDog.addTemperament(foundTemperaments);
     }
     
