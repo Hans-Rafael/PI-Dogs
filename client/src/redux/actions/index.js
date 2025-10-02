@@ -4,9 +4,7 @@ import {
   ORDER, POST, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG
 } from './actionsTypes';
 
-// Define the absolute URL for the API for local development.
-// This ensures the frontend knows exactly where to send requests.
-const API_URL = "http://localhost:3001/api";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
 
 
 export const getDogs = () => {
