@@ -36,12 +36,16 @@ export default function reducer(state = initialState, action) {
             const allDogs = state.allDogs;
             const selectedTemper = action.payload;
 
-            // Updated filter logic to correctly handle the 'temperaments' array.
             const temperFilter = allDogs.filter(dog => {
-                // Ensure the dog has the 'temperaments' property and it's an array.
-                if (!dog.temperaments || !Array.isArray(dog.temperaments)) return false;
-                // Check if any of the temperament objects has a name that matches the selected one.
-                return dog.temperaments.some(t => t.name === selectedTemper);
+                if (!dog.temperament) return false;
+
+                // Handle both string and array formats for temperaments.
+                if (typeof dog.temperament === 'string') {
+                    return dog.temperament.includes(selectedTemper);
+                } else if (Array.isArray(dog.temperament)) {
+                    return dog.temperament.some(t => t.name === selectedTemper);
+                }
+                return false;
             });
 
             return {

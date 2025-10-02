@@ -2,10 +2,20 @@ import React from 'react';
 import style from "./dog.module.css";
 
 function Dog({ img, temperament, weight, name }) {
-  // Check if temperament is an array and join the names, otherwise display the original string.
-  const displayTemperament = Array.isArray(temperament)
-    ? temperament.map(t => t.name).join(', ')
-    : temperament;
+  // This function handles both string and array formats for temperaments.
+  const getDisplayTemperament = (temps) => {
+    if (Array.isArray(temps)) {
+      // If it's an array of objects, join their names.
+      return temps.map(t => t.name).join(', ');
+    } else if (typeof temps === 'string') {
+      // If it's already a string, just return it.
+      return temps;
+    }
+    // If it's missing or in an unknown format, return an empty string.
+    return '';
+  };
+
+  const displayTemperament = getDisplayTemperament(temperament);
 
   return (
     <div className={style.bkgDogCard}>
