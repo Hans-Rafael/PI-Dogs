@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getDogs } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
 import Dog from './Dog';
-import style from "./dogs.module.css";
-import Paginate from '../Paginate/index';
+import style from "./dogsHome.module.css";
+import Paginate from './Paging/index';
 
 function Dogs() {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ function Dogs() {
 
   return (
     <div className={style.bkg}>
-      <Paginate dogsPerPage={dogsPerPage} allDogs={dogs.length} setPaginate={setPaginate} />
+      <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} />
       <div className={style.dogsgrid}>
         {currentDogs.map(dog => (
           <Link to={`/dogs/${dog.id}`} key={dog.id}>
