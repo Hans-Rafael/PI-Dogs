@@ -34,7 +34,6 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
-    console.log('Received temperament:', temperament);
 
     const dogPayload = {
       name,
@@ -52,24 +51,17 @@ router.post('/', async (req, res, next) => {
 
     const newDog = await Dog.create(dogPayload);
 
-    // Find the IDs of the temperaments and use `setTemperaments` for a clean, atomic association.
     if (temperament && temperament.length > 0) {
         const temperamentInstances = await Temperament.findAll({
-            where: { name: { [Op.in]: temperament } },
-            attributes: ['id'] // Only fetch the ID.
+            where: { name: { [Op.in]: temperament } }
         });
 
-        console.log('Found temperament instances:', temperamentInstances.length);
         if (temperamentInstances.length > 0) {
-            console.log('Setting temperaments:', temperamentInstances.map(t => t.id));
             await newDog.setTemperaments(temperamentInstances);
-            await newDog.reload({ include: [{ model: Temperament }] }); // Reload to get updated associations
         }
     }
     
-    // To ensure the client gets the full new dog data, we refetch it.
     const finalNewDog = await getDogsById(newDog.id);
-    console.log('Final dog temperaments:', finalNewDog.temperaments);
 
     res.status(201).json(finalNewDog);
 

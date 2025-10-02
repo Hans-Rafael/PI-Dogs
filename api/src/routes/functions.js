@@ -36,7 +36,7 @@ const getDbInfo = async () => {
   });
 
   return dbDogs.map((dog) => {
-    const temperaments = dog.Temperaments ? dog.Temperaments.map(t => ({
+    const temperaments = dog.temperaments ? dog.temperaments.map(t => ({
       id: t.id,
       name: t.name
     })) : [];
@@ -71,8 +71,7 @@ const getDogsById = async (id) => {
     });
     if (!dogFromDb) throw new Error(`Dog with ID ${id} not found.`);
 
-    console.log('dogFromDb.Temperaments:', dogFromDb.Temperaments);
-    const temperaments = dogFromDb.Temperaments ? dogFromDb.Temperaments.map(t => ({
+    const temperaments = dogFromDb.temperaments ? dogFromDb.temperaments.map(t => ({
       id: t.id,
       name: t.name
     })) : [];

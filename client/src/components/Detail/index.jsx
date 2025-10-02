@@ -42,11 +42,14 @@ export default function Detail() {
   }
 
   // Handle temperaments as array or string
-  const temperamentsToShow = dogDetail.temperaments && dogDetail.temperaments.length > 0
-    ? (Array.isArray(dogDetail.temperaments) 
-        ? dogDetail.temperaments.map(t => t.name).join(', ') 
-        : dogDetail.temperaments)
-    : "Not available";
+  const temperamentsToShow = (() => {
+    if (!dogDetail.temperaments) return "Not available";
+    if (Array.isArray(dogDetail.temperaments)) {
+      if (dogDetail.temperaments.length === 0) return "Not available";
+      return dogDetail.temperaments.map(t => typeof t === 'object' ? t.name : t).join(', ');
+    }
+    return dogDetail.temperaments;
+  })();
 
   return (
     <div className={style.main}>
