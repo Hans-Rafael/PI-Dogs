@@ -30,21 +30,18 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// THE DEFINITIVE FIX: Trust the error message. The DB model wants min/max fields directly.
 router.post('/', async (req, res, next) => {
   try {
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    // Create the dog object passing the fields directly, as the DB model expects them.
-    // The error "path: 'minHeight'" was the definitive clue.
     const newDog = await Dog.create({
       name,
-      minHeight, // Pass directly
-      maxHeight, // Pass directly
-      minWeight, // Pass directly
-      maxWeight, // Pass directly
-      life_span: minLifeExp && maxLifeExp ? `${minLifeExp} - ${maxLifeExp} years` : null, // Combine life span into a string
-      image: img,     // Map frontend 'img' to backend 'image'
+      minHeight,
+      maxHeight,
+      minWeight,
+      maxWeight,
+      life_span: minLifeExp && maxLifeExp ? `${minLifeExp} - ${maxLifeExp} years` : null,
+      img: img, // FIX: Save to the 'img' column, not 'image'
     });
 
     if (temperament && temperament.length > 0) {
@@ -54,7 +51,6 @@ router.post('/', async (req, res, next) => {
     
     res.status(201).send(newDog);
   } catch (error) {
-    // Any validation error from the DB will be caught and sent to the frontend's new catch block.
     next(error);
   }
 });

@@ -12,12 +12,11 @@ const getApiInfo = async () => {
     return apiUrl.data.map((el) => ({
       id: el.id,
       name: el.name,
-      img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
+      img: el.image ? el.image.url : DEFAULT_IMAGE_URL, // This is already correct for the API
       temperament: el.temperament || 'Unknown',
       weight: el.weight.metric,
       height: el.height.metric,
       life_span: el.life_span,
-      // Dogs from the API don't have createdInDB, so they will correctly be filtered out
     }));
   } catch (error) {
     console.error('Error al obtener datos de la API externa:', error.message);
@@ -43,12 +42,12 @@ const getDbInfo = async () => {
       return {
         id: dog.id,
         name: dog.name,
-        img: dog.image || DEFAULT_IMAGE_URL,
+        img: dog.img || DEFAULT_IMAGE_URL, // FIX: Read from the 'img' column, not 'image'
         temperament: temperamentsString,
         weight: weightString,
         height: heightString,
         life_span: dog.life_span,
-        createdInDB: true, // FIX: Add the property the frontend reducer is expecting
+        createdInDB: true,
       };
     });
   } catch (error) {
