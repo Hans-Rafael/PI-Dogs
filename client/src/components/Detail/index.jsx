@@ -32,7 +32,6 @@ export default function Detail() {
     }
   }
 
-  // Loading state
   if (!dogDetail.id) {
     return (
       <div className={style.loadingContainer}>
@@ -42,7 +41,11 @@ export default function Detail() {
     );
   }
 
-  // Detail view
+  // SENIOR DEV FIX: Correctly access and render the 'temperaments' array.
+  const temperamentsToShow = (dogDetail.temperaments && dogDetail.temperaments.length > 0)
+    ? dogDetail.temperaments.join(', ')
+    : "Not available";
+
   return (
     <div className={style.main}>
       <div className={style.detailCard}>
@@ -54,10 +57,9 @@ export default function Detail() {
              <img className={style.img} src={dogDetail.img} alt={dogDetail.name} />
           </div>
           <div className={style.info}>
-            <p><strong>Temperaments:</strong> {dogDetail.temperament || "Not available"}</p>
+            <p><strong>Temperaments:</strong> {temperamentsToShow}</p>
             <p><strong>Height:</strong> {dogDetail.height} cm</p>
             <p><strong>Weight:</strong> {dogDetail.weight} Kg</p>
-            {/* Use life_span which is the consistent field from the backend */}
             <p><strong>Life Span:</strong> {dogDetail.life_span || "Not available"}</p>
           </div>
         </div>
@@ -65,7 +67,6 @@ export default function Detail() {
           <Link to='/home'>
             <button className={style.button}>Back Home</button>
           </Link>
-          {/* Only show delete button if the dog was created from the DB */}
           {dogDetail.createdInDB && (
              <button className={`${style.button} ${style.deleteButton}`} onClick={handleDelete}>Delete Breed</button>
           )}

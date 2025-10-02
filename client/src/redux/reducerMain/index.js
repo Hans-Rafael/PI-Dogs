@@ -7,7 +7,7 @@ const initialState = {
     dogs: [],
     allDogs: [], 
     temps: [],
-    detail: {}, // Detail should be an object, not an array
+    detail: {}, 
 }
 
 export default function reducer(state = initialState, action) {
@@ -36,10 +36,12 @@ export default function reducer(state = initialState, action) {
             const allDogs = state.allDogs;
             const selectedTemper = action.payload;
 
-            // Simplified filter now that API format is consistent
+            // SENIOR DEV FIX: Updated filter logic to use the normalized 'temperaments' array.
             const temperFilter = allDogs.filter(dog => {
-                if (!dog.temperament) return false;
-                return dog.temperament.split(', ').includes(selectedTemper);
+                // Ensure the dog has the temperaments property and it's an array.
+                if (!dog.temperaments || !Array.isArray(dog.temperaments)) return false;
+                // Check if the temperaments array includes the selected temperament.
+                return dog.temperaments.includes(selectedTemper);
             });
 
             return {
@@ -108,7 +110,7 @@ export default function reducer(state = initialState, action) {
         case CLEAR_PAGE:
             return {
                 ...state,
-                detail: {} // Should be an empty object
+                detail: {} 
             }
 
         case DELETE_DOG:

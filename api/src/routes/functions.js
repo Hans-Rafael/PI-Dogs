@@ -1,8 +1,15 @@
 const axios = require('axios');
 const { Dog, Temperament } = require('../db.js');
 const { API_KEY } = process.env;
+const { Op } = require('sequelize');
 
 const DEFAULT_IMAGE_URL = 'https://cdn.pixabay.com/photo/2017/09/25/13/12/dog-2785074_960_720.jpg';
+
+// Helper to check if an ID is a UUID (from the database)
+const isUUID = (id) => {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(id);
+};
 
 // Normalizes data from the external API
 const getApiInfo = async () => {
@@ -12,14 +19,13 @@ const getApiInfo = async () => {
     });
     
     return apiUrl.data.map((el) => {
-      // FIX: The 'temperament' field is now 'temperaments' and is always an array of strings.
       const temperamentsArray = el.temperament ? el.temperament.split(',').map(t => t.trim()) : [];
 
       return {
         id: el.id,
         name: el.name,
         img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
-        temperaments: temperamentsArray, // Corrected field name and format
+        temperaments: temperamentsArray,
         weight: el.weight.metric,
         height: el.height.metric,
         life_span: el.life_span,
@@ -43,29 +49,16 @@ const getDbInfo = async () => {
     });
 
     return dbDogs.map((dog) => {
-      // FIX: The 'temperaments' field is now an array of strings, not a single string.
       const temperamentsArray = (dog.Temperaments || []).map((t) => t.name);
       
-      const weightString = `${dog.minWeight} - ${dog.maxWeight}`;
-      const heightString = `${dog.minHeight} - ${dog.maxHeight}`;
-      const lifeSpanString = `${dog.minLifeExp} - ${dog.maxLifeExp} years`;
-
       return {
         id: dog.id,
         name: dog.name,
         img: dog.img || DEFAULT_IMAGE_URL,
-        temperaments: temperamentsArray, // Corrected field name and format
-        // Presentational strings for list/card views
-        weight: weightString,
-        height: heightString,
-        life_span: lifeSpanString,
-        // Raw data for detail views and filtering
-        minWeight: dog.minWeight,
-        maxWeight: dog.maxWeight,
-        minHeight: dog.minHeight,
-        maxHeight: dog.maxHeight,
-        minLifeExp: dog.minLifeExp,
-        maxLifeExp: dog.maxLifeExp,
+        temperaments: temperamentsArray,
+        weight: `${dog.minWeight} - ${dog.maxWeight}`,
+        height: `${dog.minHeight} - ${dog.maxHeight}`,
+        life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
         createdInDB: dog.createdInDB,
       };
     });
@@ -75,37 +68,64 @@ const getDbInfo = async () => {
   }
 };
 
-// Combines data from both sources, now perfectly unified
+// Combines data from both sources
 const getAllDogs = async () => {
   try {
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
-    return apiInfo.concat(dbInfo);
+    return [...apiInfo, ...dbInfo];
   } catch (error) {
     console.error('Error combining data sources:', error.message);
     throw error;
   }
 };
 
+// SENIOR DEV FIX: Refactored to handle DB and API dogs separately for clarity and correctness.
 const getDogsById = async (id) => {
-  const allDogs = await getAllDogs();
-  const dog = allDogs.find(d => d.id == id);
-  if (!dog) {
-    throw new Error(`Dog with ID ${id} not found`);
+  if (isUUID(id)) {
+    // It's a dog from our database, fetch it directly with its temperaments.
+    const dog = await Dog.findByPk(id, {
+      include: {
+        model: Temperament,
+        attributes: ['name'],
+        through: { attributes: [] },
+      },
+    });
+
+    if (!dog) {
+      throw new Error(`Dog with ID ${id} not found in database.`);
+    }
+
+    // Manually format the response to match the unified structure perfectly.
+    const temperamentsArray = (dog.Temperaments || []).map((t) => t.name);
+    return {
+      id: dog.id,
+      name: dog.name,
+      img: dog.img || DEFAULT_IMAGE_URL,
+      temperaments: temperamentsArray,
+      weight: `${dog.minWeight} - ${dog.maxWeight}`,
+      height: `${dog.minHeight} - ${dog.maxHeight}`,
+      life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
+      createdInDB: dog.createdInDB,
+    };
+
+  } else {
+    // It's a dog from the API. Fetch all and find it.
+    const allApiDogs = await getApiInfo();
+    const dog = allApiDogs.find(d => d.id == id);
+    if (!dog) {
+      throw new Error(`Dog with ID ${id} not found in API.`);
+    }
+    return dog;
   }
-  return dog;
 };
 
 const getTemperaments = async () => {
   try {
     const apiInfo = await getApiInfo();
-    // The 'temperaments' property is already an array in the normalized apiInfo
     const allTemperaments = apiInfo.flatMap(dog => dog.temperaments);
-
     const uniqueTemperaments = [...new Set(allTemperaments)].filter(Boolean);
-
-    return uniqueTemperaments.sort(); // Return them sorted alphabetically
-
+    return uniqueTemperaments.sort();
   } catch (error) {
     console.error('Error fetching or processing temperaments:', error.message);
     throw new Error('Failed to get temperaments');
@@ -113,8 +133,6 @@ const getTemperaments = async () => {
 };
 
 module.exports = {
-  getApiInfo,
-  getDbInfo,
   getAllDogs,
   getDogsById,
   getTemperaments,
