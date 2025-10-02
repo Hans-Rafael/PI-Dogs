@@ -13,8 +13,8 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notEmpty: { msg: 'The Name is required!' },
-        len: [1, 50], // Increased length for more descriptive names
-        is: { // FIX: Replaced isAlphanumeric with a RegExp that allows letters and spaces
+        len: [1, 50],
+        is: {
           args: /^[a-zA-Z\s]*$/,
           msg: 'Name can only contain letters and spaces.'
         }
@@ -42,35 +42,35 @@ module.exports = (sequelize) => {
       }
     },
     minWeight: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Minimum weight is required!' },
-        isNumeric: true
+        isFloat: true // Changed validation to isFloat
       }
     },
     maxWeight: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Maximum weight is required!' },
-        isNumeric: true
+        isFloat: true // Changed validation to isFloat
       }
     },
     minLifeExp: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Minimum life expectancy is required!' },
-        isNumeric: true
+        isFloat: true // Changed validation to isFloat
       }
     },
     maxLifeExp: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Maximum life expectancy is required!' },
-        isNumeric: true
+        isFloat: true // Changed validation to isFloat
       }
     },
     createdInDB: {

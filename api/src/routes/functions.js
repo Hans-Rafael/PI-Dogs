@@ -34,25 +34,20 @@ const getDbInfo = async () => {
       },
     });
 
-    // The single source of truth for transforming raw DB data into presentational data.
     return dbDogs.map((dog) => {
       const temperamentsString = (dog.Temperaments || []).map((t) => t.name).join(', ');
       const weightString = `${dog.minWeight} - ${dog.maxWeight}`;
       const heightString = `${dog.minHeight} - ${dog.maxHeight}`;
-      // FIX: Correctly construct the life_span string from the atomic data in the DB.
       const lifeSpanString = `${dog.minLifeExp} - ${dog.maxLifeExp} years`;
 
-      // Return the complete, enriched object for use in all views.
       return {
         id: dog.id,
         name: dog.name,
         img: dog.img || DEFAULT_IMAGE_URL,
         temperament: temperamentsString,
-        // Presentational strings for list/card views
         weight: weightString,
         height: heightString,
         life_span: lifeSpanString,
-        // Raw data for detail views and filtering
         minWeight: dog.minWeight,
         maxWeight: dog.maxWeight,
         minHeight: dog.minHeight,
@@ -88,9 +83,32 @@ const getDogsById = async (id) => {
   return dog;
 }
 
+// FIX: Created the missing getTemperaments function
+const getTemperaments = async () => {
+  try {
+    const apiInfo = await getApiInfo();
+    const temperaments = apiInfo.map(dog => dog.temperament);
+    
+    // Split strings, flatten the array, and clean up entries
+    const allTemperaments = temperaments.flatMap(tempString => 
+      tempString.split(',').map(t => t.trim())
+    );
+
+    // Use a Set to get unique values, and filter out any empty strings
+    const uniqueTemperaments = [...new Set(allTemperaments)].filter(Boolean);
+
+    return uniqueTemperaments;
+
+  } catch (error) {
+    console.error('Error fetching or processing temperaments:', error.message);
+    throw new Error('Failed to get temperaments');
+  }
+};
+
 module.exports = {
   getApiInfo,
   getDbInfo,
   getAllDogs,
   getDogsById,
+  getTemperaments, // FIX: Export the new function
 };
