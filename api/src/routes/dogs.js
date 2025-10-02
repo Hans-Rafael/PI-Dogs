@@ -34,7 +34,6 @@ router.post('/', async (req, res, next) => {
   try {
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    // 1. Build the creation object, making the image truly optional.
     const dogPayload = {
       name,
       minHeight,
@@ -45,35 +44,36 @@ router.post('/', async (req, res, next) => {
       maxLifeExp,
     };
 
-    // Only add the img field if it's a non-empty string. Otherwise, let the DB default kick in.
     if (img && img.trim() !== '') {
       dogPayload.img = img;
     }
 
     const newDog = await Dog.create(dogPayload);
 
-    // 2. Correctly find and associate temperaments by name.
+    // SENIOR DEV FIX: Use a more robust method for association.
+    // Find the IDs of the temperaments and use `setTemperaments` for a clean, atomic association.
     if (temperament && temperament.length > 0) {
-        // Step 1: Find the full temperament instances from the DB based on the names array.
         const temperamentInstances = await Temperament.findAll({
-            where: { name: temperament }
+            where: { name: temperament },
+            attributes: ['id'] // Only fetch the ID.
         });
 
-        // Step 2: Associate the found instances with the new dog.
-        // The `addTemperaments` method accepts an array of model instances.
         if (temperamentInstances.length > 0) {
-            await newDog.addTemperaments(temperamentInstances);
+            const temperamentIds = temperamentInstances.map(inst => inst.id);
+            await newDog.setTemperaments(temperamentIds); // setTemperaments uses an array of primary keys.
         }
     }
     
-    res.status(201).send({ message: 'Dog created successfully' });
+    // To ensure the client gets the full new dog data, we refetch it.
+    const finalNewDog = await getDogsById(newDog.id);
+
+    res.status(201).json(finalNewDog);
 
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const messages = error.errors.map(err => err.message);
       return res.status(400).json({ message: 'Validation Error', errors: messages });
     }
-    // For any other error (like the DB type mismatch), pass it to the default error handler.
     next(error);
   }
 });
