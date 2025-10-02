@@ -18,12 +18,17 @@ export default function Detail() {
     }
   }, [dispatch, id]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this breed? This action cannot be undone.");
     if (confirmDelete) {
-      dispatch(deleteDog(id));
-      alert("Breed successfully deleted.");
-      history.push('/home');
+      try {
+        await dispatch(deleteDog(id));
+        alert("Breed successfully deleted.");
+        history.push('/home');
+      } catch (error) {
+        alert("Failed to delete the breed. Please try again.");
+        console.error("Deletion failed:", error);
+      }
     }
   }
 
