@@ -63,4 +63,12 @@ export interface IsURLOptions {
      * @default true
      */
     allow_query_components?: boolean | undefined;
+    /**
+     * @default true
+     */
+    validate_length?: boolean | undefined;
+    /**
+     * @default 2084
+     */
+    max_allowed_length?: number | false | undefined;
 }

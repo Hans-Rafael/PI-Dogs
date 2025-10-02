@@ -5,8 +5,7 @@ yarn-error.log
 
 # Environment variables
 .env
-api/.env
-
+api/.env        
 # Build output
 /build
 /dist
@@ -14,4 +13,20 @@ api/.env
 # Misc
 .DS_Store
 *.pem
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
 node_modules
