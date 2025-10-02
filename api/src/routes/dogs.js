@@ -30,26 +30,23 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// FINAL FIX: Translate frontend field names to match backend model names
+// THE DEFINITIVE FIX: Trust the error message. The DB model wants min/max fields directly.
 router.post('/', async (req, res, next) => {
   try {
-    // 1. Destructure using the names sent from the frontend form
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    // 2. Create a new object that maps frontend names to the database model names
-    const newDogData = {
+    // Create the dog object passing the fields directly, as the DB model expects them.
+    // The error "path: 'minHeight'" was the definitive clue.
+    const newDog = await Dog.create({
       name,
-      heightMin: minHeight, // Translate
-      heightMax: maxHeight, // Translate
-      weightMin: minWeight, // Translate
-      weightMax: maxWeight, // Translate
-      life_span: minLifeExp && maxLifeExp ? `${minLifeExp} - ${maxLifeExp} years` : null, // Combine and format
-      image: img, // Translate
-    };
+      minHeight, // Pass directly
+      maxHeight, // Pass directly
+      minWeight, // Pass directly
+      maxWeight, // Pass directly
+      life_span: minLifeExp && maxLifeExp ? `${minLifeExp} - ${maxLifeExp} years` : null, // Combine life span into a string
+      image: img,     // Map frontend 'img' to backend 'image'
+    });
 
-    const newDog = await Dog.create(newDogData);
-
-    // 3. Handle temperaments (frontend sends 'temperament')
     if (temperament && temperament.length > 0) {
         const foundTemperaments = await Temperament.findAll({ where: { name: temperament } });
         await newDog.addTemperament(foundTemperaments);
@@ -57,6 +54,7 @@ router.post('/', async (req, res, next) => {
     
     res.status(201).send(newDog);
   } catch (error) {
+    // Any validation error from the DB will be caught and sent to the frontend's new catch block.
     next(error);
   }
 });

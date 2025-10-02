@@ -105,15 +105,22 @@ export default function Create() {
         });
     }
 
+    // FIX: Add try...catch to handle potential submission errors gracefully
     async function handleSubmit(e) {
         e.preventDefault();
         const finalErrors = validate(input);
         setErrors(finalErrors);
 
         if (Object.keys(finalErrors).length === 0) {
-            await dispatch(post(input));
-            alert('New dog breed saved successfully!');
-            history.push('/home');
+            try {
+                await dispatch(post(input));
+                alert('New dog breed saved successfully!');
+                history.push('/home'); // This line will now be reached upon success
+            } catch (error) {
+                // If the backend rejects the post, show an alert with the error
+                console.error('Submission failed:', error);
+                alert(`Failed to save dog. Please check the data and try again.\nServer says: ${error.message}`);
+            }
         }
     }
 
