@@ -12,7 +12,7 @@ const getApiInfo = async () => {
     return apiUrl.data.map((el) => ({
       id: el.id,
       name: el.name,
-      img: el.image ? el.image.url : DEFAULT_IMAGE_URL, // This is already correct for the API
+      img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
       temperament: el.temperament || 'Unknown',
       weight: el.weight.metric,
       height: el.height.metric,
@@ -39,15 +39,21 @@ const getDbInfo = async () => {
       const weightString = `${dog.weightMin} - ${dog.weightMax}`;
       const heightString = `${dog.heightMin} - ${dog.heightMax}`;
 
+      // FINAL FIX: Return a complete object that serves both list and detail views.
       return {
         id: dog.id,
         name: dog.name,
-        img: dog.img || DEFAULT_IMAGE_URL, // FIX: Read from the 'img' column, not 'image'
+        img: dog.img || DEFAULT_IMAGE_URL,
         temperament: temperamentsString,
-        weight: weightString,
-        height: heightString,
+        weight: weightString, // For list view
+        height: heightString, // For list view
         life_span: dog.life_span,
         createdInDB: true,
+        // Add the individual fields required by the detail view
+        minWeight: dog.weightMin,
+        maxWeight: dog.weightMax,
+        minHeight: dog.heightMin,
+        maxHeight: dog.heightMax,
       };
     });
   } catch (error) {
@@ -68,6 +74,8 @@ const getAllDogs = async () => {
 };
 
 const getDogsById = async (id) => {
+  // This function currently relies on getAllDogs. By enriching the objects in getDbInfo,
+  // we ensure that the object found here has all the necessary data for the detail page.
   const allDogs = await getAllDogs();
   const dog = allDogs.find(d => d.id == id);
   if (!dog) {
