@@ -41,10 +41,9 @@ export default function Detail() {
     );
   }
 
-  // SENIOR DEV FIX: Correctly map over the array of temperament OBJECTS to get their names.
-  const temperamentsToShow = (dogDetail.temperaments && dogDetail.temperaments.length > 0)
-    ? dogDetail.temperaments.map(t => t.name).join(', ')
-    : "Not available";
+  // SENIOR DEV FIX: The backend now provides a unified 'temperament' string for all dogs.
+  // This component now simply displays that string, ensuring consistency with the main page cards.
+  const temperamentsToShow = dogDetail.temperament || "Not available";
 
   return (
     <div className={style.main}>
