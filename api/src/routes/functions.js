@@ -53,8 +53,6 @@ const getAllDogs = async () => {
   return [...apiInfo, ...dbInfo];
 };
 
-// SENIOR DEV FIX: Rewritten for clarity and correctness. No more complex helpers.
-// The logic is now direct and mirrors the working functions `getDbInfo` and `getApiInfo`.
 const getDogsById = async (id) => {
   if (isUUID(id)) {
     // DB DOG: Find it and format it directly.

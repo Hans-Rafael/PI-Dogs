@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
-const cors = require('cors'); // SENIOR DEV FIX: Import the cors middleware.
+const cors = require('cors');// Import the cors middleware.
 
 require('./db.js');
 
@@ -11,7 +11,7 @@ const server = express();
 
 server.name = 'API';
 
-// SENIOR DEV FIX: Apply the cors middleware to allow all cross-origin requests.
+//Apply the cors middleware to allow all cross-origin requests.
 // This is crucial for deployment when the frontend and backend are on different domains.
 server.use(cors());
 
