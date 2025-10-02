@@ -34,7 +34,6 @@ const getDbInfo = async () => {
     });
 
     return dbDogs.map((dog) => {
-      // FIX: Safely handle dogs with no temperaments
       const temperamentsString = (dog.Temperaments || []).map((t) => t.name).join(', ');
       const weightString = `${dog.weightMin} - ${dog.weightMax}`;
 
@@ -64,8 +63,19 @@ const getAllDogs = async () => {
   }
 };
 
+// FIX: Add the missing getDogsById function
+const getDogsById = async (id) => {
+  const allDogs = await getAllDogs();
+  const dog = allDogs.find(d => d.id == id);
+  if (!dog) {
+    throw new Error(`Dog with ID ${id} not found`);
+  }
+  return dog;
+}
+
 module.exports = {
   getApiInfo,
   getDbInfo,
   getAllDogs,
+  getDogsById, // Export the new function
 };
