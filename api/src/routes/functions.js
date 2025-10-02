@@ -19,7 +19,7 @@ const getApiInfo = async () => {
     id: el.id,
     name: el.name,
     img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
-    temperament: el.temperament || 'N/A',
+    temperaments: el.temperament ? el.temperament.split(', ').map((name, idx) => ({ id: `api-${el.id}-${idx}`, name })) : [],
     weight: el.weight.metric,
     height: el.height.metric,
     life_span: el.life_span,
@@ -30,7 +30,7 @@ const getDbInfo = async () => {
   const dbDogs = await Dog.findAll({
     include: {
       model: Temperament,
-      attributes: ['name'],
+      attributes: ['id', 'name'],
       through: { attributes: [] },
     },
   });
@@ -39,7 +39,7 @@ const getDbInfo = async () => {
     id: dog.id,
     name: dog.name,
     img: dog.img || DEFAULT_IMAGE_URL,
-    temperament: (dog.Temperaments || []).map((t) => t.name).join(', ') || 'N/A',
+    temperaments: dog.Temperaments || [],
     weight: `${dog.minWeight} - ${dog.maxWeight}`,
     height: `${dog.minHeight} - ${dog.maxHeight}`,
     life_span: `${dog.minLifeExp} - ${dog.maxLifeExp} years`,
@@ -53,15 +53,12 @@ const getAllDogs = async () => {
   return [...apiInfo, ...dbInfo];
 };
 
-// SENIOR DEV FIX: Rewritten for clarity and correctness. No more complex helpers.
-// The logic is now direct and mirrors the working functions `getDbInfo` and `getApiInfo`.
 const getDogsById = async (id) => {
   if (isUUID(id)) {
-    // DB DOG: Find it and format it directly.
     const dogFromDb = await Dog.findByPk(id, {
       include: {
         model: Temperament,
-        attributes: ['name'],
+        attributes: ['id', 'name'],
         through: { attributes: [] },
       },
     });
@@ -71,7 +68,7 @@ const getDogsById = async (id) => {
       id: dogFromDb.id,
       name: dogFromDb.name,
       img: dogFromDb.img || DEFAULT_IMAGE_URL,
-      temperament: (dogFromDb.Temperaments || []).map(t => t.name).join(', ') || 'N/A',
+      temperaments: dogFromDb.Temperaments || [],
       weight: `${dogFromDb.minWeight} - ${dogFromDb.maxWeight}`,
       height: `${dogFromDb.minHeight} - ${dogFromDb.maxHeight}`,
       life_span: `${dogFromDb.minLifeExp} - ${dogFromDb.maxLifeExp} years`,
@@ -79,20 +76,11 @@ const getDogsById = async (id) => {
     };
 
   } else {
-    // API DOG: Find it and format it directly.
     const allApiDogs = await getApiInfo();
     const dogFromApi = allApiDogs.find(d => d.id == id);
     if (!dogFromApi) throw new Error(`Dog with ID ${id} not found.`);
     
-    return {
-        id: dogFromApi.id,
-        name: dogFromApi.name,
-        img: dogFromApi.img,
-        temperament: dogFromApi.temperament,
-        weight: dogFromApi.weight,
-        height: dogFromApi.height,
-        life_span: dogFromApi.life_span
-    };
+    return dogFromApi;
   }
 };
 
