@@ -15,18 +15,12 @@ const getApiInfo = async () => {
     });
 
     const apiInfo = apiUrl.data.map((el) => {
-      // Asegura que el peso sea un número, incluso si falta
-      const weightParts = el.weight.metric ? el.weight.metric.split(' - ') : ['0'];
-      const weightMin = parseInt(weightParts[0]) || 0;
-      const weightMax = parseInt(weightParts[1]) || weightMin;
-
       return {
         id: el.id,
         name: el.name,
-        image: el.image ? el.image.url : DEFAULT_IMAGE_URL, // Asigna imagen de API o por defecto
-        temperament: el.temperament || 'Unknown', // Provee un valor si no hay temperamento
-        weightMin: weightMin,
-        weightMax: weightMax,
+        img: el.image ? el.image.url : DEFAULT_IMAGE_URL, // Propiedad corregida a 'img'
+        temperament: el.temperament || 'Unknown',
+        weight: el.weight.metric, // Se pasa el texto del peso directamente
         source: 'api'
       };
     });
@@ -50,18 +44,17 @@ const getDbInfo = async () => {
       },
     });
 
-    // Mapea los resultados para que coincidan con la estructura de la API
+    // Mapea los resultados para que coincidan con la estructura que el frontend espera
     const formattedDbInfo = dbDogs.map(dog => {
-        // Convierte el array de temperamentos en un string
         const temperamentsString = dog.Temperaments.map(t => t.name).join(', ');
+        const weightString = `${dog.weightMin} - ${dog.weightMax}`; // Se reconstruye el texto del peso
         return {
             id: dog.id,
             name: dog.name,
-            image: dog.image || DEFAULT_IMAGE_URL, // Asigna imagen de DB o por defecto
+            img: dog.image || DEFAULT_IMAGE_URL, // Propiedad corregida a 'img'
             temperament: temperamentsString,
-            weightMin: dog.weightMin,
-            weightMax: dog.weightMax,
-            source: 'db' // Identifica la fuente como base de datos
+            weight: weightString, // Propiedad 'weight' como texto
+            source: 'db'
         }
     });
     return formattedDbInfo;
