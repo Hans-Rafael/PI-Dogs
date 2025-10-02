@@ -58,19 +58,17 @@ module.exports = (sequelize) => {
       }
     },
     minLifeExp: {
-      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
-      allowNull: false,
+      type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
-        notEmpty: { msg: 'Minimum life expectancy is required!' },
-        isFloat: true // Changed validation to isFloat
+        isFloat: true
       }
     },
     maxLifeExp: {
-      type: DataTypes.FLOAT, // Changed to FLOAT to accept decimals
-      allowNull: false,
+      type: DataTypes.FLOAT,
+      allowNull: true,
       validate: {
-        notEmpty: { msg: 'Maximum life expectancy is required!' },
-        isFloat: true // Changed validation to isFloat
+        isFloat: true
       }
     },
     createdInDB: {

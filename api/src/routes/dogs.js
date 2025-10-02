@@ -61,14 +61,15 @@ router.post('/', async (req, res, next) => {
 
         console.log('Found temperament instances:', temperamentInstances.length);
         if (temperamentInstances.length > 0) {
-            const temperamentIds = temperamentInstances.map(inst => inst.id);
-            console.log('Setting temperament IDs:', temperamentIds);
-            await newDog.setTemperaments(temperamentIds); // setTemperaments uses an array of primary keys.
+            console.log('Setting temperaments:', temperamentInstances.map(t => t.id));
+            await newDog.setTemperaments(temperamentInstances);
+            await newDog.reload({ include: [{ model: Temperament }] }); // Reload to get updated associations
         }
     }
     
     // To ensure the client gets the full new dog data, we refetch it.
     const finalNewDog = await getDogsById(newDog.id);
+    console.log('Final dog temperaments:', finalNewDog.temperaments);
 
     res.status(201).json(finalNewDog);
 
