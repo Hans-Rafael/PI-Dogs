@@ -30,24 +30,26 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// FIX: Correctly handle form data from the frontend
+// FINAL FIX: Translate frontend field names to match backend model names
 router.post('/', async (req, res, next) => {
   try {
-    // Destructure using frontend names (minHeight, img, temperament)
+    // 1. Destructure using the names sent from the frontend form
     const { name, minHeight, maxHeight, minWeight, maxWeight, minLifeExp, maxLifeExp, img, temperament } = req.body;
 
-    const newDog = await Dog.create({
+    // 2. Create a new object that maps frontend names to the database model names
+    const newDogData = {
       name,
-      minHeight,      // Pass correctly to the model
-      maxHeight,      // Pass correctly to the model
-      minWeight,      // Pass correctly to the model
-      maxWeight,      // Pass correctly to the model
-      minLifeExp,     // Pass correctly to the model
-      maxLifeExp,     // Pass correctly to the model
-      image: img,     // Map frontend 'img' to backend 'image'
-    });
+      heightMin: minHeight, // Translate
+      heightMax: maxHeight, // Translate
+      weightMin: minWeight, // Translate
+      weightMax: maxWeight, // Translate
+      life_span: minLifeExp && maxLifeExp ? `${minLifeExp} - ${maxLifeExp} years` : null, // Combine and format
+      image: img, // Translate
+    };
 
-    // Handle temperaments (frontend sends 'temperament', plural)
+    const newDog = await Dog.create(newDogData);
+
+    // 3. Handle temperaments (frontend sends 'temperament')
     if (temperament && temperament.length > 0) {
         const foundTemperaments = await Temperament.findAll({ where: { name: temperament } });
         await newDog.addTemperament(foundTemperaments);
