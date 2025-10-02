@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c92f4f96.chunk.css",
+    "main.js": "/static/js/main.89b28499.chunk.js",
+    "main.js.map": "/static/js/main.89b28499.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.77649de2.js",
+    "runtime-main.js.map": "/static/js/runtime-main.77649de2.js.map",
+    "static/js/2.d4427168.chunk.js": "/static/js/2.d4427168.chunk.js",
+    "static/js/2.d4427168.chunk.js.map": "/static/js/2.d4427168.chunk.js.map",
+    "static/js/3.b9cff926.chunk.js": "/static/js/3.b9cff926.chunk.js",
+    "static/js/3.b9cff926.chunk.js.map": "/static/js/3.b9cff926.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.c92f4f96.chunk.css.map": "/static/css/main.c92f4f96.chunk.css.map",
+    "static/js/2.d4427168.chunk.js.LICENSE.txt": "/static/js/2.d4427168.chunk.js.LICENSE.txt",
+    "static/media/xxx.module.css": "/static/media/WrongPlace.f843a1b1.png",
+    "static/media/detail.module.css": "/static/media/bkgGlass.84478af9.webp",
+    "static/media/landing.module.css": "/static/media/landing.620a02e9.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.77649de2.js",
+    "static/js/2.d4427168.chunk.js",
+    "static/css/main.c92f4f96.chunk.css",
+    "static/js/main.89b28499.chunk.js"
+  ]
+}
