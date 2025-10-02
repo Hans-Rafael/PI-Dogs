@@ -1,131 +1,117 @@
-/* Base styles for layout */
-.bkgAll {
-  background-color: #fb9815;
-  min-height: 100%;
-  min-width: 1024px;
-  width: 100%;
-  height: auto;
-  position: absolute;
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding-bottom: 2rem;
 }
 
-.navBar {
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 1.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #667eea;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.createLink {
+  text-decoration: none;
+}
+
+.createBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.createBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.controlsSection {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-}
-
-.sortBar {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-  gap: 1em; /* Consistent spacing */
-  align-items: center;
-  margin-top: 2rem;
-  padding: 0 1rem; /* Add some padding */
-}
-
-/* --- NEW BUTTON & SELECT STYLES --- */
-
-/* Base for all interactive elements */
-.baseButton {
-  text-align: center;
-  margin-top: 1em;
-  font-size: 13px;
-  line-height: 13px;
-  padding: 13px 18px;
-  border-radius: 30px;
-  font-family: Georgia, serif;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.baseButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-/* Style for <select> elements - SOLVES THE CONTRAST PROBLEM */
-.selectFilter {
-  composes: baseButton;
-  color: #111; /* Dark text for readability */
-  background-color: #f0f0f0; /* Light background */
-  border: 1px solid #ccc;
-}
-
-/* Style for the main CTA (Create Breed) */
-.ctaButton {
-  composes: baseButton;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(to right, #28a745, #218838);
-  border: 1px solid #1e7e34;
-}
-
-/* Style for secondary actions (Clear Filters) */
-.actionButton {
-  composes: baseButton;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
-  border: 1px solid #c75e3c;
-}
-
-/* For the text inside the Link button */
-.buttonIn{
-    border:none;
-    background-color: transparent;
-    color: inherit; /* Inherit color from parent */
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    cursor: pointer;
-}
-
-
-/* Other styles... */
-.paging {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5em;
-}
-
-.num {
-  border-radius: 50%;
-  width: auto;
-  height: 25px;
-  text-align: center;
-  font-weight: bolder;
-  color: white;
-  margin: 0 3px;
-  background-color: lightskyblue;
-}
-
-.boxCards {
-  width: 95%; /* Make it wider */
-  max-width: 1400px; /* Max width */
-  margin: 2rem auto; /* Center it */
-  display: grid; /* Use CSS Grid for a responsive layout */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  border-radius: 8px;
-  background-color: burlywood;
-  padding: 1.5rem;
-  box-sizing: border-box;
+}
+
+.resultsInfo {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  color: white;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.dogsGrid {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.cardLink {
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.cardLink:hover {
+  transform: translateY(-5px);
 }
 
 .noResults {
-    grid-column: 1 / -1; /* Span all columns */
-    text-align: center;
-    padding: 3rem;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  color: #666;
+  font-size: 1.2rem;
 }
 
-.txt {
-  color:black;
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #49ff18,
-    0 0 30px #49ff18, 0 0 40px #49ff18, 0 0 55px #49ff18, 0 0 75px #49ff18;
-  font-weight: bold;
-  font-family: cursive;
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .headerContent {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .dogsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
 }

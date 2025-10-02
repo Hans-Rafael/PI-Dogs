@@ -1,64 +1,52 @@
-/* === Main Container & Background === */
 .main {
-  background-image: url("../../assets/bkgGlass.webp");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 2rem;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align card to the top */
+  align-items: center;
 }
 
-/* === Loading State === */
 .loadingContainer {
   text-align: center;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
 
 .loadingContainer h1 {
-    font-size: 2.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-/* === Detail Card Layout === */
 .detailCard {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   width: 100%;
-  max-width: 800px;
-  overflow: hidden; /* Ensures child elements respect the border radius */
+  max-width: 900px;
+  overflow: hidden;
 }
 
-/* === Card Header === */
 .header {
-  background-color: #004d40; /* Dark Teal */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1rem 1.5rem;
+  padding: 2rem;
+  text-align: center;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 2rem;
-  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
 }
 
-/* === Card Content === */
 .content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-  padding: 1.5rem;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .imageContainer {
-  flex: 1 1 300px; /* Flex-grow, flex-shrink, basis */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,63 +54,75 @@
 
 .img {
   width: 100%;
-  max-width: 350px;
-  height: auto;
-  border-radius: 10px;
+  max-width: 400px;
+  height: 400px;
   object-fit: cover;
-  border: 3px solid #e0e0e0;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .info {
-  flex: 1 1 300px; /* Takes up remaining space */
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
 .info p {
   margin: 0;
   font-size: 1.1rem;
+  color: #555;
   line-height: 1.6;
 }
 
 .info p strong {
-  color: #004d40; /* Dark Teal to match header */
+  color: #667eea;
+  font-weight: 700;
 }
 
-/* === Action Buttons === */
 .actions {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  padding: 1.5rem;
-  background-color: #f5f5f5; /* Light gray background for footer */
-  border-top: 1px solid #ddd;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
 }
 
 .button {
-  background-color: #ffc107; /* Amber */
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
-  color: black;
-  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
   font-size: 1rem;
-  font-weight: bold;
-  border-radius: 5px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  text-decoration: none; /* For the Link component */
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .button:hover {
-  background-color: #ffca28; /* Lighter Amber */
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .deleteButton {
-  background-color: #d32f2f; /* Red */
-  color: white;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
 .deleteButton:hover {
-  background-color: #e57373; /* Lighter Red */
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  
+  .img {
+    max-width: 100%;
+    height: 300px;
+  }
 }

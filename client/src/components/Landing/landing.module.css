@@ -1,94 +1,52 @@
 .mainContainer {
-  /* fill bckground */
-  min-height: 100%;
-  min-width: 1024px;
-  /* set propety scaling */
+  min-height: 100vh;
   width: 100%;
-  height: auto;
-  /* set up positioning */
   position: fixed;
   top: 0;
   left: 0;
-  color: white;
   background-image: url("../../assets/landing.jpg");
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-}
-@media screen and (max-width: 1024px) {
-  /* Specific to this particular image */
-  img.bg {
-    left: 50%;
-    margin-left: -512px; /* 50% */
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
 }
 
 .title {
-  font-size: 5em;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 2em;
-  margin-left: 10em;
-  margin-bottom: 2em;
-  transition: 1s ease-in-out;
+  font-size: 5rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 4px 4px 8px rgba(0,0,0,0.7);
+  margin: 0;
+  transition: all 0.3s ease;
 }
+
 .title:hover {
-  flex-direction: column;
-  background: #f3f056;
-  color: #c67b49;
-  box-shadow: 0px 0px 15px 15px #ec731e;
-  border-radius: 40% 0 35% 0;
+  transform: scale(1.05);
+  text-shadow: 0 0 20px rgba(255,255,255,0.8);
 }
 
 .button {
-  text-align: center;
-  margin-top: 1em;
-  margin-right: -25em;
-  /*  */
-  color: rgb(253, 255, 67);
-  font-size: 28px;
-  line-height: 28px;
-  padding: 13px;
-  border-radius: 30px;
-  font-family: Georgia, serif;
-  background-image: linear-gradient(
-    to right,
-    rgb(28, 110, 164) 0%,
-    rgb(35, 136, 203) 50%,
-    rgb(20, 78, 117) 100%
-  );
-  border: 2px solid rgb(28, 110, 164);
+  padding: 1.5rem 3rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 0 17px black;
-  transition: 1s ease-in-out;
-  animation: pulse 3s ease-out infinite;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
 }
+
 .button:hover {
-  animation: none;
-  background-image: linear-gradient(
-    to right,
-    rgb(234, 241, 35) 0%,
-    rgb(164, 178, 10) 50%,
-    rgb(221, 228, 83) 100%
-  );
-  color:blue;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
 }
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-  }
-  70% {
-      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-  }
-  100% {
-      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
-  }
-}
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-  }
-  70% {
-      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-  }
-  
+
+.button h2 {
+  margin: 0;
 }

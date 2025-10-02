@@ -12,7 +12,7 @@ function Dogs() {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs);
   const [currentPage, setCurrentPage] = useState(1);
-  const dogsPerPage = 6;
+  const dogsPerPage = 8;
 
   const indexOfLastDog = currentPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
@@ -32,24 +32,31 @@ function Dogs() {
   }, [dogs]);
 
   return (
-    <div className={style.bkg}>
-      <h1>Henry Dogs</h1>
-      <h2>by HANS</h2>
-      
-      <Link to="/create">
-        <button>Create New Breed</button>
-      </Link>
-      
-      <SearchBar />
-      
-      <Filters />
+    <div className={style.container}>
+      <header className={style.header}>
+        <div className={style.headerContent}>
+          <h1 className={style.title}>🐕 Henry Dogs</h1>
+          <Link to="/create" className={style.createLink}>
+            <button className={style.createBtn}>+ New Breed</button>
+          </Link>
+        </div>
+      </header>
+
+      <div className={style.controlsSection}>
+        <SearchBar />
+        <Filters />
+      </div>
+
+      <div className={style.resultsInfo}>
+        <p>Showing {currentDogs.length} of {dogs.length} breeds</p>
+      </div>
 
       <Paginate charactersPerPage={dogsPerPage} allCharacter={dogs.length} Paginited={setPaginate} currentPage={currentPage} />
       
-      <div className={style.dogsgrid}>
+      <div className={style.dogsGrid}>
         {currentDogs.length > 0 ? (
           currentDogs.map(dog => (
-            <Link to={`/home/${dog.id}`} key={dog.id}>
+            <Link to={`/home/${dog.id}`} key={dog.id} className={style.cardLink}>
               <Dog 
                 name={dog.name} 
                 img={dog.img} 
@@ -59,7 +66,9 @@ function Dogs() {
             </Link>
           ))
         ) : (
-          <p>No dogs found for the selected filters.</p>
+          <div className={style.noResults}>
+            <p>🔍 No dogs found</p>
+          </div>
         )}
       </div>
     </div>
