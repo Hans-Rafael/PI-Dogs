@@ -9,12 +9,15 @@ const getApiInfo = async () => {
     const apiUrl = await axios.get('https://api.thedogapi.com/v1/breeds', {
       headers: { 'x-api-key': API_KEY },
     });
+    // Enrich the object with all necessary fields for both list and detail views
     return apiUrl.data.map((el) => ({
       id: el.id,
       name: el.name,
       img: el.image ? el.image.url : DEFAULT_IMAGE_URL,
       temperament: el.temperament || 'Unknown',
       weight: el.weight.metric,
+      height: el.height.metric, // Add height for detail view
+      life_span: el.life_span, // Add life span for detail view
       source: 'api',
     }));
   } catch (error) {
@@ -33,9 +36,11 @@ const getDbInfo = async () => {
       },
     });
 
+    // Enrich the object with all necessary fields for both list and detail views
     return dbDogs.map((dog) => {
       const temperamentsString = (dog.Temperaments || []).map((t) => t.name).join(', ');
       const weightString = `${dog.weightMin} - ${dog.weightMax}`;
+      const heightString = `${dog.heightMin} - ${dog.heightMax}`;
 
       return {
         id: dog.id,
@@ -43,6 +48,8 @@ const getDbInfo = async () => {
         img: dog.image || DEFAULT_IMAGE_URL,
         temperament: temperamentsString,
         weight: weightString,
+        height: heightString, // Add height for detail view
+        life_span: dog.life_span, // Add life span for detail view
         source: 'db',
       };
     });
@@ -63,9 +70,9 @@ const getAllDogs = async () => {
   }
 };
 
-// FIX: Add the missing getDogsById function
 const getDogsById = async (id) => {
   const allDogs = await getAllDogs();
+  // Use loose equality to handle string vs. number IDs (e.g., '3' == 3)
   const dog = allDogs.find(d => d.id == id);
   if (!dog) {
     throw new Error(`Dog with ID ${id} not found`);
@@ -77,5 +84,5 @@ module.exports = {
   getApiInfo,
   getDbInfo,
   getAllDogs,
-  getDogsById, // Export the new function
+  getDogsById,
 };
