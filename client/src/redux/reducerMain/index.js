@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action) {
             const allDogs = state.allDogs;
             const selectedTemper = action.payload;
 
-            // SENIOR DEV FIX: Updated filter logic to use the normalized 'temperaments' array.
+            //Updated filter logic to use the normalized 'temperaments' array.
             const temperFilter = allDogs.filter(dog => {
                 // Ensure the dog has the temperaments property and it's an array.
                 if (!dog.temperaments || !Array.isArray(dog.temperaments)) return false;
