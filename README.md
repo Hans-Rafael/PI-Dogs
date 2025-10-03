@@ -35,7 +35,7 @@ Application in which you can see different dog breeds along with relevant inform
 </tr>
 </table>
 <br>
-Deploy at: (https://dogs-backfront.vercel.app/)
+Deploy at: ([https://dogs-backfront.vercel.app/](https://client-dogs.netlify.app/home))
 <img height="300" src="./printScreen/landing.png" />
 <br>
 Home page
