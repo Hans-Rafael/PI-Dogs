@@ -1,0 +1,4 @@
+[build]
+  # Fresh install every build so a corrupted cached node_modules can't break it
+  command = "npm ci && npm run build"
+  publish = "build"
