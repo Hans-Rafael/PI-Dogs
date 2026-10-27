@@ -11,6 +11,7 @@ import Filters from './Filters/index';
 function Dogs() {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs);
+  const dogsError = useSelector(state => state.dogsError);
   const [currentPage, setCurrentPage] = useState(1);
   const dogsPerPage = 8;
 
@@ -46,6 +47,19 @@ function Dogs() {
         <SearchBar />
         <Filters />
       </div>
+
+      {dogsError && (
+        <div className={style.errorBanner} role="alert">
+          <p>
+            We couldn't load the breeds. The server runs on a free plan, so it sleeps
+            after a while without traffic and the first request can take a minute or fail
+            until it wakes up.
+          </p>
+          <button className={style.retryBtn} onClick={() => dispatch(getDogs())}>
+            Try again
+          </button>
+        </div>
+      )}
 
       <div className={style.resultsInfo}>
         <p>Showing {currentDogs.length} of {dogs.length} breeds</p>

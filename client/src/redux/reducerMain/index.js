@@ -1,11 +1,12 @@
 import {
     GET_DOGS, CLEAR_PAGE, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_CREATED, FILTER_BY_TEMPER,
-    ORDER, POST, GET_DOGS_DETAIL, DELETE_DOG
+    ORDER, POST, GET_DOGS_DETAIL, DELETE_DOG, GET_DOGS_ERROR
 } from "../actions/actionsTypes";
 
 const initialState = {
     dogs: [],
-    allDogs: [], 
+    allDogs: [],
+    dogsError: false,
     temps: [],
     detail: {}, 
 }
@@ -18,6 +19,13 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 dogs: action.payload,
                 allDogs: action.payload,
+                dogsError: false,
+            }
+
+        case GET_DOGS_ERROR:
+            return {
+                ...state,
+                dogsError: true,
             }
 
         case GET_BY_NAME:

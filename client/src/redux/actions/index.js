@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   GET_DOGS, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_TEMPER, FILTER_BY_CREATED,
-  ORDER, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG
+  ORDER, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG, GET_DOGS_ERROR
 } from './actionsTypes';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
@@ -18,6 +18,7 @@ export const getDogs = () => {
       })
       .catch(error => {
         console.error("Error fetching dogs:", error);
+        dispatch({ type: GET_DOGS_ERROR });
       });
   }
 };
