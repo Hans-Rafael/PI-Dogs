@@ -51,7 +51,7 @@ function Dogs() {
     <div className={style.container}>
       <header className={style.header}>
         <div className={style.headerContent}>
-          <h1 className={style.title}>🐕 Henry Dogs</h1>
+          <h1 className={style.title}>🐕 K9Pedia</h1>
           <Link to="/create" className={style.createLink}>
             <button className={style.createBtn}>+ New Breed</button>
           </Link>

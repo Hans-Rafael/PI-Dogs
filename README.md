@@ -1,4 +1,4 @@
-# Henry Dogs 🐕
+# K9Pedia 🐕
 
 **Live demo / Demo en vivo:** https://client-dogs.netlify.app
 
