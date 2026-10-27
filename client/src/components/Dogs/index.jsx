@@ -12,6 +12,10 @@ function Dogs() {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs);
   const dogsError = useSelector(state => state.dogsError);
+  const allDogs = useSelector(state => state.allDogs);
+  // allDogs stays empty until the first successful response, unlike dogs, which filters can empty.
+  const isLoading = allDogs.length === 0 && !dogsError;
+  const [isSlow, setIsSlow] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const dogsPerPage = 8;
 
@@ -26,6 +30,17 @@ function Dogs() {
   useEffect(() => {
     dispatch(getDogs());
   }, [dispatch]);
+
+  // The free server sleeps after a while without traffic, so the first request can hang
+  // for ~30 seconds instead of failing. Warn the user if loading takes longer than usual.
+  useEffect(() => {
+    if (!isLoading) {
+      setIsSlow(false);
+      return undefined;
+    }
+    const timer = setTimeout(() => setIsSlow(true), 6000);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   // Reset a la página 1 cuando cambia la lista de perros (por filtros)
   useEffect(() => {
@@ -61,6 +76,15 @@ function Dogs() {
         </div>
       )}
 
+      {isLoading && isSlow && (
+        <div className={style.errorBanner} role="status">
+          <p>
+            This is taking longer than usual. The server runs on a free plan and may be
+            waking up after being idle, which can take up to 30 seconds. Thanks for your patience!
+          </p>
+        </div>
+      )}
+
       <div className={style.resultsInfo}>
         <p>Showing {currentDogs.length} of {dogs.length} breeds</p>
       </div>
@@ -81,7 +105,7 @@ function Dogs() {
           ))
         ) : (
           <div className={style.noResults}>
-            <p>🔍 No dogs found</p>
+            <p>{isLoading ? '🐕 Loading breeds...' : '🔍 No dogs found'}</p>
           </div>
         )}
       </div>
