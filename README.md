@@ -10,7 +10,7 @@ K9Pedia es una aplicación para explorar razas de perros con su información rel
 
 | Landing | Home |
 | --- | --- |
-| <img src="./printScreen/landing.png" width="420" alt="Landing page" /> | <img src="./printScreen/Home.png" width="420" alt="Home page" /> |
+| <img src="./printScreen/landing.webp" width="420" alt="Landing page" /> | <img src="./printScreen/Home.png" width="420" alt="Home page" /> |
 
 | Detail / Detalle | New breed / Nueva raza |
 | --- | --- |
