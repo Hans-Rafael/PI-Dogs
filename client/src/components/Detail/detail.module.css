@@ -17,6 +17,19 @@
   margin-bottom: 2rem;
 }
 
+.notice {
+  max-width: 520px;
+  margin: 1.5rem auto;
+  line-height: 1.5;
+}
+
+.noticeActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .detailCard {
   background: white;
   border-radius: 20px;

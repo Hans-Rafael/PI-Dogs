@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   GET_DOGS, GET_BY_NAME, GET_TEMPERAMENT, FILTER_BY_TEMPER, FILTER_BY_CREATED,
-  ORDER, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG, GET_DOGS_ERROR
+  ORDER, GET_DOGS_DETAIL, CLEAR_PAGE, DELETE_DOG, GET_DOGS_ERROR, GET_DETAIL_ERROR
 } from './actionsTypes';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001/api";
@@ -98,6 +98,7 @@ export function getDogDetail(id) {
             })
             .catch(error => {
                 console.error("Error fetching dog detail:", error);
+                dispatch({ type: GET_DETAIL_ERROR });
             });
     }
 }

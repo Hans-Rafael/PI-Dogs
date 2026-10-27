@@ -9,3 +9,4 @@ export const GET_DOGS_DETAIL = "GET_DOGS_DETAIL";
 export const CLEAR_PAGE = "CLEAR_PAGE";
 export const DELETE_DOG = "DELETE_DOG";
 export const GET_DOGS_ERROR = "GET_DOGS_ERROR";
+export const GET_DETAIL_ERROR = "GET_DETAIL_ERROR";

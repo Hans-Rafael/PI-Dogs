@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDogDetail, deleteDog, clearPage } from '../../redux/actions/index';
@@ -10,6 +10,8 @@ export default function Detail() {
   const history = useHistory();
 
   const dogDetail = useSelector(state => state.detail);
+  const detailError = useSelector(state => state.detailError);
+  const [isSlow, setIsSlow] = useState(false);
 
   useEffect(() => {
     dispatch(getDogDetail(id));
@@ -17,6 +19,17 @@ export default function Detail() {
       dispatch(clearPage());
     }
   }, [dispatch, id]);
+
+  // The free server sleeps after a while without traffic, so the first request can hang
+  // for ~30 seconds instead of failing. Warn the user if loading takes longer than usual.
+  useEffect(() => {
+    if (dogDetail.id) {
+      setIsSlow(false);
+      return undefined;
+    }
+    const timer = setTimeout(() => setIsSlow(true), 6000);
+    return () => clearTimeout(timer);
+  }, [dogDetail.id]);
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this breed? This action cannot be undone.");
@@ -35,8 +48,35 @@ export default function Detail() {
   if (!dogDetail.id) {
     return (
       <div className={style.loadingContainer}>
-        <h1>Loading...</h1>
-        <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="Loading dog..." />
+        {detailError ? (
+          <>
+            <h1>We couldn't load this breed</h1>
+            <p className={style.notice} role="alert">
+              This app uses a free server that sleeps after a while without traffic.
+              The first visit can fail while it wakes up. Please wait about 30 seconds
+              and try again.
+            </p>
+            <div className={style.noticeActions}>
+              <button className={style.button} onClick={() => dispatch(getDogDetail(id))}>
+                Try again
+              </button>
+              <Link to='/home'>
+                <button className={style.button}>Back Home</button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <h1>Loading...</h1>
+            <img src="https://i.gifer.com/origin/ae/ae84325701f6d97ac4ad7e7951ac9063_w200.webp" alt="Loading dog..." />
+            {isSlow && (
+              <p className={style.notice}>
+                This is taking longer than usual. The free server may be waking up after
+                being idle, which can take up to 30 seconds. Thanks for your patience!
+              </p>
+            )}
+          </>
+        )}
       </div>
     );
   }
