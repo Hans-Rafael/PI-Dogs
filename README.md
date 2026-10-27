@@ -2,9 +2,9 @@
 
 **Live demo / Demo en vivo:** https://client-dogs.netlify.app
 
-Application to browse dog breeds with their relevant information, using [The Dog API](https://thedogapi.com/) together with a local PostgreSQL database.
+K9Pedia is an application to browse dog breeds with their relevant information, using [The Dog API](https://thedogapi.com/) together with a local PostgreSQL database.
 
-Aplicación para explorar razas de perros con su información relevante, usando [The Dog API](https://thedogapi.com/) junto con una base de datos PostgreSQL local.
+K9Pedia es una aplicación para explorar razas de perros con su información relevante, usando [The Dog API](https://thedogapi.com/) junto con una base de datos PostgreSQL local.
 
 ## Screenshots / Capturas
 
