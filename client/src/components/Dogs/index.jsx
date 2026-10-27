@@ -105,7 +105,14 @@ function Dogs() {
           ))
         ) : (
           <div className={style.noResults}>
-            <p>{isLoading ? '🐕 Loading breeds...' : '🔍 No dogs found'}</p>
+            {isLoading ? (
+              <div className={style.loadingState} role="status">
+                <div className={style.spinner} aria-hidden="true"></div>
+                <p>Waiting for the breeds to load...</p>
+              </div>
+            ) : (
+              <p>{dogsError ? "We couldn't load the breeds" : '🔍 No dogs found'}</p>
+            )}
           </div>
         )}
       </div>
