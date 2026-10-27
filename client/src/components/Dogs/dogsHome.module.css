@@ -90,6 +90,37 @@
   transform: translateY(-5px);
 }
 
+.errorBanner {
+  max-width: 1400px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 5px solid #f59e0b;
+  border-radius: 12px;
+  color: #444;
+}
+
+.errorBanner p {
+  margin: 0;
+  flex: 1 1 400px;
+  line-height: 1.5;
+}
+
+.retryBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .noResults {
   grid-column: 1 / -1;
   text-align: center;
