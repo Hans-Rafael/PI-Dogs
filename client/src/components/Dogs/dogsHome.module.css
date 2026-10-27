@@ -91,7 +91,9 @@
 }
 
 .errorBanner {
-  max-width: 1400px;
+  box-sizing: border-box;
+  width: calc(100% - 4rem);
+  max-width: 1336px;
   margin: 0 auto 1.5rem;
   padding: 1rem 2rem;
   display: flex;
@@ -129,6 +131,32 @@
   border-radius: 15px;
   color: #666;
   font-size: 1.2rem;
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loadingState p {
+  margin: 0;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid rgba(102, 126, 234, 0.25);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {

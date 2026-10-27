@@ -51,7 +51,7 @@ function Dogs() {
     <div className={style.container}>
       <header className={style.header}>
         <div className={style.headerContent}>
-          <h1 className={style.title}>🐕 Henry Dogs</h1>
+          <h1 className={style.title}>🐕 K9Pedia</h1>
           <Link to="/create" className={style.createLink}>
             <button className={style.createBtn}>+ New Breed</button>
           </Link>
@@ -105,7 +105,14 @@ function Dogs() {
           ))
         ) : (
           <div className={style.noResults}>
-            <p>{isLoading ? '🐕 Loading breeds...' : '🔍 No dogs found'}</p>
+            {isLoading ? (
+              <div className={style.loadingState} role="status">
+                <div className={style.spinner} aria-hidden="true"></div>
+                <p>Waiting for the breeds to load...</p>
+              </div>
+            ) : (
+              <p>{dogsError ? "We couldn't load the breeds" : '🔍 No dogs found'}</p>
+            )}
           </div>
         )}
       </div>
