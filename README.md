@@ -10,11 +10,11 @@ Aplicación para explorar razas de perros con su información relevante, usando 
 
 | Landing | Home |
 | --- | --- |
-| <img src="./printScreen/landing.png" width="420" alt="Landing page" /> | <img src="./printScreen/home.png" width="420" alt="Home page" /> |
+| <img src="./printScreen/landing.png" width="420" alt="Landing page" /> | <img src="./printScreen/Home.png" width="420" alt="Home page" /> |
 
 | Detail / Detalle | New breed / Nueva raza |
 | --- | --- |
-| <img src="./printScreen/detail.png" width="420" alt="Breed detail" /> | <img src="./printScreen/newBreed.png" width="420" alt="Create a new breed" /> |
+| <img src="./printScreen/Detalle.png" width="420" alt="Breed detail" /> | <img src="./printScreen/newBreed.png" width="420" alt="Create a new breed" /> |
 
 ---
 
